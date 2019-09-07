@@ -1,0 +1,29 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">发帖</text>
+</jwqcapsule>
+<view class="p20">
+  <input class="bd1" placeholer="添加标题"/>
+  <textarea class="mt20" placeholder="请输入内容..."></textarea>
+  <!--上传图片 -s-->
+  <view class="up-wrap">
+    <uparea data-index="{{ index }}"
+            catchtap="imgOp"
+            data-img="imgArr"
+            class="p20"
+            wx:for="{{ imgArr }}"
+            wx:key
+            src="{{ item.temp }}"
+            percent="{{ item.progress }}"></uparea>
+    <view catchtap="upload" class="jwqfont p20 jwqmn_shangchuantupian"></view>
+  </view>
+  <!--上传图片 -e-->
+</view>
+
+<!--发布 -s-->
+<view class="fabu f34 cfff">
+  发布
+</view>
+<!--发布 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

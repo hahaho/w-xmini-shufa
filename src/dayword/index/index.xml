@@ -1,0 +1,37 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">每日一字</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+    <view class="jwqfont jwqsousuo1 f40"></view>
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--轮播图 -s-->
+<swiper autoplay="1" circular="1">
+  <swiper-item wx:for="1234" wx:key="*11">
+    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  </swiper-item>
+</swiper>
+<!--轮播图 -e-->
+<view class="bd1 p20 f25 c323232">栏目简介</view>
+<!--名师列表 -s-->
+<view class="teacherList">
+  <navigator url="../detail/index?id=1" class="listItem mt20 f19 c787878" wx:for="123445asdff" wx:key="*10">
+    <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
+    <view class="f29 c323232 tal w100 fw7">文字</view>
+    <view class="tal w100">帽字取揖让之势，左···帽字取揖让之势，左···帽字取揖让之势，左···</view>
+    <view class="tal w100">2019-01-18 1万次阅读</view>
+  </navigator>
+</view>
+<!--名师列表 -e-->
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

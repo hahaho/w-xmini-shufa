@@ -1,0 +1,53 @@
+@import "../../common/variable";
+.jwqsousuo1 {
+  position: absolute;
+  top: 50%;
+  left: 40rpx;
+  color: #eee;
+  transform: translateY(-75%);
+}
+
+.navTab {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  transform: translateY(-16%);
+  .ntItem {
+    &:nth-child(1), &:nth-last-child(1) {
+      transform: translateY(-20%);
+    }
+  }
+  image {
+    width: 169rpx;
+  }
+}
+
+.indexText {
+  width: 468rpx;
+  height: 173rpx;
+  display: inline-block;
+}
+
+.teacherList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  //justify-content: space-around;
+  .listItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  image {
+    width: 215rpx;
+    height: 206rpx;
+
+  }
+  text {
+    font-size: 36rpx;
+    color: #323232;
+    line-height: 80rpx;
+  }
+}

@@ -1,0 +1,52 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">流谦书苑</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+    <view class="jwqfont jwqsousuo1 f40"></view>
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--首页导航 s-->
+<view>
+  <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/4.png"></image>
+  <view class="navTab">
+    <navigator class="ntItem" url="/dayword/index/index" wx:for="1234" wx:key="*this">
+      <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/nav_{{ index }}.png"></image>
+    </navigator>
+  </view>
+</view>
+<!--首页导航 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--vip -s-->
+<navigator url="/openvip/index/index">
+  <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip.png"></image>
+</navigator>
+<!--vip -e-->
+<!--名师文字 -s-->
+<view class="tac p30">
+  <image class="indexText" src="https://c.jiangwenqiang.com/lqsy/index_text.png"></image>
+</view>
+<!--名师文字 -e-->
+<!--名师列表 -s-->
+<view class="teacherList">
+  <view class="listItem bd1 mt20" wx:for="123445" wx:key="*1">
+    <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
+    <text>硬笔{{index}}</text>
+  </view>
+</view>
+<!--名师列表 -e-->
+<jwqfoot></jwqfoot>
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->
