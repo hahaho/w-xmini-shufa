@@ -6,7 +6,7 @@
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入搜索视频名称" />
   </view>
 </view>
 <!--搜索 e-->
@@ -17,7 +17,7 @@
 <scroll-view class="tab-scroll p200"
              scroll-with-animation="1"
              scroll-x="1"
-             scroll-into-view="tab{{ tabId }}">
+             scroll-into-view="tab{{ tabId - 3 }}">
   <view class="tab-inside">
     <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }}"
             id="tab{{ index }}"
@@ -35,10 +35,10 @@
   </swiper-item>
 </swiper>
 <!--轮播图 -e-->
-<view class="bd1 p20 f25 c323232">栏目简介</view>
+<view wx:if="{{ !main }}" class="bd1 p20 f25 c323232">栏目简介</view>
 
 <!--课程列表 -s-->
-<view class="teachingList">
+<view wx:if="{{ !main }}" class="teachingList">
   <navigator url="../detail/index?id=123" class="tlItem bd1" wx:for="12312312" wx:key="*11">
     <view class="tliTop pr">
       <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
@@ -50,7 +50,22 @@
   </navigator>
 </view>
 <!--课程列表 -e-->
-
+<!--课程列表 -s-->
+<navigator wx:if="{{ main }}" url="../detail/index?id=123" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
+  <view class="tliTop pr">
+    <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="playIcon pa cfff"></view>
+  </view>
+  <view class="tliR">
+    <view class="f25 c323232 tliTil ell1">书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖</view>
+    <view class="c646464 f18 tliTil ell3 mt10">17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···</view>
+    <view class="c646464 f17 pr df mt20">
+      <view class="playIcon2"></view>
+      <text>　231654</text>
+    </view>
+  </view>
+</navigator>
+<!--课程列表 -e-->
 
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

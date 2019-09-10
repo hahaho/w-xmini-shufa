@@ -32,7 +32,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-
+    if (getCurrentPages().length < 2) {
+      this.setData({
+        main: true
+      });
+    }
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()

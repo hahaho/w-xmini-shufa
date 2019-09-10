@@ -131,6 +131,31 @@ page {
       height: 169rpx;
     }
   }
+  .videoImg {
+    width: 750rpx;
+    margin: 0 -40rpx;
+  }
+  .playIcon {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    background: rgba(107, 107, 107, 0.47);
+    &:after {
+      content: '';
+      border: 30rpx solid #fff;
+      border-color: transparent transparent transparent #fff;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-25%, -50%);
+      display: inline-block;
+    }
+  }
 }
 
 .mask-bottom-share {

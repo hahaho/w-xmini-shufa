@@ -9,56 +9,44 @@ page {
   transform: translateY(-75%);
 }
 
+.bd1 {
+  border-bottom-style: dashed;
+}
 
-.hundredListItem {
-  padding: 22rpx 40rpx;
-  border-bottom: 9rpx solid #f2f2f2;
-  .hliTop {
-    display: flex;
-    align-items: center;
-
-    .hliTopImg {
-      margin-right: 13rpx;
-      height: 77rpx;
-      width: 77rpx;
-    }
-    .hliTopName {
-      display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-      height: 100%;
-    }
+.steleList {
+  display: flex;
+  align-items: center;
+  border-bottom: 10rpx solid #f2f2f2;
+  image {
+    width: 211rpx;
+    height: 211rpx;
+    margin-right: 10rpx;
   }
-  .hliTitle {
+  .c787878 {
     display: flex;
-    align-items: center;
-    .hlitImg {
-      width: 102rpx;
-      margin-right: 13rpx;
-    }
-  }
-  .hliContent {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-  .hliImg {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    .hliiItem {
-      width: 216rpx;
-      height: 169rpx;
-    }
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 
-.talk {
-  position: fixed;
-  bottom: 60rpx;
-  right: 20rpx;
-  width: 108rpx;
+.steleAllList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  .atlItem {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    image {
+      width: 210rpx;
+      height: 210rpx;
+    }
+    text {
+      font-size: 16rpx;
+      &:nth-last-child(1) {
+        font-size: 13rpx;
+      }
+    }
+  }
 }

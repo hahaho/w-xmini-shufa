@@ -8,32 +8,41 @@
       "root": "hundred", // 百家争鸣
       "name": "hundred",
       "pages": [
-        "index/index", // 列表页
-        "userHomePage/index", // 用户主页
-        "detail/index" // 详情页
+        "index/index",
+        "userHomePage/index",
+        "detail/index"
       ]
     },
     {
       "root": "dayword", // 每日一字
       "name": "dayword",
       "pages": [
-        "index/index", // 列表页
-        "detail/index" // 详情页
+        "index/index",
+        "detail/index"
       ]
     },
     {
-      "root": "teaching", // 书法教学
+      "root": "teaching", // 书法教学 & 视频
       "name": "teaching",
       "pages": [
-        "index/index", // 首页
-        "detail/index" // 详情页
+        "index/index",
+        "detail/index"
       ]
     },
+//    {
+//      "root": "video", // 视频
+//      "name": "video",
+//      "pages": [
+//        "index/index",
+//        "detail/index"
+//      ]
+//    },
     {
       "root": "stele", // 碑体
       "name": "stele",
       "pages": [
-        "index/index"
+        "index/index",
+        "detail/index"
       ]
     },
     {
@@ -56,7 +65,7 @@
       "root": "share", // 海报图
       "name": "carShare",
       "pages": [
-        "carShare/carShare" // 说一说
+        "carShare/carShare"
       ]
     }
   ],

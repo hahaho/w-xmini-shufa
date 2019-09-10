@@ -12,12 +12,40 @@ Page({
       transparent: true,
       bgc: ''
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    tabIndex: 0,
+    tabId: 0,
+    tabArr: ['关注', '推荐', '热议', '视频']
   },
+  _follow: function _follow() {
+    this.setData({
+      follow: !this.data.follow
+    });
+  },
+  chooseIndex: function chooseIndex(e) {
+    this.setData({
+      tabIndex: e.currentTarget.dataset.index,
+      tabId: e.currentTarget.dataset.index
+    });
+  },
+  _collection: function _collection() {
+    this.setData({
+      collection: !this.data.collection
+    });
+  },
+  _shareType: function _shareType() {
+    this.setData({
+      showShare: !this.data.showShare
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
+    this.setData({
+      options: options
+    });
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()

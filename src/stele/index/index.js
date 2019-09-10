@@ -12,6 +12,15 @@ Page({
     },
     capsules: app.data.capsule
   },
+  _showAll () {
+    this.setData({
+      showAll: !this.data.showAll,
+      capsule: {
+        transparent: false,
+        bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

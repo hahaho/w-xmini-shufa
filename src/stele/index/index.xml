@@ -1,54 +1,54 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">百家争鸣</text>
+  <text class="cfff fw7">硬笔0</text>
 </jwqcapsule>
-<!--搜索 s-->
-<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
-  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
-  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
-    <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入作品名称" />
+<view wx:if="{{ !showAll }}">
+  <!--搜索 s-->
+  <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+    <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+    <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+      <view class="jwqfont jwqsousuo1 f40"></view>
+      <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入作品名称" />
+    </view>
   </view>
+  <!--搜索 e-->
+  <!--屋檐 s-->
+  <view class="eaves"></view>
+  <!--屋檐 e-->
+  <!--轮播图 -s-->
+  <swiper autoplay="1" circular="1">
+    <swiper-item wx:for="1234" wx:key="*3">
+      <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    </swiper-item>
+  </swiper>
+  <!--轮播图 -e-->
+  <view class="p020">
+    <view catchtap="_showAll" class="f25 p200 bd1 mt10 c323232 df dfb bgfff">
+      <text>精品课程</text>
+      <text>全部 ></text>
+    </view>
+  </view>
+  <!--课程列表 -s-->
+  <navigator url="../detail/index" wx:for="1231324213421342" wx:key="*14" class="p30 steleList">
+    <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="f25 c787878 flex1">
+      <text class="c323232 ell1">田英章硬笔楷书7000字</text>
+      <text class="mt10">作品介绍</text>
+      <text class="ell2 mt10">文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍......</text>
+      <text class="f21 mt20">2019-07-17 35万次阅读</text>
+    </view>
+  </navigator>
+  <!--课程列表 -e-->
 </view>
-<!--搜索 e-->
-<!--屋檐 s-->
-<view class="eaves"></view>
-<!--屋檐 e-->
-<!--轮播图 -s-->
-<swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="*3">
-    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  </swiper-item>
-</swiper>
-<!--轮播图 -e-->
-<!--列表 -s-->
-<view class="hundredListItem" wx:for="123" wx:key="*5">
-  <jwqnav url="../userHomePage/index?id={{ index }}">
-    <view url="../userHomePage/index?id={{ index }}" class="hliTop">
-      <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-      <view class="hliTopName f21 c323232">
-        <text>流谦书苑</text>
-        <text class="f18 c646464 mt10">2019-08-26  12:20  1万次阅读</text>
-      </view>
-    </view>
-  </jwqnav>
-  <jwqnav url="../detail/index?id={{ index }}" >
-    <view class="hliTitle mt20 f30 c323232">
-      <image class="hlitImg" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/essence.png"></image>
-      <text>书法心理学视角下的王锋书法</text>
-    </view>
-    <view class="hliContent f28 c787878 mt20">
-      一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···
-    </view>
-    <view class="hliImg">
-      <image class="hliiItem mt10" wx:for="123123" wx:key="*4" src="https://c.jiangwenqiang.com/api/logo.jpg" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
-    </view>
-  </jwqnav>
+<!--全部课程 -s-->
+<view wx:if="{{ showAll }}" class="steleAllList p30">
+  <navigator url="../detail/index" wx:for="123123123123" wx:key="*15" class="c787878 atlItem mt10">
+    <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <text class="ell1 c323232 mt20">田英章硬笔楷书7000字  </text>
+    <text class="ell1 mt10">文字介绍文字介绍文字介绍文字介绍文文字介绍文字文字.....</text>
+    <text class="mt10">2019-07-17 35万次阅读</text>
+  </navigator>
 </view>
-<!--列表 -e-->
-<jwqnav url="/commonPage/talk/index">
-  <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk.png"></image>
-</jwqnav>
-
+<!--全部课程 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
 <!--<import src="/template/template"></import>-->
