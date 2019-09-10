@@ -17,7 +17,7 @@
 <view>
   <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/4.png"></image>
   <view class="navTab">
-    <navigator class="ntItem" url="/dayword/index/index" wx:for="1234" wx:key="*this">
+    <navigator class="ntItem" url="/teaching/index/index" wx:for="1234" wx:key="*this">
       <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/nav_{{ index }}.png"></image>
     </navigator>
   </view>

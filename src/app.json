@@ -5,13 +5,6 @@
   ],
   "subPackages": [
     {
-      "root": "openvip", // 开通会员
-      "name": "openvip",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
       "root": "hundred", // 百家争鸣
       "name": "hundred",
       "pages": [
@@ -26,6 +19,30 @@
       "pages": [
         "index/index", // 列表页
         "detail/index" // 详情页
+      ]
+    },
+    {
+      "root": "teaching", // 书法教学
+      "name": "teaching",
+      "pages": [
+        "index/index", // 首页
+        "detail/index" // 详情页
+      ]
+    },
+    {
+      "root": "stele", // 碑体
+      "name": "stele",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
+      "root": "openvip", // 开通会员
+      "name": "openvip",
+      "pages": [
+        "index/index",
+        "vip/index",
+        "buy/index"
       ]
     },
     {

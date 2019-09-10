@@ -1,0 +1,33 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">开通会员</text>
+</jwqcapsule>
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--开通会员图片 -s-->
+<image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_open_top.png"></image>
+<!--开通会员图片 -e-->
+<!--会员权益 -s-->
+<view class="tac vipEnjoy">
+  <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_open.png"></image>
+  <view class="vipBtn f25">
+    <navigator url="../buy/index" open-type="redirect" class="vbItem cfff">立即开通</navigator>
+  </view>
+</view>
+<!--会员权益 -e-->
+
+<!--权益信息 -s-->
+<view class="tac f25 c323232 p20 vipText">
+<image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_text_left.png"></image>
+<text>会员权益</text>
+<image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_text_left.png"></image>
+</view>
+<view style="transform: translateY(-130rpx);" class="p20 f22 c323232">
+asdfasfsadfasfdsdfasfd
+</view>
+<!--权益信息 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

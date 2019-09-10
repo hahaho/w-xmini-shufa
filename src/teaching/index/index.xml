@@ -1,0 +1,58 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">书法教学</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+    <view class="jwqfont jwqsousuo1 f40"></view>
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--分类 -s-->
+<scroll-view class="tab-scroll p200"
+             scroll-with-animation="1"
+             scroll-x="1"
+             scroll-into-view="tab{{ tabId }}">
+  <view class="tab-inside">
+    <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }}"
+            id="tab{{ index }}"
+            catchtap="chooseIndex"
+            data-index="{{ index }}"
+            wx:key
+            wx:for="{{ tabArr }}">{{ item }}</button>
+  </view>
+</scroll-view>
+<!--分类 -e-->
+<!--轮播图 -s-->
+<swiper autoplay="1" circular="1">
+  <swiper-item wx:for="1234" wx:key="*3">
+    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  </swiper-item>
+</swiper>
+<!--轮播图 -e-->
+<view class="bd1 p20 f25 c323232">栏目简介</view>
+
+<!--课程列表 -s-->
+<view class="teachingList">
+  <navigator url="../detail/index?id=123" class="tlItem bd1" wx:for="12312312" wx:key="*11">
+    <view class="tliTop pr">
+      <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+      <view class="playIcon pa cfff"></view>
+    </view>
+    <view class="f25 c323232 tliTil">书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖</view>
+    <view class="c787878 f19 tliTil">17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···</view>
+    <view class="c787878 f19">已更新150期 | 1.25w人已学</view>
+  </navigator>
+</view>
+<!--课程列表 -e-->
+
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

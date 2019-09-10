@@ -12,6 +12,11 @@ Page({
     },
     capsules: app.data.capsule
   },
+  _showColumn () {
+    this.setData({
+      showColumn: !this.data.showColumn
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
