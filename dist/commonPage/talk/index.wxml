@@ -1,8 +1,8 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">发帖</text>
 </jwqcapsule>
-<view class="p20">
-  <input class="bd1" placeholer="添加标题"/>
+<view class="p20 bgfff">
+  <input wx:if="{{ options.type != 'suggest' }}" class="bd1" placeholder="添加标题"/>
   <textarea class="mt20" placeholder="请输入内容..."></textarea>
   <!--上传图片 -s-->
   <view class="up-wrap">
@@ -18,10 +18,14 @@
   </view>
   <!--上传图片 -e-->
 </view>
+<view wx:if="{{ options.type == 'suggest' }}" class="mt10">
+  <view class="p20 bgfff f22 c787878">输入有效的联系方式以便开发联系你</view>
+  <input class="bgfff p20 mt20" placeholder="输入您的联系方式"/>
+</view>
 
 <!--发布 -s-->
 <view class="fabu f34 cfff">
-  发布
+  {{ options.type == 'suggest' ? '确定提交' : '发布' }}
 </view>
 <!--发布 -e-->
 

@@ -1,0 +1,26 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">资金管理</text>
+</jwqcapsule>
+<view class="p2030">
+  <view class="topInfo">
+    <view class="f30 cfff">可提现收益（元）</view>
+    <view class="f36 cfceaa2">
+      <text>¥</text>
+      <text class="f65">60000.00</text>
+      <text>元</text>
+    </view>
+    <view class="f40 c033d68">提 现</view>
+  </view>
+  <view class="mt20 df dfb">
+    <view class="moneyLeft">
+      <view>asdf</view>
+      <view>adf</view>
+      <view>adsf</view>
+    </view>
+    <view class="moneyRight"></view>
+  </view>
+</view>
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

@@ -1,0 +1,44 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">我的帖子</text>
+</jwqcapsule>
+<!--发布&收藏 -s-->
+<view wx:if="{{ options.type != 'zan' }}" class="bd1 topNav bgfff lh60 f29 c646464">
+  <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">发布的帖子</view>
+  <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? 'active' : '' }}">收藏的帖子</view>
+</view>
+<!--发布&收藏 -e-->
+<!--列表 -s-->
+<view class="hundredListItem" wx:for="123" wx:key="*5">
+<view class="df dfb">
+  <jwqnav url="/hundred/userHomePage/index?id={{ index }}">
+    <view class="hliTop">
+      <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+      <view class="hliTopName f21 c323232">
+        <text>流谦书苑</text>
+        <text class="f18 c646464 mt10">2019-08-26  12:20</text>
+      </view>
+    </view>
+  </jwqnav>
+</view>
+<jwqnav url="/hundred/detail/index?id={{ index }}&from=collect" >
+  <view wx:if="{{ index < 1 }}">
+    <view class="hliTitle mt20 f30 c323232">
+      <image class="hlitImg" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/essence.png"></image>
+      <text>书法心理学视角下的王锋书法</text>
+    </view>
+    <view class="hliContent f28 c787878 mt20">
+      一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···
+    </view>
+    <view class="hliImg">
+      <image class="hliiItem mt10" wx:for="123123" wx:key="*4" src="https://c.jiangwenqiang.com/api/logo.jpg" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
+    </view>
+  </view>
+  <view class="mt20 pr" wx:else>
+    <image class="videoImg" mode="widthFix" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="playIcon pa cfff"></view>
+  </view>
+</jwqnav>
+</view>
+<!--列表 -e-->
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

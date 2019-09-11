@@ -29,6 +29,20 @@
         "detail/index"
       ]
     },
+    {
+      "root": "user", // 个人中心
+      "name": "user",
+      "pages": [
+        "index/index",
+        "login/index",
+        "comment/index",  // 评论 & 粉丝
+        "team/index",
+        "tnext/index",
+        "message/index",
+        "money/index",
+        "collect/index" // 帖子 & 赞
+      ]
+    },
 //    {
 //      "root": "video", // 视频
 //      "name": "video",

@@ -1,0 +1,21 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">我的帖子</text>
+</jwqcapsule>
+
+<!--列表 -s-->
+<view wx:for="123" wx:key="*29" class="p30 bd1 messageList df">
+  <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <view class="f24 c646464 flex1">
+    <view>
+      反馈意见：adsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadfadsfasdfasfasfsadf
+    </view>
+    <view class="f25 c323232">
+      系统回复：
+    </view>
+  </view>
+  <text class="f16">2019-08-06 23:03</text>
+</view>
+<!--列表 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

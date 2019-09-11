@@ -28,27 +28,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.setData({
+      options: options
+    });
   },
 
   /**

@@ -29,6 +29,20 @@
       ]
     },
     {
+      "root": "user",
+      "name": "user",
+      "pages": [
+        "index/index",
+        "login/index",
+        "comment/index",
+        "team/index",
+        "tnext/index",
+        "message/index",
+        "money/index",
+        "collect/index"
+      ]
+    },
+    {
       "root": "stele",
       "name": "stele",
       "pages": [

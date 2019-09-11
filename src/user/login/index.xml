@@ -1,0 +1,33 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">帐户登陆</text>
+</jwqcapsule>
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<image class="logo" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/login1.png"></image>
+
+<!--登录选择 -s-->
+<view wx:if="{{ !phoneLogin }}">
+  <view class="tac">
+    <button open-type="getUserInfo" getUserInfo="_getUserInfo" class="loginBtn">微信一键登陆</button>
+  </view>
+  <view class="tac">
+    <view catchtap="_phoneLogin" class="loginBtn">手机验证码登陆</view>
+  </view>
+</view>
+<!--登录选择 -e-->
+<!--账号登陆 -s-->
+<view wx:else class="p30 f25 phoneArea animated bounceInUp">
+  <view class="bd1 pb20">
+    <input  maxlength="11" type="number" placeholder="请输入手机号"/>
+  </view>
+  <view class="codeArea bd1 mt20 pb20">
+    <input class="flex1" maxlength="6" type="number" placeholder="请输入手机验证码"/>
+    <view catchtap="_getCode" class="time tac">{{ codeText }}</view>
+  </view>
+  <view class="loginConfirm">确定</view>
+  <view catchtap="_phoneLogin" class="loginConfirm">取消</view>
+</view>
+<!--账号登陆 -e-->
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
