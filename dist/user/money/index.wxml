@@ -1,25 +1,39 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">资金管理</text>
 </jwqcapsule>
+<!--资金信息 -s-->
 <view class="p2030">
-  <view class="topInfo">
-    <view class="f30 cfff">可提现收益（元）</view>
-    <view class="f36 cfceaa2">
-      <text>¥</text>
-      <text class="f65">60000.00</text>
-      <text>元</text>
-    </view>
-    <view class="f40 c033d68">提 现</view>
+<view class="topInfo">
+  <view class="f30 cfff">可提现收益（元）</view>
+  <view class="f36 cfceaa2">
+    <text>¥</text>
+    <text class="f65">60000.00</text>
+    <text>元</text>
   </view>
-  <view class="mt20 df dfb">
-    <view class="moneyLeft">
-      <view>asdf</view>
-      <view>adf</view>
-      <view>adsf</view>
-    </view>
-    <view class="moneyRight"></view>
-  </view>
+  <navigator url="/user/cashdraw/index" class="f40 c033d68">提 现</navigator>
 </view>
+<view class="mt20 df dfb">
+  <navigator url="/user/profit/index?type=3" class="moneyLeft tac df dfc cfff f26">
+    <view class="f36 mt20">14.56<text class="f22">元</text></view>
+    <view>待入帐</view>
+    <view class="mt10">今日＋16.57元</view>
+  </navigator>
+  <navigator url="/user/profit/index?type=2" class="moneyRight tac df dfc cfff f26">
+    <view class="f36 mt20">14.03<text class="f22">元</text></view>
+    <view>累计入帐</view>
+    <view class="mt10">今日＋16.57元</view>
+  </navigator>
+</view>
+</view>
+<!--资金信息 -e-->
+<!--导航列表 -s-->
+<navigator url="/user/detail/index" class="arrow p2030 bgfff">
+  <view class="left-pillar">收益明细</view>
+</navigator>
+<navigator url="/user/profit/index?type=1" class="arrow p2030 bgfff mt20">
+  <view class="left-pillar">今日收益</view>
+</navigator>
+<!--导航列表 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
 <!--<import src="/template/template"></import>-->

@@ -1,0 +1,71 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">流谦书苑商城</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+    <view class="jwqfont jwqsousuo1 f40"></view>
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--轮播图 -s-->
+<swiper autoplay="1" circular="1">
+  <swiper-item wx:for="1234" wx:key="*3">
+    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  </swiper-item>
+</swiper>
+<!--轮播图 -e-->
+<!--商城导航 -s-->
+<view class="shopNav df dfb p200">
+  <view wx:for="0123456789" wx:key="*31" class="shopNavItem f22 c323232 tac">
+    <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="mt10">墨宝真迹</view>
+  </view>
+</view>
+<!--商城导航 -e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--热销产品 -s-->
+<image mode="widthFix" class="w100" src="https://c.jiangwenqiang.com/lqsy/shop1.png"></image>
+<view class="hotSale p30 hsItemT">
+  <view wx:for="123456" wx:key="*37" class="pr hsItem  item-{{ index }}">
+    <view class="hsItemPrice pa cfff">
+      <view class="f14 jia">价</view>
+      <view>
+        <text class="f14">￥</text>
+        <text class="f29">299</text>
+      </view>
+    </view>
+    <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  </view>
+</view>
+<!--热销产品 -e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<!--热销产品 -s-->
+<image mode="widthFix" class="w100" src="https://c.jiangwenqiang.com/lqsy/shop2.png"></image>
+<view class="hotSale p30 hsItemB">
+  <view wx:for="123" wx:key="*36" class="pr hsItem  item-{{ index }}">
+    <view class="hsItemPrice pa cfff">
+      <view class="f14 jia">价</view>
+      <view>
+        <text class="f14">￥</text>
+        <text class="f29">299</text>
+      </view>
+    </view>
+    <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  </view>
+</view>
+<!--热销产品 -e-->
+
+<jwqfoot></jwqfoot>
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

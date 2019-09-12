@@ -17,7 +17,8 @@ Page({
     op: [{
       t: '我的收益',
       i: 'jwqjindutiaoshouyidaozhang',
-      c: '#ff0000'
+      c: '#ff0000',
+      url: '/user/money/index'
     }, {
       t: '我的赞',
       i: 'jwqshoucang',

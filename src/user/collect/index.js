@@ -12,14 +12,16 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     capsules: app.data.capsule,
-    codeText: '获取验证码'
+    codeText: '获取验证码',
+    tnIndex: 0,
+    tnArr: ['发布的帖子', '收藏的帖子', '收藏的碑帖']
   },
   upFormId (e) {
     app.upFormId(e)
   },
-  _tnChoose () {
+  _tnChoose (e) {
     this.setData({
-      right: !this.data.right
+      tnIndex: e.currentTarget.dataset.index
     })
   },
   /**

@@ -46,7 +46,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 18,
+			"current": 24,
 			"list": [
 				{
 					"id": 0,
@@ -179,6 +179,47 @@
 					"name": "资金管理",
 					"pathName": "user/money/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "提现",
+					"pathName": "user/cashdraw/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "收益",
+					"pathName": "user/profit/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "余额明细",
+					"pathName": "user/detail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商城",
+					"pathName": "shop/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商品列表",
+					"pathName": "shop/goodsList/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商品详情",
+					"pathName": "shop/detail/index",
 					"scene": null
 				}
 			]

@@ -1,0 +1,35 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">商品分类</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+    <view class="jwqfont jwqsousuo1 f40"></view>
+    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<view class="p20 goods">
+  <navigator url="/shop/detail/index?id=1" wx:for="123asdfasfasdfasd" wx:key="*35" class="goodsItem bgfff">
+    <image lazy-load="1" class="w100" mode="aspectFill" src="https://c.jiangwenqiang.com/lqsy/{{ index }}.png"></image>
+    <view class="ell2 f22 mt10 c646464">iD明眸浓黑膏膏体色乳膏体色iD明眸浓黑膏膏体色乳膏体色iD明眸浓黑膏膏体色乳膏体色</view>
+    <view class="p10 mt10 df dfac">
+      <view>
+        <text class="f22 cff362c">￥</text>
+        <text class="f29 cff362c">109</text>
+        <text class="f26 cff362c">.9</text>
+      </view>
+      <text class="f19 c787878 ml20 ">已售1000件</text>
+    </view>
+  </navigator>
+</view>
+
+<navigator class="goCart">
+  <image src="https://c.jiangwenqiang.com/lqsy/cart.png"></image>
+</navigator>
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

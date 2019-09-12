@@ -1,0 +1,1 @@
+.mask-bottom-share{background-color:#fff;width:100%;border-radius:30rpx;position:absolute;bottom:-30rpx;left:0;padding:30rpx 0}.mask-bottom-share .bottom-share{display:flex;align-items:center;justify-content:space-around;padding:10rpx 0}.mask-bottom-share image{width:150rpx;height:150rpx}

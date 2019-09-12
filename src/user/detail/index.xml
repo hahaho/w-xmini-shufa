@@ -1,0 +1,15 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">余额明细</text>
+</jwqcapsule>
+<view wx:for="123" wx:key="*31" class="bd1 p30 bgfff">
+  <view class="df dfb">
+    <text class="f25 c323232">三星订单结算奖励 </text>
+    <text class="f28 cf73650">＋5.00元</text>
+  </view>
+  <view class="f21 c646464 df dfb">
+    <text>到帐时间：2019-08-14-12:11:51</text>
+    <text>余额：8.32元</text>
+  </view>
+</view>
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

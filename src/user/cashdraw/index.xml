@@ -1,0 +1,41 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">资金管理</text>
+</jwqcapsule>
+
+<view class="userInfo bgfff">
+  <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <view class="f28 tac c323232">cm厘米</view>
+  <view class="bd1 df p20 c323232 f29 mt20">
+    <text>提现金额</text>
+    <input class="flex1" placeholder="请输入提现金额" />
+    <text class="cff3757">全部提现</text>
+  </view>
+  <view class="bd1 df p20 c323232 f29">
+    <text>可用余额</text>
+    <input disabled="1" class="flex1 cff3757" value="￥20.00" />
+    <text class="c787878">余额≧10元才可提现</text>
+  </view>
+</view>
+
+<button open-type="getPhoneNumber" catchtap="_phoneLogin" class="tac f34 lh80 apply cfff">提交申请</button>
+
+
+<view class="mask" wx:if="{{ phoneLogin }}">
+  <view class="maskCode animated slideInUp">
+    <view class="mcT">
+      <view catchtap="_phoneLogin" class="jwqfont jwqclose-b tar"></view>
+      <veiw class="tac f29 c323232">已发送验证码至手机 159****4523</veiw>
+      <view class="codeArea pb20">
+        <text class="jwqfont jwqanquan mr20 c787878"></text>
+        <input class="flex1 tal" maxlength="6" type="number" placeholder="请输入手机验证码"/>
+        <view catchtap="_getCode" class="time tac">{{ codeText }}</view>
+      </view>
+    </view>
+    <view class="f34 cfff mt20 confirm lh80">确定</view>
+  </view>
+</view>
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

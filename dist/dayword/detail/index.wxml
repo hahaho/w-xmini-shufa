@@ -49,7 +49,7 @@
   <input focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
   <view class="dbSend">发送</view>
   <view class="dbRight">
-    <image catchtap="_shareType" class="dbShareBtn" src="https://c.jiangwenqiang.com/lqsy/share.png"></image>
+    <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
   </view>
 </view>
 <!--底部评论发表区域 -e-->

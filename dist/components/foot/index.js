@@ -94,6 +94,10 @@ Component({
         footArr: this.data.footArr
       });
       app.su('footArr', this.data.footArr);
+      wx.reLaunch({
+        // url: this.data.footArr[e.currentTarget.dataset.index].url
+        url: '/shop/index/index'
+      });
     }
   }
 });
