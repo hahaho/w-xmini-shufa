@@ -6,3 +6,35 @@
   color: #eee;
   transform: translateY(-75%);
 }
+
+.category {
+  display: flex;
+  .cLeft {
+    width: 170rpx;
+    .active {
+      color: #ec1b23;
+      border-left: 4rpx solid #ec1b23;
+    }
+  }
+  .crr {
+    height: 100%;
+    image {
+      width: 154rpx;
+      height: 154rpx;
+      display: inline-block;
+    }
+    .arrow::after {
+      width: 10rpx;
+      height: 10rpx;
+    }
+    .cRight {
+      //display: flex;
+      //flex-wrap: wrap;
+      //justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(3, 33.33%);
+      grid-row-gap: 40rpx;
+    }
+
+  }
+}

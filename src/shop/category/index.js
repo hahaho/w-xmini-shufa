@@ -10,15 +10,24 @@ Page({
       transparent: true,
       bgc: ''
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    scrollHeight: wx.getSystemInfoSync().screenHeight - app.data.capsule.bottom - app.data.capsule.top / 2 - 128,
+    cLeftIndex: 0
   },
   upFormId (e) {
     app.upFormId(e)
   },
+  _leftChoose (e) {
+    this.setData({
+      cLeftIndex: e.currentTarget.dataset.index
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {},
+  onLoad () {
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

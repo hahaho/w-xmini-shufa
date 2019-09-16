@@ -34,7 +34,7 @@
 <!--热销产品 -s-->
 <image mode="widthFix" class="w100" src="https://c.jiangwenqiang.com/lqsy/shop1.png"></image>
 <view class="hotSale p30 hsItemT">
-  <view wx:for="123456" wx:key="*37" class="pr hsItem  item-{{ index }}">
+  <navigator url="/shop/detail/index?id=1" wx:for="123456" wx:key="*37" class="pr hsItem  item-{{ index }}">
     <view class="hsItemPrice pa cfff">
       <view class="f14 jia">价</view>
       <view>
@@ -43,7 +43,7 @@
       </view>
     </view>
     <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  </view>
+  </navigator>
 </view>
 <!--热销产品 -e-->
 <!--屋檐 s-->
@@ -52,7 +52,7 @@
 <!--热销产品 -s-->
 <image mode="widthFix" class="w100" src="https://c.jiangwenqiang.com/lqsy/shop2.png"></image>
 <view class="hotSale p30 hsItemB">
-  <view wx:for="123" wx:key="*36" class="pr hsItem  item-{{ index }}">
+  <navigator url="/shop/detail/index?id=1" wx:for="123" wx:key="*36" class="pr hsItem  item-{{ index }}">
     <view class="hsItemPrice pa cfff">
       <view class="f14 jia">价</view>
       <view>
@@ -61,7 +61,7 @@
       </view>
     </view>
     <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  </view>
+  </navigator>
 </view>
 <!--热销产品 -e-->
 

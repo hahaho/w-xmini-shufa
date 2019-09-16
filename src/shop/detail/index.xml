@@ -2,13 +2,66 @@
   <text class="cfff">书法心理学视角下的王锋书法</text>
 </jwqcapsule>
 <!--轮播图 -s-->
-<swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="*3">
-    <image style="height: 560rpx" class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+<swiper class="detailS" autoplay="1" circular="1">
+  <swiper-item class="detailSI" wx:for="1" wx:key="*3">
+    <image mode="aspectFill" style="height: 560rpx" class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
   </swiper-item>
+  <view class="pa detailInfo p2030 cfff">
+    <view class="diTop df dfb dfac">
+      <view>
+        <text class="f45">￥</text>
+        <text class="f58">109</text>
+        <text class="f43">.90</text>
+      </view>
+      <view catchtap="_shareType" class="detailShare br5 f23 cff362c">分享赚</view>
+    </view>
+    <view class="f25 through-line">价格 ￥169.90</view>
+  </view>
 </swiper>
 <!--轮播图 -e-->
 
+<!--商品标题 -s-->
+<view class="p2030 bgfff">
+  <view class="f25 c323232">商品标题</view>
+  <view class="df dfac mt10 f21 c646464">
+    <text>发货　</text>
+    <text class="jwqfont jwqdizhi f21">广州市</text>
+    <text>　快递￥13.00元</text>
+    <text class="flex1 tar">销量100</text>
+  </view>
+</view>
+<!--商品标题 -e-->
+<!--评论 -s-->
+<view class="p30 bgfff mt20">
+  <view class="f21 df dfb">
+    <text>宝贝评价(100)</text>
+    <text class="arrow">查看全部</text>
+  </view>
+  <view class="commentItem mt20">
+    <view class="f21 c787878 df dfac">
+      <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+      <text class="ml20">cm厘米</text>
+    </view>
+    <view class="f22 c323232 mt10 ell3">adfasdfjhasdfhksadhfjgoaghsgf</view>
+  </view>
+</view>
+<!--评论 -e-->
+<!--商品详情 -s-->
+<view class="tac f30 p20">产品介绍</view>
+<image wx:for="123" wx:key="*36" class="w100" mode="widthFix" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+<!--商品详情 -e-->
+
+<!--底部操作 -s-->
+<view class="zw120"></view>
+<view class="bt1 df dfac detailBtn w100 bgfff f33 p10">
+  <navigator url="/shop/index/index" open-type="reLaunch" class="jwqfont jwqshouye df dfc dfac f22">首页</navigator>
+  <image src="https://c.jiangwenqiang.com/lqsy/cart.png"></image>
+  <view class="dbBtn br10 cfff tac flex1 df">
+    <view catchtap="_toggleSpec" class="flex1">加入购物车</view>
+    <view catchtap="_toggleSpec" class="flex1">立即购买</view>
+  </view>
+</view>
+<!--底部操作 -e-->
 
 
 <!--分享方式选择 -s-->
@@ -22,5 +75,45 @@
 </view>
 </view>
 <!--分享方式选择 -e-->
+
+<!--规格选择 -s-->
+<view class="mask" wx:if="{{ showSpec }}">
+  <view class="specs bgfff w100 animated slideInUp am5">
+    <view class="sTop p20 df">
+      <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+      <view class="ml20 stInfo df dfc flex1">
+        <view class="cf73650 f33">￥ 109</view>
+        <view class="f25 c787878">库存1000件</view>
+        <view class="f25 c323232 mt20">选择颜色分类</view>
+      </view>
+      <view catchtap="_toggleSpec" class="jwqfont jwqclose-b c646464 f40"></view>
+    </view>
+    <scroll-view class="specScroll" scroll-y="1">
+      <view wx:for="1" wx:key="*41" class="spec mt20 bd1 p20">
+        <view class="specName f29 c323232">颜色分类</view>
+        <view class="specChoose df f25 c323232">
+          <view class="specItem">行草用笔（小号）</view>
+          <view class="specItem">行草用笔（小号）</view>
+          <view class="specItem">行草用笔（小号）</view>
+          <view class="specItem">行草用笔－三支装（大中小）</view>
+          <view class="specItem">行草用笔（小号）</view>
+          <view class="specItem">行草用笔（小号）</view>
+          <view class="specItem">行草用笔－三支装（大中小）</view>
+        </view>
+      </view>
+      <view class="specNum df dfb dfac f29 c323232 p20">
+        <view>购买数量</view>
+        <view class="df dfac">
+          <view catchtap="_numOp" data-type="del" class="snI">-</view>
+          <view class="snI">{{ num }}</view>
+          <view catchtap="_numOp" data-type="add" class="snI">+</view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="tac cfff f33 specConfirm p2030">确定</view>
+  </view>
+</view>
+<!--规格选择 -e-->
+
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

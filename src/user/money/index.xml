@@ -28,7 +28,10 @@
 <!--资金信息 -e-->
 <!--导航列表 -s-->
 <navigator url="/user/detail/index" class="arrow p2030 bgfff">
-  <view class="left-pillar">收益明细</view>
+<view class="left-pillar">收益明细</view>
+</navigator>
+<navigator url="/user/detail/index" class="arrow p2030 bgfff mt20">
+<view class="left-pillar">提现明细</view>
 </navigator>
 <navigator url="/user/profit/index?type=1" class="arrow p2030 bgfff mt20">
   <view class="left-pillar">今日收益</view>

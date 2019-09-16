@@ -1,6 +1,21 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">评论</text>
 </jwqcapsule>
+<!--分类 -s-->
+<scroll-view wx:if="{{ options.type == 'comment' }}" class="tab-scroll"
+             scroll-with-animation="1"
+             scroll-x="1"
+             scroll-into-view="tab{{ tabId }}">
+<view class="tab-inside">
+  <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }}"
+          id="tab{{ index }}"
+          catchtap="chooseIndex"
+          data-index="{{ index }}"
+          wx:key
+          wx:for="{{ tabArr }}">{{ item }}</button>
+</view>
+</scroll-view>
+<!--分类 -e-->
 <!--评论列表 -s-->
 <view class="comment">
   <navigator wx:if="{{ options.type == 'comment' }}" url="/hundred/detail/index?id=1" wx:for="123" wx:key="*7" class="commentItem">

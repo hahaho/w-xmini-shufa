@@ -9,7 +9,18 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    num: 1
+  },
+  _numOp (e) {
+    if (e.currentTarget.dataset.type === 'add') {
+      this.data.num++
+    } else {
+      this.data.num > 1 && this.data.num-- || app.toast({content: '最小购买数量为1'})
+    }
+    this.setData({
+      num: this.data.num
+    })
   },
   _follow () {
     this.setData({
@@ -29,6 +40,11 @@ Page({
   _shareType () {
     this.setData({
       showShare: !this.data.showShare
+    })
+  },
+  _toggleSpec () {
+    this.setData({
+      showSpec: !this.data.showSpec
     })
   },
   _goPicShare () {

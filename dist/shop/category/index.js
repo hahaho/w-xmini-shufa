@@ -12,10 +12,17 @@ Page({
       transparent: true,
       bgc: ''
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    scrollHeight: wx.getSystemInfoSync().screenHeight - app.data.capsule.bottom - app.data.capsule.top / 2 - 128,
+    cLeftIndex: 0
   },
   upFormId: function upFormId(e) {
     app.upFormId(e);
+  },
+  _leftChoose: function _leftChoose(e) {
+    this.setData({
+      cLeftIndex: e.currentTarget.dataset.index
+    });
   },
 
   /**

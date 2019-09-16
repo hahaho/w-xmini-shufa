@@ -11,7 +11,16 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    tabIndex: 0,
+    tabId: 0,
+    tabArr: ['书法教学的评论', '每日一字的评论', '叠影纠错的评论', '百家争鸣的评论', '碑体的评论', '视频的评论', '社区的评论']
+  },
+  chooseIndex: function chooseIndex(e) {
+    this.setData({
+      tabIndex: e.currentTarget.dataset.index,
+      tabId: e.currentTarget.dataset.index
+    });
   },
   _follow: function _follow() {
     this.setData({

@@ -2,6 +2,40 @@
 page {
   background: #fff;
 }
+
+.tab-scroll {
+  width: 100%;
+  background: url(https://c.jiangwenqiang.com/lqsy/3.png) ;
+  padding: 10rpx 0;
+}
+.tab-inside {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.tab-item {
+  flex: 0 0 25%;
+  text-align: center;
+  padding-bottom: 10rpx;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 4rpx;
+    background-color: transparent;
+  }
+}
+.active {
+  color: #f30;
+  &:before {
+    background-color: #f00;
+  }
+}
+
 .comment {
   background-color: #fff;
   .commentTop {
