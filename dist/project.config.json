@@ -29,6 +29,8 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -46,7 +48,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 25,
+			"current": 29,
 			"list": [
 				{
 					"id": 0,
@@ -228,6 +230,33 @@
 					"name": "分类",
 					"pathName": "shop/category/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "提交订单",
+					"pathName": "shop/submit/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "购物车",
+					"pathName": "shop/cart/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商城个人中心",
+					"pathName": "shop/user/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "订单",
+					"pathName": "shop/order/index",
 					"scene": null
 				}
 			]

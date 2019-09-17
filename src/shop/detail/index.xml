@@ -110,7 +110,7 @@
         </view>
       </view>
     </scroll-view>
-    <view class="tac cfff f33 specConfirm p2030">确定</view>
+    <view catchtap="_submit" class="tac cfff f33 specConfirm p2030">确定</view>
   </view>
 </view>
 <!--规格选择 -e-->

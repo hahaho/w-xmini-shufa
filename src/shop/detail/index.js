@@ -12,6 +12,11 @@ Page({
     capsules: app.data.capsule,
     num: 1
   },
+  _submit () {
+    wx.navigateTo({
+      url: '/shop/submit/index'
+    })
+  },
   _numOp (e) {
     if (e.currentTarget.dataset.type === 'add') {
       this.data.num++

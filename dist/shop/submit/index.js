@@ -2,7 +2,6 @@
 
 // 获取全局应用程序实例对象
 var app = getApp();
-
 // 创建页面实例对象
 Page({
   /**
@@ -14,8 +13,50 @@ Page({
     },
     capsules: app.data.capsule
   },
-  upFormId: function upFormId(e) {
-    app.upFormId(e);
+  // 选择地址
+  chooseAddress: function chooseAddress() {
+    if (this.data.lostTime) return;
+    var that = this;
+    wx.chooseAddress({
+      success: function success(res) {
+        if (res.telNumber) {
+          // 获取信息成功
+          wx.setStorageSync('addressInfo', res);
+          that.setData({
+            needSetting: false,
+            addressInfo: res
+          });
+        }
+      },
+      fail: function fail() {
+        wx.getSetting({
+          success: function success(res) {
+            if (!res.authSetting['scope.address']) {
+              that.setData({
+                needSetting: true
+              });
+              app.toast({ content: '需授权获取地址信息' });
+            }
+          }
+        });
+      }
+    });
+  },
+
+  // 获取设置
+  openSetting: function openSetting() {
+    var that = this;
+    wx.openSetting({
+      success: function success(res) {
+        // console.log(res)
+        if (res.authSetting['scope.address']) {
+          that.setData({
+            needSetting: false
+          });
+          that.chooseAddress();
+        }
+      }
+    });
   },
 
   /**
@@ -23,8 +64,7 @@ Page({
    */
   onLoad: function onLoad(options) {
     this.setData({
-      options: options,
-      theme: options.type === 'user' ? '我的帖子' : options.type === 'shop' ? '我的消息' : '我的评价'
+      options: options
     });
   },
 
@@ -38,7 +78,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function onShow() {},
+  onShow: function onShow() {
+    // this.setKill()
+    // console.log(' ---------- onShow ----------')
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

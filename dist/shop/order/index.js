@@ -12,52 +12,21 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     capsules: app.data.capsule,
-    num: 1
+    tabIndex: 0,
+    tabId: 0,
+    tabArr: ['全部', '待付款', '待发货', '待收货', '待评价'],
+    cancelArr: ['收货地址填错了', '忘记支付密码／余额不足', '无法正常支付', '不想购买', '其他原因'],
+    cancelIndex: 0
   },
-  _submit: function _submit() {
-    wx.navigateTo({
-      url: '/shop/submit/index'
-    });
-  },
-  _numOp: function _numOp(e) {
-    if (e.currentTarget.dataset.type === 'add') {
-      this.data.num++;
-    } else {
-      this.data.num > 1 && this.data.num-- || app.toast({ content: '最小购买数量为1' });
-    }
+  chooseIndex: function chooseIndex(e) {
     this.setData({
-      num: this.data.num
+      tabIndex: e.currentTarget.dataset.index,
+      tabId: e.currentTarget.dataset.index
     });
   },
-  _follow: function _follow() {
+  _cancelChoose: function _cancelChoose(e) {
     this.setData({
-      follow: !this.data.follow
-    });
-  },
-  _writeComment: function _writeComment(e) {
-    this.setData({
-      focus: e.currentTarget.dataset.type === 'in'
-    });
-  },
-  _collection: function _collection() {
-    this.setData({
-      collection: !this.data.collection
-    });
-  },
-  _shareType: function _shareType() {
-    this.setData({
-      showShare: !this.data.showShare
-    });
-  },
-  _toggleSpec: function _toggleSpec() {
-    this.setData({
-      showSpec: !this.data.showSpec
-    });
-  },
-  _goPicShare: function _goPicShare() {
-    this._shareType();
-    wx.navigateTo({
-      url: '/share/carShare/carShare?type=2'
+      cancelIndex: e.currentTarget.dataset.index
     });
   },
 
@@ -68,27 +37,6 @@ Page({
     this.setData({
       options: options
     });
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
 
   /**

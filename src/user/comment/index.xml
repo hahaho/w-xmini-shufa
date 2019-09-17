@@ -5,7 +5,7 @@
 <scroll-view wx:if="{{ options.type == 'comment' }}" class="tab-scroll"
              scroll-with-animation="1"
              scroll-x="1"
-             scroll-into-view="tab{{ tabId }}">
+             scroll-into-view="tab{{ tabId - 1 }}">
 <view class="tab-inside">
   <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }}"
           id="tab{{ index }}"

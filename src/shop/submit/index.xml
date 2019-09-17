@@ -1,0 +1,89 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">提交订单</text>
+</jwqcapsule>
+<!--地址 -s-->
+<view catchtap="chooseAddress"
+      class="address pr">
+  <image lazy-load="{{true}}"
+       mode="widthFix"
+       src="https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/background/add_address1.png"></image>
+  <view wx:if="{{ addressInfo }}"
+        class="address-s f26 c3a3a3a">
+    <view class="a-s-t">
+      <text class="iconfont icon-dizhi f26">收货人: {{ addressInfo.userName }}</text>
+      <text class="f26">{{ addressInfo.telNumber }}</text>
+    </view>
+    <view class="ell2">
+      收货地址: {{ addressInfo.provinceName }}{{ addressInfo.cityName }}{{ addressInfo.countyName }}{{ addressInfo.detailInfo }}
+    </view>
+  </view>
+  <view wx:if="{{ needSetting }}"
+        class="open-setting">
+    <button catchtap="openSetting">开启授权</button>
+  </view>
+</view>
+<!--地址 -e-->
+
+<!--商品 -s-->
+<scroll-view scroll-y="1" style="max-height: 500rpx;" class="bd1 bgfff mt10 bb">
+  <view wx:for="11231231231" wx:key="*51" class="goodsItem df p20">
+    <image mode="aspectFill" lazy-load="1" src='https://c.jiangwenqiang.com/api/logo.jpg'></image>
+    <view class="ml20 flex1">
+      <view class="ell2 f25 c323232">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
+      <view class="f22 c646464 mt10">颜色分类</view>
+    </view>
+    <view class="f22 c323232 tar ">
+      <view>￥ 109</view>
+      <view>x1</view>
+    </view>
+  </view>
+</scroll-view>
+<!--商品 -e-->
+
+<!--金额相关 -s-->
+<view class="df dfb p20 bt1 bgfff f22 c323232">
+  <text>运费</text>
+  <text>￥13.00</text>
+</view>
+<view class="df dfb p20 bt1 bgfff f22 c323232">
+  <text>优惠券</text>
+  <text class="arrow">使用优惠</text>
+</view>
+<view class="df dfb p20 mt20 bgfff f22 c323232">
+  <text>商品金额 </text>
+  <text>¥109.9</text>
+</view>
+<view class="df dfb bt1 p20 bgfff f22 c323232">
+  <text></text>
+  <view>
+    <text>合计: <text class="cff362c">￥109.9</text></text>
+  </view>
+</view>
+<!--金额相关 -e-->
+
+<!--支付操作 -s-->
+<view class="pay w100 f29 bgfff tac lh90">
+  <view>
+    <text class="c323232">合计:</text>
+    <text class="cff362c">￥122.9</text>
+  </view>
+  <view class="cfff">
+    微信支付
+  </view>
+</view>
+<!--支付操作 -e-->
+
+<!--支付成功 -s-->
+<view class="mask pay-mask tac">
+  <view class="zw120"></view>
+  <icon type="success" size="120"></icon>
+  <view class="f40 fw7 f323232 mt20">支付成功</view>
+  <view class="df dfac lh80 mt20 f25">
+    <navigator open-type="reLaunch" url="/shop/index/index" class="pItem bgfff">继续购买</navigator>
+    <view class="pItem">查看订单</view>
+  </view>
+</view>
+<!--支付成功 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

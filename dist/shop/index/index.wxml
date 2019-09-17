@@ -22,10 +22,10 @@
 <!--轮播图 -e-->
 <!--商城导航 -s-->
 <view class="shopNav df dfb p200">
-  <view wx:for="0123456789" wx:key="*31" class="shopNavItem f22 c323232 tac">
+  <navigator url="/shop/category/index?id=1" wx:for="0123456789" wx:key="*31" class="shopNavItem f22 c323232 tac">
     <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
     <view class="mt10">墨宝真迹</view>
-  </view>
+  </navigator>
 </view>
 <!--商城导航 -e-->
 <!--屋檐 s-->

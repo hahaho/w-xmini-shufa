@@ -1,0 +1,71 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">我的订单</text>
+</jwqcapsule>
+<!--分类 -s-->
+<scroll-view class="tab-scroll"
+             scroll-with-animation="1"
+             scroll-x="1"
+             scroll-into-view="tab{{ tabId - 1 }}">
+<view class="tab-inside">
+  <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }}"
+          id="tab{{ index }}"
+          catchtap="chooseIndex"
+          data-index="{{ index }}"
+          wx:key
+          wx:for="{{ tabArr }}">{{ item }}</button>
+</view>
+</scroll-view>
+<!--分类 -e-->
+
+<!--订单 -s-->
+<block wx:for="123" wx:key="*61">
+  <view class="tac lh60 f23 c787878">10月20日 17:28</view>
+  <view class="bgfff">
+    <view class="f25 df dfb c787878 p020 lh60">
+      <text>订单编号： 5164654</text>
+      <text class="cff362c">订单状态</text>
+    </view>
+    <navigator url="/shop/detail/index?id=1" wx:for="123" wx:key="*62" class="goodsItem df">
+      <image mode="aspectFill" lazy-load="1" src='https://c.jiangwenqiang.com/api/logo.jpg'></image>
+      <view class="ml20 flex1">
+        <view class="ell2 f25 c323232">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
+        <view class="f22 c646464 mt10">颜色分类</view>
+      </view>
+      <view class="f22 c323232 tar ">
+        <view>￥ 109</view>
+        <view>x1</view>
+      </view>
+    </navigator>
+    <view class="f25 c323232 tar p020 bd1 lh50">共1件商品实付：¥122.9</view>
+    <view class="df goodsOp p20">
+      <view class="f25 c787878 goI">评价</view>
+      <view class="f25 c787878 goI">修改地址</view>
+      <view class="f25 c787878 goI">取消订单</view>
+      <view class="f25 c787878 goI">查看物流</view>
+      <view class="f25 c787878 goI">再次购买</view>
+      <view class="f25 c787878 goI goIB">确定收货</view>
+      <view class="f25 c787878 goI goIB">付款</view>
+      <view class="f25 c787878 goI">申请退货</view>
+      <view class="f25 c787878 goI">提醒发货</view>
+    </view>
+  </view>
+</block>
+<!--订单 -e-->
+
+<!--取消订单 -s-->
+<view class="mask">
+  <view class="cancel bgfff">
+    <view class="f40 c323232 tac fw7 mt20">请选择原因</view>
+    <view class="f30 c323232 tac mt10">订单一旦取消。无法恢复，优惠券将原路返回</view>
+    <view class="f30 c323232 tac mt10">收货地址填错了</view>
+    <view class="p2030 df dfb bt1 {{ index < 1 ? 'mt10' : '' }}" catchtap="_cancelChoose" data-index="{{ index }}" wx:for="{{ cancelArr }}" ><text>{{ item }}</text><text class="jwqfont cff362c {{ cancelIndex == index ? 'jwqgouxuan' : 'jwqwxz' }}"></text></view>
+    <view class="f33 cfff cancelBtn df dfac">
+      <view  class="cancel">暂不取消</view>
+      <view  class="confirm">确定取消</view>
+    </view>
+  </view>
+</view>
+<!--取消订单 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

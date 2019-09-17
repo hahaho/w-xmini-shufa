@@ -14,21 +14,38 @@ Page({
       bgc: ''
     },
     capsules: app.data.capsule,
-    op: [{
-      t: '我的收益',
-      i: 'jwqjindutiaoshouyidaozhang',
-      c: '#ff0000',
-      url: '/user/money/index'
+    userNav: [{
+      t: '待付款',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_0.png',
+      u: '/shop/order/index?type=0'
     }, {
-      t: '我的赞',
-      i: 'jwqshoucang',
-      c: '#f39800',
-      url: '/user/collect/index?type=zan'
+      t: '待发货',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_1.png',
+      u: '/shop/order/index?type=0'
     }, {
-      t: '意见反馈',
-      i: 'jwqyoujian',
-      c: '#0068b7',
-      url: '/commonPage/talk/index?type=suggest'
+      t: '待收货',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_2.png',
+      u: '/shop/order/index?type=0'
+    }, {
+      t: '退货/售后',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_3.png',
+      u: '/shop/order/index?type=0'
+    }, {
+      t: '全部订单',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_4.png',
+      u: '/shop/order/index?type=0'
+    }, {
+      t: '我的团队',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_5.png',
+      u: '/user/collect/index?type=zan'
+    }, {
+      t: '邀请好友 ',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_6.png',
+      u: '/commonPage/talk/index?type=suggest'
+    }, {
+      t: '我的积分 ',
+      i: 'https://c.jiangwenqiang.com/lqsy/shop_7.png',
+      u: '/commonPage/talk/index?type=suggest'
     }],
     uiOp: [{
       t: '帖子',
@@ -58,7 +75,7 @@ Page({
     }, {
       t: '我的消息',
       i: '',
-      url: '/user/message/index?type=user'
+      url: '/user/message/index'
     }]
   },
   upFormId: function upFormId(e) {

@@ -38,7 +38,7 @@
         "comment/index",  // 评论 & 粉丝
         "team/index",
         "tnext/index",
-        "message/index",
+        "message/index",   // type=user 用户信息 & type=shop 来自商城的信息 & type=shopcomment 我的评价
         "detail/index",
         "money/index",
         "profit/index",
@@ -53,7 +53,11 @@
         "index/index",
         "category/index",
         "detail/index",
-        "goodsList/index"
+        "goodsList/index",
+        "cart/index",
+        "order/index",
+        "user/index",
+        "submit/index"
       ]
     },
 //    {

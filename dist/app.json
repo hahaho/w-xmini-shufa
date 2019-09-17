@@ -52,7 +52,11 @@
         "index/index",
         "category/index",
         "detail/index",
-        "goodsList/index"
+        "goodsList/index",
+        "cart/index",
+        "order/index",
+        "user/index",
+        "submit/index"
       ]
     },
     {

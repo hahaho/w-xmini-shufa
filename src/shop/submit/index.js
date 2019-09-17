@@ -1,6 +1,5 @@
 // 获取全局应用程序实例对象
 const app = getApp()
-
 // 创建页面实例对象
 Page({
   /**
@@ -12,16 +11,55 @@ Page({
     },
     capsules: app.data.capsule
   },
-  upFormId (e) {
-    app.upFormId(e)
+// 选择地址
+  chooseAddress () {
+    if (this.data.lostTime) return
+    let that = this
+    wx.chooseAddress({
+      success (res) {
+        if (res.telNumber) { // 获取信息成功
+          wx.setStorageSync('addressInfo', res)
+          that.setData({
+            needSetting: false,
+            addressInfo: res
+          })
+        }
+      },
+      fail () {
+        wx.getSetting({
+          success (res) {
+            if (!res.authSetting['scope.address']) {
+              that.setData({
+                needSetting: true
+              })
+              app.toast({content: '需授权获取地址信息'})
+            }
+          }
+        })
+      }
+    })
+  },
+  // 获取设置
+  openSetting () {
+    let that = this
+    wx.openSetting({
+      success (res) {
+        // console.log(res)
+        if (res.authSetting['scope.address']) {
+          that.setData({
+            needSetting: false
+          })
+          that.chooseAddress()
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
     this.setData({
-      options,
-      theme: options.type === 'user' ? '我的帖子' : options.type === 'shop' ? '我的消息' : '我的评价'
+      options
     })
   },
   /**
@@ -34,6 +72,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    // this.setKill()
+    // console.log(' ---------- onShow ----------')
   },
   /**
    * 生命周期函数--监听页面隐藏
