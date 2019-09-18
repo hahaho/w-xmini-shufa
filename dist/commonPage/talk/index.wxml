@@ -1,7 +1,7 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">发帖</text>
 </jwqcapsule>
-<view class="p20 bgfff">
+<view wx:if="{{ options.type != 'comment' }}" class="p20 bgfff">
   <input wx:if="{{ options.type != 'suggest' }}" class="bd1" placeholder="添加标题"/>
   <textarea class="mt20" placeholder="请输入内容..."></textarea>
   <!--上传图片 -s-->
@@ -17,6 +17,34 @@
     <view catchtap="upload" class="jwqfont p20 jwqmn_shangchuantupian"></view>
   </view>
   <!--上传图片 -e-->
+</view>
+<view wx:if="{{ options.type == 'comment' }}">
+  <view class="df goods p20 bgfff">
+    <image mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="df dfb ml20 dfc p200">
+      <view class="ell2 f25 c323232">商品名称商品名称商品名称商品名称商品名称</view>
+      <view class="f22 c646464">产品规格</view>
+    </view>
+  </view>
+  <view class="df dfac p020 bgfff bd1 f25 c323232">
+    <text>整体评价</text>
+    <view class="df dfac">
+      <text catchtap="_chooseLv" data-index="{{ index }}" wx:for="12345" wx:key class="p20 f25 jwqfont jwqwujiaoxingkong {{ commentLV >= index ? 'cff362c' : 'c787878' }}"></text>
+    </view>
+    <text>{{ textArr[commentLV] }}</text>
+  </view>
+  <textarea class="p20 bgfff w100 bb" placeholder="宝贝满足你的期待吗？说说你的使用心得，分享给想买的他们吧 "></textarea>
+  <view class="up-wrap bgfff">
+    <uparea data-index="{{ index }}"
+            catchtap="imgOp"
+            data-img="imgArr"
+            class="p20"
+            wx:for="{{ imgArr }}"
+            wx:key
+            src="{{ item.temp }}"
+            percent="{{ item.progress }}"></uparea>
+    <view catchtap="upload" class="jwqfont p20 jwqmn_shangchuantupian"></view>
+  </view>
 </view>
 <view wx:if="{{ options.type == 'suggest' }}" class="mt10">
   <view class="p20 bgfff f22 c787878">输入有效的联系方式以便开发联系你</view>

@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">资金管理</text>
+  <text class="cfff">提现</text>
 </jwqcapsule>
 
 <view class="userInfo bgfff">

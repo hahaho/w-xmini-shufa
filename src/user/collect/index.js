@@ -1,7 +1,7 @@
 // 获取全局应用程序实例对象
 const app = getApp()
-let timer = null
-let second = 60
+// let timer = null
+// let second = 60
 // 创建页面实例对象
 Page({
   /**

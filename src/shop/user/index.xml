@@ -13,9 +13,9 @@
   <view class='uiBottom p20 df dfb f25 cfff'>
     <view>
       <text>余额￥10.00</text>
-      <text class="cff362c">明细</text>
+      <navigator style="display: inline-block;" url="/user/detail/index?type=shop" class="cff362c">明细</navigator>
     </view>
-    <view class="arrow">立即提现</view>
+    <navigator url="/user/cashdraw/index?type=shop" class="arrow">立即提现</navigator>
   </view>
 </view>
 <!--信息 -e-->
@@ -24,16 +24,16 @@
 <view class="p20 bgfff">
   <view class="f25 c646464 left-pillar">我的订单奖励</view>
   <view class="f21 df mt20">
-    <view class="df dfc dfac flex1 money-left">
+    <navigator url="/user/profit/index?from=shop&type=0" class="df dfc dfac flex1 money-left">
       <text class="f29 cff362c">14.56元</text>
       <text class="c323232">待入帐</text>
       <text class="c646464">今日＋16.57元</text>
-    </view>
-    <view class="df dfc dfac flex1">
+    </navigator>
+    <navigator url="/user/profit/index?from=shop&type=2" class="df dfc dfac flex1">
       <text class="f29 cff362c">28.56元</text>
       <text class="c323232">累计入帐</text>
       <text class="c646464">今日＋0.00元</text>
-    </view>
+    </navigator>
   </view>
 </view>
 <!--金额信息 -e-->

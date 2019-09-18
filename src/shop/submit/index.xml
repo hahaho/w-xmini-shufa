@@ -80,7 +80,7 @@
   <view class="f40 fw7 f323232 mt20">支付成功</view>
   <view class="df dfac lh80 mt20 f25">
     <navigator open-type="reLaunch" url="/shop/index/index" class="pItem bgfff">继续购买</navigator>
-    <view class="pItem">查看订单</view>
+    <jwqnav class="pItem" url="/shop/order/index?type=1"><view>查看订单</view></jwqnav>
   </view>
 </view>
 <!--支付成功 -e-->

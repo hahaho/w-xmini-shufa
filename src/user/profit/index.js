@@ -15,6 +15,12 @@ Page({
       '已到帐',
       '待到账'
     ],
+    tabShop: [
+      '已付款',
+      '已收货',
+      '已到账',
+      '退款订单'
+    ],
     tabIndex: 0,
     capsules: app.data.capsule
   },
@@ -39,6 +45,7 @@ Page({
    */
   onLoad (options) {
     this.setData({
+      options,
       tabIndex: options.type || 0
     })
   },

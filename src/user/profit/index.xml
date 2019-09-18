@@ -1,13 +1,13 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">收益明细</text>
+  <text class="cfff">{{ options.from == 'shop' ? '团队订单' : '收益明细' }}</text>
 </jwqcapsule>
 <!--类别 -s-->
 <view class="topNav tt bgfff lh60 f29 c646464">
-  <view wx:for="{{ tab }}" wx:key="*30" catchtap="_tnBChoose" data-index="{{ index }}" class="flex1 tac tnItem {{ tabIndex == index ? 'active' : '' }}">{{ item }}</view>
+  <view wx:for="{{ options.from == 'shop' ? tabShop : tab }}" wx:key="*30" catchtap="_tnBChoose" data-index="{{ index }}" class="flex1 tac tnItem {{ tabIndex == index ? 'active' : '' }}">{{ item }}</view>
 </view>
 <!--类别 -e-->
 <!--等级 -s-->
-<view class="bd1 topNav bgfff lh60 f29 c646464">
+<view wx:if="{{ options.from != 'shop'}}" class="bd1 topNav bgfff lh60 f29 c646464">
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">
     <text class="jwqfont jwqxingxing" wx:for="12345" wx:key="*23"></text>
   </view>
@@ -15,25 +15,32 @@
     <text class="jwqfont jwqxingxing" wx:for="123" wx:key="*24"></text>
   </view>
 </view>
+<view wx:else class="bd1 topNav bgfff lh60 f29 c646464">
+  <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">一级订单</view>
+  <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? 'active' : '' }}">二级订单</view>
+</view>
 <view class="gift f21">您今日新增待收入帐¥0.00，购买会员10天后奖励到帐</view>
 <!--等级 -e-->
 <!--成员 -s-->
-<view wx:for="123" wx:key="*27" class="df dfc dfb bgfff {{ index > 0 ? 'mt20' : '' }}">
+<view wx:for="123" wx:key="*27" class="df dfc dfb bgfff {{ index > 0 ? 'mt20' : '' }} pr">
   <view class="hliTop flex1 p1030">
     <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
     <text class="c323232 f18">流谦书苑</text>
   </view>
-  <view class="df dfb f18 c646464 p1030 bd1">
+  <view class="df dfb f18 c646464 p1030">
     <text>创建日期：2019-06-03</text>
     <text>结算日期：2019-06-13</text>
+  </view>
+  <view class="df dfb f18 c646464 p1030 bd1">
+    <text>订单编号：131312312321</text>
+    <text>奖励结算：2019-06-13</text>
   </view>
   <view class="df dfb f21 c323232 p1030">
     <view>五星消费金额：¥298</view>
     <view>奖励：<text class="cf73650">¥122.9</text></view>
   </view>
+  <image class="orderBackImg" src="https://c.jiangwenqiang.com/lqsy/order_back.png" lazy-load="1"></image>
 </view>
 <!--成员 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

@@ -17,15 +17,15 @@ Page({
     userNav: [{
       t: '待付款',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_0.png',
-      u: '/shop/order/index?type=0'
+      u: '/shop/order/index?type=1'
     }, {
       t: '待发货',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_1.png',
-      u: '/shop/order/index?type=0'
+      u: '/shop/order/index?type=2'
     }, {
       t: '待收货',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_2.png',
-      u: '/shop/order/index?type=0'
+      u: '/shop/order/index?type=3'
     }, {
       t: '退货/售后',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_3.png',
@@ -37,15 +37,15 @@ Page({
     }, {
       t: '我的团队',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_5.png',
-      u: '/user/collect/index?type=zan'
+      u: '/user/team/index?type=shop'
     }, {
       t: '邀请好友 ',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_6.png',
-      u: '/commonPage/talk/index?type=suggest'
+      u: '/share/carShare/carShare?type=inviteFriend'
     }, {
       t: '我的积分 ',
       i: 'https://c.jiangwenqiang.com/lqsy/shop_7.png',
-      u: '/commonPage/talk/index?type=suggest'
+      u: '/shop/score/index'
     }],
     uiOp: [{
       t: '帖子',

@@ -57,7 +57,16 @@
         "cart/index",
         "order/index",
         "user/index",
+        "score/index",
         "submit/index"
+      ]
+    },
+    {
+      "root": "camera", // 叠影
+      "name": "camera",
+      "pages":[
+        "index/index",
+        "detail/index"
       ]
     },
 //    {
@@ -89,7 +98,9 @@
       "root": "commonPage", // 公共页面
       "name": "common",
       "pages": [
-        "talk/index" // 说一说
+        "talk/index", // 说一说
+        "camera/index",
+        "back/back"
       ]
     },
     {

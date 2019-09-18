@@ -2,8 +2,8 @@
 
 // 获取全局应用程序实例对象
 var app = getApp();
-var timer = null;
-var second = 60;
+// let timer = null
+// let second = 60
 // 创建页面实例对象
 Page({
   /**

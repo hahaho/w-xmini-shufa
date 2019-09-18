@@ -56,7 +56,16 @@
         "cart/index",
         "order/index",
         "user/index",
+        "score/index",
         "submit/index"
+      ]
+    },
+    {
+      "root": "camera",
+      "name": "camera",
+      "pages": [
+        "index/index",
+        "detail/index"
       ]
     },
     {
@@ -80,7 +89,9 @@
       "root": "commonPage",
       "name": "common",
       "pages": [
-        "talk/index"
+        "talk/index",
+        "camera/index",
+        "back/back"
       ]
     },
     {

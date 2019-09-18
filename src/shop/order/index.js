@@ -9,7 +9,7 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule,
+    height: app.data.height,
     tabIndex: 0,
     tabId: 0,
     tabArr: ['全部', '待付款', '待发货', '待收货', '待评价'],
@@ -27,12 +27,98 @@ Page({
       cancelIndex: e.currentTarget.dataset.index
     })
   },
+  // _cancelMask () {
+  //   if (this.data.cancelOrder) {
+  //     this.setData({
+  //       cancelOrderAnimate: !this.data.cancelOrderAnimate
+  //     })
+  //     setTimeout(() => {
+  //       this.setData({
+  //         cancelOrder: !this.data.cancelOrder
+  //       })
+  //     }, 900)
+  //     return
+  //   }
+  //   this.setData({
+  //     cancelOrderAnimate: !this.data.cancelOrderAnimate,
+  //     cancelOrder: !this.data.cancelOrder
+  //   })
+  // },
+  _toggleMask (e) {
+    let type = e.currentTarget.dataset.type
+    let animate = type + 'Animate'
+    if (this.data[type]) {
+      this.setData({
+        [animate]: !this.data[animate]
+      })
+      setTimeout(() => {
+        this.setData({
+          [type]: !this.data[type]
+        })
+      }, 900)
+      return
+    }
+    this.setData({
+      [animate]: !this.data[animate],
+      [type]: !this.data[type]
+    })
+  },
+  // 选择地址
+  chooseAddress () {
+    if (this.data.lostTime) return
+    let that = this
+    wx.chooseAddress({
+      success (res) {
+        if (res.telNumber) { // 获取信息成功
+          wx.setStorageSync('addressInfo', res)
+          that.setData({
+            needSetting: false,
+            addressInfo: res
+          })
+        }
+      },
+      fail () {
+        wx.getSetting({
+          success (res) {
+            if (!res.authSetting['scope.address']) {
+              that.setData({
+                needSetting: true
+              })
+              app.toast({content: '需授权获取地址信息'})
+            }
+          }
+        })
+      }
+    })
+  },
+  // 获取设置
+  openSetting () {
+    let that = this
+    wx.openSetting({
+      success (res) {
+        if (res.authSetting['scope.address']) {
+          that.setData({
+            needSetting: false
+          })
+          that.chooseAddress()
+        }
+      }
+    })
+  },
+  _remind () {
+    app.toast({content: '提醒商家发货成功', image: ''})
+  },
+  _buyAgain () {
+    app.toast({content: '商品已添加到您的购物车中', image: ''})
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
     this.setData({
-      options
+      options,
+      tabIndex: options.type,
+      tabId: options.type
     })
   },
   /**

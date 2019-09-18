@@ -1,0 +1,16 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff">叠影纠错</text>
+</jwqcapsule>
+
+
+<!--比较区域 -s-->
+<camera class="comCamera pr">
+  <cover-view class="comparison">
+    <cover-image class="pa mainPic" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/list1.png"></cover-image>
+    <cover-image wx:if="{{ bottomImg[bottomIndex].i }}" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>
+  </cover-view>
+</camera>
+<!--比较区域 -e-->
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

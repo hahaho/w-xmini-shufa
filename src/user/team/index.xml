@@ -1,13 +1,15 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">我的师友</text>
+  <text class="cfff">{{ options.type == 'shop' ? '我的团队' : '我的师友' }}</text>
 </jwqcapsule>
 <!--等级 -s-->
 <view class="bd1 topNav bgfff lh60 f29 c646464">
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">
-    <text class="jwqfont jwqxingxing" wx:for="12345" wx:key="*23"></text>
+    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="12345" wx:key="*23"></text>
+    <view wx:if="{{ options.type == 'shop' }}">我的一级</view>
   </view>
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? 'active' : '' }}">
-    <text class="jwqfont jwqxingxing" wx:for="123" wx:key="*24"></text>
+    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="123" wx:key="*24"></text>
+    <view wx:if="{{ options.type == 'shop' }}">我的二级</view>
   </view>
 </view>
 <view class="gift f21">
@@ -24,9 +26,10 @@
       <text class="f18 c646464 mt10">2019-08-26  12:20</text>
     </view>
   </view>
-  <navigator hover-class="none" url="/user/tnext/index?id=123" wx:if="{{ !right }}" class="{{ index > 0 ? 'arrow' : '' }} tar c787878 nextTeam">
-    <view><text wx:for="123" wx:key="*26" class="jwqfont jwqxingxing "></text></view>
-    <text>{{ index }}</text>
+  <navigator hover-class="none" url="/user/tnext/index?id=123" wx:if="{{ !right }}" class="{{ options.type != 'shop' ? index > 0 ? 'arrow' : '' : '' }} tar c787878 nextTeam">
+    <view wx:if="{{ options.type != 'shop' }}"><text wx:for="123" wx:key="*26" class="jwqfont jwqxingxing "></text></view>
+    <view wx:if="{{ options.type == 'shop' }}">二级 {{ index }}</view>
+    <text wx:if="{{ options.type != 'shop' }}">{{ index }}</text>
   </navigator>
 </view>
 <!--成员 -e-->

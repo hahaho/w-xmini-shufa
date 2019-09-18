@@ -29,8 +29,6 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -48,7 +46,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 29,
+			"current": 33,
 			"list": [
 				{
 					"id": 0,
@@ -79,10 +77,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 4,
 					"name": "说一说",
 					"pathName": "commonPage/talk/index",
-					"query": "",
+					"query": "type=comment&id=1",
 					"scene": null
 				},
 				{
@@ -257,6 +255,35 @@
 					"id": -1,
 					"name": "订单",
 					"pathName": "shop/order/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "退款",
+					"pathName": "commonPage/back/back",
+					"query": "type=comment&id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "积分",
+					"pathName": "shop/score/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "纠错",
+					"pathName": "camera/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "对比页面",
+					"pathName": "camera/detail/index",
+					"query": "",
 					"scene": null
 				}
 			]
