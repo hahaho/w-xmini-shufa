@@ -37,6 +37,7 @@ Component({
   },
   methods: {
     _touchStart () {
+      if (this.data.toast.mask) return
       if (app.data.requireDisable < 10) return
       if (timer) clearTimeout(timer)
       this.setData({

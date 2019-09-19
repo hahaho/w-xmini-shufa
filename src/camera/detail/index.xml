@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">田英章硬笔楷书700字</text>
+  <text class="cfff fw7">字</text>
 </jwqcapsule>
 <!--比较区域 -s-->
 <view class="comparison pr bgfff">
@@ -26,7 +26,10 @@
 </view>
 <!--底格 -e-->
 <view class="cameraSe df p20">
-  <image catchtap="userCamera" data-type="cameraMask" src="https://c.jiangwenqiang.com/lqsy/camera.png"></image>
+  <button hover-class="none" wx:if="{{ needSetting }}" bindopensetting="openSetting" open-type="openSetting">
+    <image src="https://c.jiangwenqiang.com/lqsy/camera.png"></image>
+  </button>
+  <image wx:else catchtap="userCamera" data-type="cameraMask" src="https://c.jiangwenqiang.com/lqsy/camera.png"></image>
   <image src="https://c.jiangwenqiang.com/lqsy/search.png"></image>
 </view>
 
@@ -80,15 +83,13 @@
 </view>
 <!--分享方式选择 -e-->
 <!--照相机模式 -s-->
-
-<!---->
 <view class="mask cameraMask o0 {{ cameraMaskAnimate ? 'o1' : '' }} tr5">
   <view class="bgfff br10 mask-in ">
     <view class="df dfac dfb p30">
-      <view class="df dfc dfac f25 c323232" wx:for="{{ cameraType }}" wx:key>
+      <navigator url="/commonPage/camera/index?type={{ index + 1 }}" class="df dfc dfac f25 c323232" wx:for="{{ cameraType }}" wx:key>
         <text style="background: {{ index <= 0 ? '#009944' : index == 1 ? '#ec6941' : '#00a0e9' }};" class="jwqfont {{ item.i }} cfff"></text>
         <text class="mt10">{{ item.t }}</text>
-      </view>
+      </navigator>
     </view>
     <view class="mask-btn bt1">
       <view class="flex1 tac" catchtap="_toggleMask" data-type="cameraMask" >取消</view>

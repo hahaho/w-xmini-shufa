@@ -9,7 +9,9 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    tab: ['碑帖详情', '作品展示', '作品赏析'],
+    leftChoose: 0
   },
   _writeComment (e) {
     this.setData({
@@ -32,9 +34,9 @@ Page({
       collection: !this.data.collection
     })
   },
-  _leftChoose () {
+  _leftChoose (e) {
     this.setData({
-      leftChoose: !this.data.leftChoose
+      leftChoose: e.currentTarget.dataset.index
     })
   },
   /**

@@ -1,6 +1,14 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 const UpLoad = require('../upLoad')
+let x = null
+let y = null
+// let xx = null
+// let yy = null
+let moveYT = null
+let moveXT = null
+let canvas = null
+let start = null
 // 创建页面实例对象
 Page({
   /**
@@ -10,8 +18,95 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    textArr: ['非常差', '差', '一般', '好', '非常好'],
-    imgArr: []
+    bottomImg: [
+      {
+        i: '',
+        t: '无'
+      },
+      {
+        i: 'https://c.jiangwenqiang.com/lqsy/camera_mi.png',
+        t: '米字格'
+      },
+      {
+        i: 'https://c.jiangwenqiang.com/lqsy/camera_hui.png',
+        t: '回字格'
+      },
+      {
+        i: 'https://c.jiangwenqiang.com/lqsy/camera_jiu.png',
+        t: '九宫格'
+      }
+    ],
+    bottomIndex: 0,
+    rotate: 0,
+    scale: 1.5,
+    moveX: 166,
+    moveY: 166,
+    height: app.data.height,
+    main: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+    cameraType: [
+  {
+    i: 'jwqduibi',
+    t: '快速对比'
+  },
+  {
+    i: 'jwqtupian',
+    t: '选图对比'
+  },
+  {
+    i: 'jwqmn_shangchuantupian',
+    t: '拍照对比'
+  }
+]
+  },
+  touchStart (e) {
+    start = e.touches
+    if (e.touches.length <= 1) {
+      x = e.touches[0].pageX
+      y = e.touches[0].pageY
+      moveYT = this.data.moveY
+      moveXT = this.data.moveX
+    } else if (e.touches.length <= 2) {
+      start = e.touches
+    } else {
+      app.toast({content: '囧，小主人的手指太灵活了，无法识别呢，请双指或单指操作'})
+    }
+  },
+  touchMove (e) {
+    if (e.touches.length <= 1 && start.length <= 1) {
+      this.setData({
+        moveX: moveXT + (e.touches[0].pageX - x) * app.data.fixPxToRpx,
+        moveY: moveYT + (e.touches[0].pageY - y) * app.data.fixPxToRpx
+      })
+    } else if (e.touches.length <= 2) {
+      if (start.length < 1) start = e.touches
+      let now = e.touches
+      let scale = (this.getDistance(now[0], now[1]) / this.getDistance(start[0], start[1])).toFixed(1)
+      let rotate = (this.getAngle(now[0], now[1]) - this.getAngle(start[0], start[1])).toFixed(1)
+      this.setData({
+        scale: scale > 2 ? 2 : scale < 1 ? 1 : scale,
+        rotate
+      })
+    }
+  },
+  getDistance (p1, p2) {
+    let x = p2.pageX - p1.pageX
+    let y = p2.pageY - p1.pageY
+    return Math.sqrt((x * x) + (y * y))
+  },
+  getAngle (p1, p2) {
+    let x = p1.pageX - p2.pageX
+    let y = p1.pageY - p2.pageY
+    return Math.atan2(y, x) * 180 / Math.PI
+  },
+  changeSlider (e) {
+    this.setData({
+      scale: e.detail.value / 100
+    })
+  },
+  chooseType (e) {
+    this.setData({
+      bottomIndex: e.currentTarget.dataset.index
+    })
   },
   _chooseLv (e) {
     this.setData({
@@ -28,13 +123,59 @@ Page({
   imgOp (e) {
     new UpLoad({imgArr: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index}).imgOp()
   },
+  choosePhoto () {
+    if (this.data.options.type > 1) {
+      let that = this
+      if(!app.gs('firstCamera')) app.toast({content: '建议您选取图片后通过【预览】--【编辑】将图片裁剪为【正方形】以体验更佳的对比效果', image: '', time: 5000, mask: true})
+      setTimeout(() => {
+        app.su('firstCamera', true)
+        wx.chooseImage({
+          count: 1,
+          sourceType: [that.data.options.type < 3 ? 'album' : 'camera'],
+          success (res) {
+            that.setData({
+              main: res.tempFilePaths[0]
+            })
+          },
+          fail () {
+            app.toast({content: '您取消了操作~~'})
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1000)
+          }
+        })
+      }, app.gs('firstCamera') ? 100 : 5000)
+    }
+  },
+  _toggleMask (e) {
+    let type = e.currentTarget.dataset.type
+    let animate = type + 'Animate'
+    if (this.data[type]) {
+      this.setData({
+        [animate]: !this.data[animate]
+      })
+      setTimeout(() => {
+        this.setData({
+          [type]: !this.data[type]
+        })
+      }, 900)
+      return
+    }
+    this.setData({
+      [animate]: !this.data[animate],
+      [type]: !this.data[type]
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
     this.setData({
       options
-    })
+    }, this.choosePhoto)
+    if (options.type > 1) {
+      canvas = wx.createCanvasContext('cOne')
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

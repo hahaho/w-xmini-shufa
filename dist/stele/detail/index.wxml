@@ -3,11 +3,10 @@
 </jwqcapsule>
 <!--碑帖切换 -s-->
 <view class="df topNav bd1 f24">
-  <view catchtap="_leftChoose" class="flex1 tac pr c323232 {{ leftChoose ? '' : 'active' }}">碑帖详情</view>
-  <view catchtap="_leftChoose" class="flex1 tac pr c323232 {{ leftChoose ? 'active' : '' }}">作品展示</view>
+  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="*61" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
 </view>
 <!--碑帖切换 -e-->
-<view wx:if="{{ !leftChoose }}">
+<view wx:if="{{ leftChoose == 0 }}">
   <!--碑帖内容 -s-->
   <view class="f24 c323232 p20">
     碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字
@@ -52,8 +51,14 @@
   </view>
   <!--底部评论发表区域 -e-->
 </view>
-<view wx:else class="opus p20">
+<view wx:if="{{ leftChoose == 1 }}" class="opus p20">
   <image wx:for="12312312" wx:key="*17" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+</view>
+<view wx:if="{{ leftChoose == 2 }}" class="opus p20">
+  <navigator url="/camera/detail/index?id=1" wx:for="12312312" wx:key="*19" class="tac">
+    <image mode="aspectFit" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <text>文字</text>
+  </navigator>
 </view>
 <!--分享方式选择 -s-->
 <view class="mask" wx:if="{{ showShare }}">
@@ -66,7 +71,7 @@
 </view>
 </view>
 <!--分享方式选择 -e-->
-<jwqnav url="/commonPage/talk/index">
+<jwqnav url="/camera/index/index">
   <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/overlapping.png"></image>
 </jwqnav>
 

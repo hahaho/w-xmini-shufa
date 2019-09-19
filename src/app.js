@@ -32,6 +32,7 @@ App({
   data: {
     fix: system.model.indexOf('X') >= 0,
     capsule: capsule,
+    fixPxToRpx: 750 / system.screenWidth,
     requireDisable: 10,
     height: capsule.bottom + (capsule.top / 4),
     capsuleHeight: capsule.height,
@@ -65,6 +66,7 @@ App({
         title: '',
         toastType: 'center',
         content: '服务器开小差啦~~',
+        mask: false,
         time: 999999999
       }, toast)
     })

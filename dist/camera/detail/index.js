@@ -38,6 +38,16 @@ Page({
       t: '拍照对比'
     }]
   },
+  openSetting: function openSetting(res) {
+    if (res.detail.authSetting['scope.camera']) {
+      this.setData({
+        needSetting: false
+      });
+      app.toast({ content: '授权成功，请选择功能进行体验', image: '' });
+    } else {
+      app.toast({ content: '请授权使用相机功能，否则无法体验功能, 请再次点击并进行授权', time: 10000 });
+    }
+  },
   userCamera: function userCamera(e) {
     var that = this;
     wx.authorize({
@@ -46,7 +56,10 @@ Page({
         that._toggleMask(e);
       },
       fail: function fail() {
-        app.toast({ content: '请授权使用相机功能，否则无法体验功能' });
+        that.setData({
+          needSetting: true
+        });
+        app.toast({ content: '请授权使用相机功能，否则无法体验功能, 请再次点击并进行授权', time: 10000 });
       }
     });
   },
