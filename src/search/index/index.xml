@@ -1,0 +1,23 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">流谦书苑</text>
+</jwqcapsule>
+<!--搜索 s-->
+<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+  <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
+  <view style="height:  {{ searchHeight }}px;"></view>
+  <view style="height: {{ searchHeight }}px; top: {{ searchPosTop }}px; left: 0; padding: 0 {{ searchPosPad }}px;" class="f24 searchPos">
+    <input confirm-type="search" placeholder-style="color: {{ inputColor }};" style="background: {{ inputbg }}; color: {{ inputColor }}; border-radius: 50rpx; padding: 10rpx 10rpx 10rpx 60rpx; border:1px solid #fff;" placeholder="搜索书法或商品" />
+  </view>
+</view>
+<!--搜索 e-->
+<!--屋檐 s-->
+<view class="eaves"></view>
+<!--屋檐 e-->
+<jwqnav wx:for="12312312" wx:key url="">
+  <view class="bd1 bgfff f24 c323232 p20">
+    <view class="ell2">搜索内容展示的文字</view>
+    <image class="searchImg mt10" src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
+  </view>
+</jwqnav>
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

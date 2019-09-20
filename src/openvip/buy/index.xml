@@ -1,7 +1,7 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff fw7">提交订单</text>
 </jwqcapsule>
-<view wx:if="{{ success }}">
+<view wx:if="{{ !success }}">
   <!--卡卷信息 -s-->
   <view class="mt10 topInfo">
     <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_open.png"></image>
@@ -40,14 +40,14 @@
       <text>合计：</text>
       <text class="cff362c">¥298.0</text>
     </view>
-    <view class="ce5e5e5 f29 p20">
+    <view catchtap="buy" class="ce5e5e5 f29 p20">
       提交订单
     </view>
   </view>
   <!--购买按钮 -e-->
 </view>
 
-<view wx:if="{{ !success }}" class="tac bgfff">
+<view wx:if="{{ success }}" class="tac bgfff">
   <view style="padding-top: 70rpx;" class="f42 c323232 fw7">恭喜您</view>
   <view class="f33 c323232 mt20 fw7">成为流谦书苑会员</view>
   <image style="width: 182rpx;display: inline-block; margin-top: 70rpx;" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/buy_success.png"></image>

@@ -1,53 +1,52 @@
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // 获取全局应用程序实例对象
-// const app = getApp()
-// const bmap = require('../../utils/bmap-wx')
+var app = getApp();
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    openType: 'reLaunch',
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+    },
+    tab: [{
+      i: 'https://c.jiangwenqiang.com/lqsy/camera.png',
+      t: '拍照'
+    }, {
+      i: 'https://c.jiangwenqiang.com/lqsy/camera_pic.png',
+      t: '照片'
+    }],
+    itemIndex: 0
   },
-  buy: function buy() {
+  _literacy: function _literacy() {
     this.setData({
-      success: true
+      literacy: !this.data.literacy
     });
+  },
+  _toggleMask: function _toggleMask(e) {
+    var _this = this,
+        _setData2;
+
+    var type = e.currentTarget.dataset.type;
+    var animate = type + 'Animate';
+    if (this.data[type]) {
+      this.setData(_defineProperty({}, animate, !this.data[animate]));
+      setTimeout(function () {
+        _this.setData(_defineProperty({}, type, !_this.data[type]));
+      }, 900);
+      return;
+    }
+    this.setData((_setData2 = {}, _defineProperty(_setData2, animate, !this.data[animate]), _defineProperty(_setData2, type, !this.data[type]), _setData2));
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {
-    var pages = getCurrentPages();
-    pages[pages.length - 2].route === 'pages/index/index' && this.setData({ openType: 'navigateBack' });
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
-  },
+  onLoad: function onLoad(options) {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -60,6 +59,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
+    // app.toast()
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

@@ -11,7 +11,25 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     textArr: ['非常差', '差', '一般', '好', '非常好'],
-    imgArr: []
+    imgArr: [],
+    sos: [
+      '笔画求教',
+      '单字求救',
+      '作品求救',
+      '无'
+    ],
+    sosIndex: 0
+  },
+  chooseSoS () {
+    let that = this
+    wx.showActionSheet({
+      itemList: this.data.sos,
+      success (res) {
+        that.setData({
+          sosIndex: res.tapIndex
+        })
+      }
+    })
   },
   _chooseLv (e) {
     this.setData({

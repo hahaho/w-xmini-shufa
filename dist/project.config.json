@@ -29,8 +29,6 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -48,7 +46,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 34,
+			"current": 36,
 			"list": [
 				{
 					"id": 0,
@@ -82,7 +80,7 @@
 					"id": 4,
 					"name": "说一说",
 					"pathName": "commonPage/talk/index",
-					"query": "type=comment&id=1",
+					"query": "type=camera&id=1",
 					"scene": null
 				},
 				{
@@ -293,6 +291,20 @@
 					"name": "照相机",
 					"pathName": "commonPage/camera/index",
 					"query": "type=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "识字",
+					"pathName": "commonPage/literacy/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 36,
+					"name": "搜搜",
+					"pathName": "search/index/index",
+					"query": "",
 					"scene": null
 				}
 			]

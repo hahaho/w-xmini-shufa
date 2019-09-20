@@ -13,6 +13,11 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     }
   },
+  buy () {
+    this.setData({
+      success: true
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

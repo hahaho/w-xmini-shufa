@@ -1,7 +1,7 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">发帖</text>
 </jwqcapsule>
-<view wx:if="{{ options.type != 'comment' }}" class="p20 bgfff">
+<view wx:if="{{ options.type == 'talk' || options.type == 'suggest' }}" class="p20 bgfff">
   <input wx:if="{{ options.type != 'suggest' }}" class="bd1" placeholder="添加标题"/>
   <textarea class="mt20" placeholder="请输入内容..."></textarea>
   <!--上传图片 -s-->
@@ -50,10 +50,29 @@
   <view class="p20 bgfff f22 c787878">输入有效的联系方式以便开发联系你</view>
   <input class="bgfff p20 mt20" placeholder="输入您的联系方式"/>
 </view>
-
+<view wx:if="{{ options.type == 'camera' }}" class="cameraInput mt10 bgfff">
+  <view catchtap="chooseSoS" class="bd1 arrow p20 c323232 f28">
+    <text class="ml20">求救类型</text>
+    <text class="ml20">{{ sos[sosIndex] }}</text>
+  </view>
+  <textarea class="p20" placeholder="请输入内容..."></textarea>
+  <!--上传图片 -s-->
+  <view class="up-wrap">
+    <uparea data-index="{{ index }}"
+            catchtap="imgOp"
+            data-img="imgArr"
+            class="p20"
+            wx:for="{{ imgArr }}"
+            wx:key
+            src="{{ item.temp }}"
+            percent="{{ item.progress }}"></uparea>
+    <view catchtap="upload" class="jwqfont p20 jwqmn_shangchuantupian"></view>
+  </view>
+  <!--上传图片 -e-->
+</view>
 <!--发布 -s-->
 <view class="fabu f34 cfff">
-  {{ options.type == 'suggest' ? '确定提交' : '发布' }}
+  {{ options.type == 'camera' ? '提交分享' : options.type == 'suggest' ? '确定提交' : '发布' }}
 </view>
 <!--发布 -e-->
 

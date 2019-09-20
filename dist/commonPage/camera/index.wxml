@@ -4,10 +4,11 @@
 
 
 <!--比较区域 -s-->
-<camera wx:if="{{ options.type == 1 }}"  class="comCamera pr">
-  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" style="transform: scale({{ scale }}); top: {{ moveY }}rpx; left: {{ moveX }}rpx;" class="pa mainPic" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/list1.png"></cover-image>
-  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ bottomImg[bottomIndex].i }}" class="pa peN bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>
+<camera hidden="{{ !(options.type == 1 && !cameraMaskAnimate) }}"  class="comCamera pr">
+  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" style="transform: scale({{ scale }}) rotate({{ rotate }}deg);  top: {{ moveY }}rpx; left: {{ moveX }}rpx;" class="pa mainPic" mode="widthFix" src="{{ main }}"></cover-image>
+  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ bottomImg[bottomIndex].i }}" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>
 </camera>
+<view hidden="{{ !cameraMaskAnimate }}" class="camerZw"></view>
 <!--比较区域 -e-->
 
 <!--比较区域 -s-->
@@ -18,9 +19,9 @@
 </view>
 <!--比较区域 -e-->
 
-<slider wx:if="{{ options.type == 1 }}" style="margin: 0 80rpx;" value="150" min="100" max="200" bindchanging="changeSlider"></slider>
+<slider wx:if="{{ options.type == 1 }}" style="margin: 0 80rpx;" value="{{ scale * 100 }}" min="100" max="200" bindchanging="changeSlider"></slider>
 <!--底格 -s-->
-<view class="bgfff mt20 f18 c787878 df typeChoose">
+<view class="bgfff mt20 f18 pr c787878 df typeChoose">
 <view class="df dfc dfac p20">
   <text class="jwqfont jwqyanjing"></text>
   <text class="mt10">字格</text>
@@ -42,14 +43,22 @@
   <navigator open-type="navigateBack"><image src="https://c.jiangwenqiang.com/lqsy/camera_back.png"></image></navigator>
 </view>
 
-<!--照相机模式 -s-->
+<!--分享 -s-->
 <view class="mask cameraMask o0 {{ cameraMaskAnimate ? 'o1' : '' }} tr5">
 <view class="bgfff br10 mask-in ">
-  <view class="f30 tac lh60 fw7">分享比对内容</view>
+  <view class="f30 tac lh60 fw7 c323232">分享</view>
   <view class="df dfac dfb p30">
-    <navigator url="/commonPage/camera/index?type={{ index + 1 }}" class="df dfc dfac f25 c323232" wx:for="{{ cameraType }}" wx:key>
-      <text style="background: {{ index <= 0 ? '#009944' : index == 1 ? '#ec6941' : '#00a0e9' }};" class="jwqfont {{ item.i }} cfff"></text>
-      <text class="mt10">{{ item.t }}</text>
+    <navigator url="../talk/index?type=camera" class="df dfc dfac f25 c323232">
+      <text style="color: #cfa972;" class="jwqfont jwqshequ"></text>
+      <text class="mt10">社区</text>
+    </navigator>
+    <button open-type="share" class="df dfc dfac f25 c323232">
+      <text style="color: #3eb135;" class="jwqfont jwqweixin"></text>
+      <text class="mt10">微信好友</text>
+    </button>
+    <navigator url="/share/carShare/carShare?type=8" class="df dfc dfac f25 c323232">
+      <text style="color: #3eb135;" class="jwqfont jwqpengyouquan"></text>
+      <text class="mt10">朋友圈</text>
     </navigator>
   </view>
   <view class="mask-btn bt1">
@@ -57,7 +66,7 @@
   </view>
 </view>
 </view>
-<!--照相机模式 -e-->
+<!--分享 -e-->
 <canvas class="cameraCanvas" canvas-id="cOne"></canvas>
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

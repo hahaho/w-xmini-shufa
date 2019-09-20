@@ -82,5 +82,3 @@
 
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

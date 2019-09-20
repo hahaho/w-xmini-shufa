@@ -32,6 +32,7 @@ App({
   data: {
     fix: system.model.indexOf('X') >= 0,
     capsule: capsule,
+    system,
     fixPxToRpx: 750 / system.screenWidth,
     requireDisable: 10,
     height: capsule.bottom + (capsule.top / 4),

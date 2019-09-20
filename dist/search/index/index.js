@@ -1,31 +1,38 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-// const app = getApp()
-// const bmap = require('../../utils/bmap-wx')
+var app = getApp();
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    openType: 'reLaunch',
     capsule: {
-      bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+      transparent: true,
+      bgc: ''
+    },
+    capsules: app.data.capsule,
+    capsuleTop: app.data.capsuleTop,
+    searchHeight: 40,
+    searchPosTop: app.data.capsule.bottom + app.data.capsule.top / 2,
+    searchPosPad: 10,
+    inputColor: '#fff',
+    inputbg: 'url(https://c.jiangwenqiang.com/lqsy/3.png)'
   },
-  buy: function buy() {
+  onPageScroll: function onPageScroll(e) {
+    var searchPosTop = app.data.capsule.bottom + app.data.capsule.top / 2 - e.scrollTop;
     this.setData({
-      success: true
+      searchPosTop: searchPosTop <= this.data.capsuleTop ? this.data.capsuleTop : searchPosTop,
+      searchPosPad: e.scrollTop >= 100 ? 100 : e.scrollTop < 10 ? 10 : e.scrollTop
     });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {
-    var pages = getCurrentPages();
-    pages[pages.length - 2].route === 'pages/index/index' && this.setData({ openType: 'navigateBack' });
+  onLoad: function onLoad(options) {
+
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()
@@ -60,6 +67,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
+    app.toast();
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

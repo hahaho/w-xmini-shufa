@@ -43,14 +43,14 @@ Page({
     height: app.data.height,
     main: 'https://c.jiangwenqiang.com/lqsy/list1.png',
     cameraType: [{
-      i: 'jwqduibi',
-      t: '快速对比'
+      i: 'jwqshequ',
+      t: '社区'
     }, {
-      i: 'jwqtupian',
-      t: '选图对比'
+      i: 'jwqweixin',
+      t: '微信好友'
     }, {
-      i: 'jwqmn_shangchuantupian',
-      t: '拍照对比'
+      i: 'jwqpengyouquan',
+      t: '朋友圈'
     }]
   },
   touchStart: function touchStart(e) {
@@ -157,6 +157,7 @@ Page({
     this.setData((_setData2 = {}, _defineProperty(_setData2, animate, !this.data[animate]), _defineProperty(_setData2, type, !this.data[type]), _setData2));
   },
 
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -199,12 +200,10 @@ Page({
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
   },
-  onShareAppMessage: function onShareAppMessage() {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+  onShareAppMessage: function onShareAppMessage(e) {
+    if (e.from === 'button') {
+      console.log(1);
+    }
   },
 
   /**

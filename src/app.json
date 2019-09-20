@@ -95,11 +95,19 @@
       ]
     },
     {
+      "root": "search", // 搜索
+      "name": "search",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
       "root": "commonPage", // 公共页面
       "name": "common",
       "pages": [
         "talk/index", // 说一说
         "camera/index",
+        "literacy/index",
         "back/back"
       ]
     },

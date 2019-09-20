@@ -74,7 +74,7 @@
   </view>
 </view>
 <!--列表 -e-->
-<jwqnav url="/commonPage/talk/index">
+<jwqnav url="/commonPage/talk/index?type=talk">
   <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk.png"></image>
 </jwqnav>
 <!--分享方式选择 -s-->

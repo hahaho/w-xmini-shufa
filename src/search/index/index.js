@@ -1,31 +1,35 @@
-'use strict';
-
 // 获取全局应用程序实例对象
-// const app = getApp()
-// const bmap = require('../../utils/bmap-wx')
+const app = getApp()
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    openType: 'reLaunch',
     capsule: {
-      bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+      transparent: true,
+      bgc: ''
+    },
+    capsules: app.data.capsule,
+    capsuleTop: app.data.capsuleTop,
+    searchHeight: 40,
+    searchPosTop: app.data.capsule.bottom + app.data.capsule.top / 2,
+    searchPosPad: 10,
+    inputColor: '#fff',
+    inputbg: 'url(https://c.jiangwenqiang.com/lqsy/3.png)'
   },
-  buy: function buy() {
+  onPageScroll (e) {
+    let searchPosTop = app.data.capsule.bottom + app.data.capsule.top / 2 - e.scrollTop
     this.setData({
-      success: true
-    });
+      searchPosTop: searchPosTop <= this.data.capsuleTop ? this.data.capsuleTop : searchPosTop,
+      searchPosPad: e.scrollTop >= 100 ? 100 : e.scrollTop < 10 ? 10 : e.scrollTop
+    })
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {
-    var pages = getCurrentPages();
-    pages[pages.length - 2].route === 'pages/index/index' && this.setData({ openType: 'navigateBack' });
+  onLoad (options) {
+
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()
@@ -48,49 +52,45 @@ Page({
     // })
     // this.Bmap(this)
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function onReady() {
+  onReady () {
     // console.log(' ---------- onReady ----------')
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function onShow() {
+  onShow () {
+    app.toast()
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function onHide() {
+  onHide () {
     // clearInterval(timer)
     // console.log(' ---------- onHide ----------')
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function onUnload() {
+  onUnload () {
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
   },
-  onShareAppMessage: function onShareAppMessage() {
+  onShareAppMessage () {
     // return {
     //   title: app.gs('shareText').t || '绣学问，真纹绣',
     //   path: `/pages/index/index`,
     //   imageUrl: app.gs('shareText').g
     // }
   },
-
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function onPullDownRefresh() {
+  onPullDownRefresh () {
     // this.getCourse()
   }
-});
+})

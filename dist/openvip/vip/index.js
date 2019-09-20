@@ -1,7 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-// const app = getApp()
+var app = getApp();
 // const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({
@@ -12,7 +12,8 @@ Page({
     openType: 'reLaunch',
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+    },
+    system: app.data.system.system.indexOf('iOS')
   },
   /**
    * 生命周期函数--监听页面加载

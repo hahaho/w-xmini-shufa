@@ -44,19 +44,19 @@ Page({
     height: app.data.height,
     main: 'https://c.jiangwenqiang.com/lqsy/list1.png',
     cameraType: [
-  {
-    i: 'jwqduibi',
-    t: '快速对比'
-  },
-  {
-    i: 'jwqtupian',
-    t: '选图对比'
-  },
-  {
-    i: 'jwqmn_shangchuantupian',
-    t: '拍照对比'
-  }
-]
+      {
+        i: 'jwqshequ',
+        t: '社区'
+      },
+      {
+        i: 'jwqweixin',
+        t: '微信好友'
+      },
+      {
+        i: 'jwqpengyouquan',
+        t: '朋友圈'
+      }
+    ]
   },
   touchStart (e) {
     start = e.touches
@@ -126,7 +126,7 @@ Page({
   choosePhoto () {
     if (this.data.options.type > 1) {
       let that = this
-      if(!app.gs('firstCamera')) app.toast({content: '建议您选取图片后通过【预览】--【编辑】将图片裁剪为【正方形】以体验更佳的对比效果', image: '', time: 5000, mask: true})
+      if (!app.gs('firstCamera')) app.toast({content: '建议您选取图片后通过【预览】--【编辑】将图片裁剪为【正方形】以体验更佳的对比效果', image: '', time: 5000, mask: true})
       setTimeout(() => {
         app.su('firstCamera', true)
         wx.chooseImage({
@@ -166,6 +166,7 @@ Page({
       [type]: !this.data[type]
     })
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -204,12 +205,10 @@ Page({
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
   },
-  onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+  onShareAppMessage (e) {
+    if (e.from === 'button') {
+      console.log(1)
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
