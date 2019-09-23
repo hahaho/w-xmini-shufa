@@ -1,7 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-// const app = getApp()
+var app = getApp();
 var UpLoad = require('../upLoad');
 // 创建页面实例对象
 Page({
@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fix: app.data.fix,
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },

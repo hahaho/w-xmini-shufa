@@ -67,20 +67,22 @@
     <text class="c323232">合计:</text>
     <text class="cff362c">￥122.9</text>
   </view>
-  <view class="cfff">
+  <view catchtap="pay" class="cfff">
     微信支付
   </view>
+  <view wx:if="{{fix}}" class="zw40"></view>
 </view>
 <!--支付操作 -e-->
 
 <!--支付成功 -s-->
-<view class="mask pay-mask tac">
+<view wx:if="{{ paySuccess }}" class="mask pay-mask tac">
   <view class="zw120"></view>
-  <icon type="success" size="120"></icon>
+  <view wx:if="{{fix}}" class="zw40"></view>
+  <icon type="success" class="mt20" size="120"></icon>
   <view class="f40 fw7 f323232 mt20">支付成功</view>
   <view class="df dfac lh80 mt20 f25">
     <navigator open-type="reLaunch" url="/shop/index/index" class="pItem bgfff">继续购买</navigator>
-    <jwqnav class="pItem" url="/shop/order/index?type=1"><view>查看订单</view></jwqnav>
+    <jwqnav class="pItem" url="/shop/order/index?type=2"><view>查看订单</view></jwqnav>
   </view>
 </view>
 <!--支付成功 -e-->

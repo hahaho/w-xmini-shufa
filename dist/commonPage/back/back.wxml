@@ -39,7 +39,7 @@
     <!--<image src=""></image>-->
   </view>
 
-  <view catchtap="refund" class="apply f34 cfff tac lh80">提交申请</view>
+  <view style="padding-bottom:{{fix?40:0}}rpx;" catchtap="refund" class="apply f34 cfff tac lh80">提交申请</view>
 </view>
 
 <view wx:if="{{ !apply }}" class="tac bgfff mt20 p30">

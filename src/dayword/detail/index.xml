@@ -44,8 +44,9 @@
 </view>
 <!--评论列表 -e-->
 <view class="zw100"></view>
+<view wx:if="{{ fix }}" class="zw40"></view>
 <!--底部评论发表区域 -s-->
-<view class="detailBottom">
+<view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
   <input focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
   <view class="dbSend">发送</view>
   <view class="dbRight">

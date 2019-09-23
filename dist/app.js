@@ -32,7 +32,7 @@ Moment.updateLocale('en', {
 });
 App({
   data: {
-    fix: system.model.indexOf('X') >= 0,
+    fix: system.model.indexOf('X') >= 0 || system.screenHeight - system.safeArea.height >= 35,
     capsule: capsule,
     system: system,
     fixPxToRpx: 750 / system.screenWidth,
@@ -53,8 +53,7 @@ App({
     ALL_HEIGHT: statusBarHeight + HEIGHT_TOP,
     name: '流谦书苑',
     label: [],
-    testImg: 'https://c.jiangwenqiang.com/api/logo.jpg',
-    reservation_bg: 'https://c.jiangwenqiang.com/workProject/payKnowledge/reservation_bg.png'
+    testImg: 'https://c.jiangwenqiang.com/api/logo.jpg'
   },
   noUse: function noUse() {},
   cloud: function cloud() {
@@ -106,35 +105,6 @@ App({
   },
 
   // 发起微信支付
-  wxpay: function wxpay(obj) {
-    var objs = {
-      timeStamp: obj.timeStamp,
-      nonceStr: obj.nonceStr,
-      package: obj.package,
-      signType: obj.signType || 'MD5',
-      paySign: obj.paySign,
-      success: function success(payRes) {
-        if (obj.success) {
-          if (payRes.errMsg === 'requestPayment:ok') {
-            obj.success(payRes);
-          } else {
-            obj.fail(payRes);
-          }
-        } else {
-          console.log('未传入success回调函数', payRes);
-        }
-      },
-      fail: function fail(err) {
-        if (obj.fail) {
-          obj.fail(err);
-        } else {
-          console.log('未传入fail回调函数,err:', err.errMsg);
-        }
-      },
-      complete: obj.complete || function () {}
-    };
-    wx.requestPayment(objs);
-  },
   wxpay2: function wxpay2(obj) {
     return new Promise(function (resolve, reject) {
       wx.requestPayment({
@@ -347,10 +317,7 @@ App({
           reject(err);
         },
 
-        complete: obj.complete || function (res) {
-          // console.log('url', obj.url)
-          // console.log('data', obj.data)
-          // console.log('complete', res)
+        complete: obj.complete || function () {
           wx.stopPullDownRefresh();
         }
       });
@@ -612,17 +579,6 @@ App({
       });
     }
   },
-  videoCount: function videoCount(vid) {
-    this.wxrequest({
-      url: this.getUrl().shopVideoIncrease,
-      data: {
-        vid: vid
-      },
-      complete: function complete() {
-        wx.hideLoading();
-      }
-    });
-  },
   goBack: function goBack() {
     wx.navigateBack();
   },
@@ -632,31 +588,6 @@ App({
     if (!/^1[3|4|5|7|8][0-9]\d{8}$/.test(mobile)) {
       return true;
     }
-  },
-
-  // 信息弹窗
-  setToast: function setToast(that, toast, time) {
-    var defaultToast = {
-      image: 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/background/jiong.png',
-      // image: 'https://7368-shufa-gae53-1300165052.tcb.qcloud.la/image/jiong.png',
-      show: true,
-      bgc: '#fff',
-      color: '#000',
-      content: '服务器出错，请稍后重试'
-    };
-    if (toast && !toast.content) {
-      toast.content = '服务器出错，请稍后重试';
-    }
-    Object.assign(defaultToast, toast);
-    that.setData({
-      toast: defaultToast
-    });
-    setTimeout(function () {
-      defaultToast.show = false;
-      that.setData({
-        toast: defaultToast
-      });
-    }, time || 1500);
   },
 
   // 预览图片
@@ -669,7 +600,7 @@ App({
 
   // 跳转方式判断
   gn: function gn(url) {
-    if (getCurrentPages().length >= 5) {
+    if (getCurrentPages().length >= 9) {
       wx.redirectTo({
         url: url
       });
@@ -777,18 +708,6 @@ App({
           reject(err);
         }
       });
-    });
-  },
-  getEnum: function getEnum() {
-    var that = this;
-    this.wxrequest({
-      url: that.getUrl().enum,
-      data: {},
-      success: function success(res) {
-        if (res.data.status === 200) {
-          that.data.label = res.data.data.label;
-        }
-      }
     });
   },
   getShareText: function getShareText() {

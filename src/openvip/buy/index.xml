@@ -35,7 +35,7 @@
   <view class="tac f21 cff362c mt20">注：你将购买的是虚拟内容服务，购买后不支持退订、转让、退换</view>
 
   <!--购买按钮 -s-->
-  <view class="f29 c323232 buyBtn">
+  <view class="f29 c323232 buyBtn" style="padding-bottom: {{ fix ? 40:0 }}rpx;">
     <view class="flex1 tar p20">
       <text>合计：</text>
       <text class="cff362c">¥298.0</text>

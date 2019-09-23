@@ -53,7 +53,8 @@
 
 <!--底部操作 -s-->
 <view class="zw120"></view>
-<view class="bt1 df dfac detailBtn w100 bgfff f33 p10">
+<view wx:if="{{ fix }}" class="zw40"></view>
+<view class="bt1 df dfac detailBtn w100 bgfff f33 p10" style="padding-bottom: {{fix?50:10}}rpx;">
   <navigator url="/shop/index/index" open-type="reLaunch" class="jwqfont jwqshouye df dfc dfac f22">首页</navigator>
   <jwqnav url="/shop/cart/index">
     <image src="https://c.jiangwenqiang.com/lqsy/cart.png"></image>

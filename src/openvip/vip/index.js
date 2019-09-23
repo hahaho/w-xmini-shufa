@@ -11,7 +11,7 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    system: app.data.system.system.indexOf('iOS')
+    system: app.data.system.system.indexOf('iOS') >= 0
   },
   /**
    * 生命周期函数--监听页面加载

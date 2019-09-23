@@ -71,7 +71,7 @@
   <!--上传图片 -e-->
 </view>
 <!--发布 -s-->
-<view class="fabu f34 cfff">
+<view class="fabu f34 cfff" style="padding-bottom: {{ fix ? 40:0 }}rpx;">
   {{ options.type == 'camera' ? '提交分享' : options.type == 'suggest' ? '确定提交' : '发布' }}
 </view>
 <!--发布 -e-->

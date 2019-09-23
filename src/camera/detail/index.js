@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fix: app.data.fix,
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },

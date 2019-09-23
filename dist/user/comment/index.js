@@ -1,6 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
+
 var app = getApp();
 // 创建页面实例对象
 Page({
@@ -54,29 +55,8 @@ Page({
    */
   onLoad: function onLoad(options) {
     this.setData({
-      options: options
+      options: options // type: comment 评论 & fans 粉丝
     });
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
 
   /**

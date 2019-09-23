@@ -8,7 +8,7 @@
   <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" style="transform: scale({{ scale }}) rotate({{ rotate }}deg);  top: {{ moveY }}rpx; left: {{ moveX }}rpx;" class="pa mainPic" mode="widthFix" src="{{ main }}"></cover-image>
   <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ bottomImg[bottomIndex].i }}" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>
 </camera>
-<view hidden="{{ !cameraMaskAnimate }}" class="camerZw"></view>
+<view hidden="{{ !(options.type == 1 && cameraMaskAnimate) }}" class="camerZw"></view>
 <!--比较区域 -e-->
 
 <!--比较区域 -s-->

@@ -1,4 +1,5 @@
 // 获取全局应用程序实例对象
+
 const app = getApp()
 // 创建页面实例对象
 Page({
@@ -51,29 +52,8 @@ Page({
    */
   onLoad (options) {
     this.setData({
-      options
+      options // type: comment 评论 & fans 粉丝
     })
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

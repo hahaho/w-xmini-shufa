@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+
     openType: 'reLaunch',
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'

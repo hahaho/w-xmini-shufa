@@ -20,6 +20,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fix: app.data.fix,
     backType: [
       {
         t: '我要退款（无需退货）'

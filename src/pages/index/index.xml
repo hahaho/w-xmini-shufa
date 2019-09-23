@@ -27,8 +27,8 @@
 <view class="eaves"></view>
 <!--屋檐 e-->
 <!--vip -s-->
-<navigator url="/openvip/index/index">
-  <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip.png"></image>
+<navigator url="/openvip/index/index" class="bg-img-bling">
+  <image class="w100 " mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip.png"></image>
 </navigator>
 <!--vip -e-->
 <!--名师文字 -s-->

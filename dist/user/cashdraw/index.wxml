@@ -17,7 +17,7 @@
   </view>
 </view>
 
-<button open-type="getPhoneNumber" catchtap="_phoneLogin" class="tac f34 lh80 apply cfff">提交申请</button>
+<button open-type="getPhoneNumber" catchtap="_phoneLogin" style="padding-bottom: {{ fix?40:0}}rpx;" class="tac f34 lh80 apply cfff">提交申请</button>
 
 
 <view class="mask" wx:if="{{ phoneLogin }}">

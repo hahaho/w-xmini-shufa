@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fix: app.data.fix,
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
@@ -56,6 +57,11 @@ Page({
           that.chooseAddress();
         }
       }
+    });
+  },
+  pay: function pay() {
+    this.setData({
+      paySuccess: true
     });
   },
 

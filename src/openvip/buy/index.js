@@ -1,6 +1,6 @@
 
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 // const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({
@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fix: app.data.fix,
     openType: 'reLaunch',
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
