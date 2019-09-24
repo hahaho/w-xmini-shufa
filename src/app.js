@@ -7,6 +7,7 @@ const HEIGHT_TOP = MenuButtonBounding.bottom - statusBarHeight
 const Moment = require('./utils/moment-min')
 const cloud = require('./utils/cloud')
 const system = wx.getSystemInfoSync()
+console.log(system)
 const capsule = MenuButtonBounding
 let requireCount = 0
 let lastUrl = ''

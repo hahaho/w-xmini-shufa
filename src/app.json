@@ -107,6 +107,7 @@
       "pages": [
         "talk/index", // 说一说
         "camera/index",
+        "canvas/index",
         "literacy/index",
         "back/back"
       ]

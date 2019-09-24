@@ -48,7 +48,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 16,
+			"current": 34,
 			"list": [
 				{
 					"id": 0,
@@ -292,7 +292,7 @@
 					"id": 34,
 					"name": "照相机",
 					"pathName": "commonPage/camera/index",
-					"query": "type=1",
+					"query": "type=2",
 					"scene": null
 				},
 				{
@@ -307,6 +307,13 @@
 					"name": "搜搜",
 					"pathName": "search/index/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "分享",
+					"pathName": "share/carShare/carShare",
+					"query": "type=fans",
 					"scene": null
 				}
 			]

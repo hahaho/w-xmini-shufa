@@ -1,4 +1,4 @@
-<image src="{{shareImage}}" mode="aspectFill" class="share-image bb"></image>
+<image src="{{shareImage}}" mode="widthFix" class="share-image bb"></image>
 <canvasdrawer painting="{{painting}}" bind:getImage="eventGetImage"></canvasdrawer>
 <view wx:if="{{ shareImage.length > 10 }}" class="save-btn f30 p20 bb" style="color: {{ color }};">
   <view catchtap="savePhoto">保存图片</view>

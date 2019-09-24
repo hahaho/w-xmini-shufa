@@ -111,7 +111,7 @@ Component({
       })
     },
     drawImage (params) {
-      const { url, top = 0, left = 0, width = 0, height = 0 } = params
+      const { url, top = 0, left = 0, width = 0, height = 0} = params
       this.ctx.drawImage(url, left, top, width, height)
     },
     drawText (params) {

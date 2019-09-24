@@ -11,7 +11,9 @@ Page({
     painting: {},
     goodsInfo: {},
     color: '#0094ff',
-    shareImage: ''
+    shareImage: '',
+    width: 375,
+    height: 603
   },
   getBottomList () {
     this.getGood()
@@ -138,6 +140,68 @@ Page({
       }
     })
   },
+  eventDraw3 (e) {
+    wx.showLoading({
+      title: '生成中',
+      mask: true
+    })
+    let that = this
+    let views = [
+      {
+        type: 'image',
+        url: 'https://c.jiangwenqiang.com/lqsy/cavas_bottom.jpg',
+        top: 0,
+        left: 0,
+        width: 375,
+        height: 603
+      },
+      {
+        type: 'image',
+        url: `${this.data.imgDomain}/${this.data.goodsInfo.cover_image}`,
+        top: 120,
+        left: 36,
+        width: 300,
+        height: 220
+      },
+      {
+        type: 'text',
+        content: this.data.goodsInfo.name,
+        breakWord: true,
+        MaxLineNumber: 1,
+        fontSize: 20,
+        lineHeight: 20,
+        top: 360,
+        left: 40,
+        width: 120
+      },
+      {
+        type: 'text',
+        content: '售价：' + this.data.goodsInfo.price,
+        breakWord: true,
+        MaxLineNumber: 2,
+        top: 420,
+        left: 40,
+        width: 120
+      },
+      {
+        type: 'image',
+        url: `${that.data.qrCode}`,
+        top: 358,
+        left: 198,
+        width: 130,
+        height: 130
+      }
+    ]
+
+    this.setData({
+      painting: {
+        width: 375,
+        height: 603,
+        clear: true,
+        views
+      }
+    })
+  },
   eventGetImage (event) {
     wx.hideLoading()
     const { tempFilePath } = event.detail
@@ -208,6 +272,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    // this.setData({
+    //   shareImage: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom.jpg'
+    // })
     // this.setData({
     //   options,
     //   color: options.type >= 3 ? '#7D5334' : options.type >= 2 ? '#34477D' : '#7E3535',
