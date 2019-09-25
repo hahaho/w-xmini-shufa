@@ -304,6 +304,9 @@ Page({
           ctx.translate(-v.showWidth * 2 * v.scale, 0);
           ctx.rotate(315 * Math.PI / 180);
           ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-315 * Math.PI / 180);
+          ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale);
+          ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
         }
         ctx.restore();
       }
