@@ -23,6 +23,11 @@ Page({
         src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png',
         scale: 1,
         rotate: 0
+      },
+      {
+          src: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+          scale: 1,
+          rotate: 0
       }
     ],
     canUseWidth: 100,
@@ -214,7 +219,6 @@ Page({
       this.outImage()
     }, 300)
   },
-
   canvasDraw () {
     wx.showLoading({
       title: '疯狂生成中',
@@ -224,7 +228,7 @@ Page({
     let that = this
     ctx.setFillStyle('white')
     ctx.fillRect(0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
-    if (that.data.backImageInfo.zIndex <= 1 ) {
+    if (that.data.backImageInfo.zIndex <= 1) {
       ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
     }
     for (let v of that.data.imgArr) {
@@ -232,13 +236,28 @@ Page({
       ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight)
       ctx.rotate(v.rotate * Math.PI / 180)
       ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
-      ctx.restore()
       if (v.border) {
-
+          // 左上角
+          ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale)
+          ctx.rotate(45 * Math.PI / 180)
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+          ctx.rotate(-45 * Math.PI / 180)
+          ctx.translate(v.showWidth * 2 * v.scale, 0)
+          ctx.rotate(135 * Math.PI / 180)
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+          ctx.rotate(-135 * Math.PI / 180)
+          ctx.translate(0, v.showHeight * 2 * v.scale)
+          ctx.rotate(225 * Math.PI / 180)
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+          ctx.rotate(-225 * Math.PI / 180)
+          ctx.translate(-v.showWidth * 2 * v.scale, 0)
+          ctx.rotate(315 * Math.PI / 180)
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
       }
+      ctx.restore()
     }
 
-    if (that.data.backImageInfo.zIndex >= 10 ) {
+    if (that.data.backImageInfo.zIndex >= 10) {
       ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
     }
     ctx.draw()
@@ -296,20 +315,20 @@ Page({
             showImgSrc: res.tempFilePath
           })
           wx.hideLoading()
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success () {
-              wx.showToast({
-                title: '图片已存入相册'
-              })
-            },
-            fail () {
-              // app.setToast(that, {content: '请授权相册保存'})
-              // that.setData({
-              //   buttonShow: true
-              // })
-            }
-          })
+          // wx.saveImageToPhotosAlbum({
+          //   filePath: res.tempFilePath,
+          //   success () {
+          //     wx.showToast({
+          //       title: '图片已存入相册'
+          //     })
+          //   },
+          //   fail () {
+          //     // app.setToast(that, {content: '请授权相册保存'})
+          //     // that.setData({
+          //     //   buttonShow: true
+          //     // })
+          //   }
+          // })
         }
       }
     })
@@ -326,7 +345,6 @@ Page({
     wx.getImageInfo({
       src: that.data.borderImg,
       success (res) {
-        console.log(changeIndex)
         wx.hideLoading()
         that.setData({
           [`imgArr[${changeIndex}].border`]: {

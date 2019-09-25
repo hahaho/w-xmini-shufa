@@ -26,6 +26,10 @@ Page({
       src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png',
       scale: 1,
       rotate: 0
+    }, {
+      src: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+      scale: 1,
+      rotate: 0
     }],
     canUseWidth: 100,
     canUseHeight: 100,
@@ -283,8 +287,25 @@ Page({
         ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight);
         ctx.rotate(v.rotate * Math.PI / 180);
         ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
+        if (v.border) {
+          // 左上角
+          ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale);
+          ctx.rotate(45 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-45 * Math.PI / 180);
+          ctx.translate(v.showWidth * 2 * v.scale, 0);
+          ctx.rotate(135 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-135 * Math.PI / 180);
+          ctx.translate(0, v.showHeight * 2 * v.scale);
+          ctx.rotate(225 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-225 * Math.PI / 180);
+          ctx.translate(-v.showWidth * 2 * v.scale, 0);
+          ctx.rotate(315 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+        }
         ctx.restore();
-        if (v.border) {}
       }
     } catch (err) {
       _didIteratorError3 = true;
@@ -358,20 +379,20 @@ Page({
             showImgSrc: res.tempFilePath
           });
           wx.hideLoading();
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success: function success() {
-              wx.showToast({
-                title: '图片已存入相册'
-              });
-            },
-            fail: function fail() {
-              // app.setToast(that, {content: '请授权相册保存'})
-              // that.setData({
-              //   buttonShow: true
-              // })
-            }
-          });
+          // wx.saveImageToPhotosAlbum({
+          //   filePath: res.tempFilePath,
+          //   success () {
+          //     wx.showToast({
+          //       title: '图片已存入相册'
+          //     })
+          //   },
+          //   fail () {
+          //     // app.setToast(that, {content: '请授权相册保存'})
+          //     // that.setData({
+          //     //   buttonShow: true
+          //     // })
+          //   }
+          // })
         }
       }
     });
@@ -388,7 +409,6 @@ Page({
     wx.getImageInfo({
       src: that.data.borderImg,
       success: function success(res) {
-        console.log(changeIndex);
         wx.hideLoading();
         that.setData(_defineProperty({}, 'imgArr[' + changeIndex + '].border', {
           width: res.width > that.data.imgArr[changeIndex].showWidth / 4 ? that.data.imgArr[changeIndex].showWidth / 4 : res.width,
