@@ -9,7 +9,6 @@ var HEIGHT_TOP = MenuButtonBounding.bottom - statusBarHeight;
 var Moment = require('./utils/moment-min');
 var _cloud = require('./utils/cloud');
 var system = wx.getSystemInfoSync();
-console.log(system);
 var capsule = MenuButtonBounding;
 var requireCount = 0;
 var lastUrl = '';

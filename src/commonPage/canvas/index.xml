@@ -1,7 +1,28 @@
-<view wx:if="{{ options.type != 1 }}"  class="comparison pr bgfff">
-  <image class="pa bgPic" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  <image bindtouchstart="touchStart" style="transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}rpx; left: {{ moveX }}rpx;" bindtouchmove="touchMove" class="pa mainPic" mode="widthFix" src="{{ main }}"></image>
-  <image bindtouchstart="touchStart" bindtouchmove="touchMove" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></image>
+<view style="width: {{ backImageInfo.showWidth }}px; height: {{ backImageInfo.showHeight }}px;"
+      bindtouchstart="touchStart"
+      bindtouchmove="touchMove"
+      bindtouchend="touchEnd"
+      class="comparison pr bgfff">
+  <image style="z-index: {{ backImageInfo.zIndex }}"
+         class="pa bgPic peN"
+         src="{{ backImageInfo.path }}"></image>
+  <view wx:for="{{ imgArr }}"
+        wx:key="*90"
+        data-index="{{ index }}"
+        bindtouchstart="itemStart"
+        class="pa"
+        style="transform: scale({{ item.scale }}) rotate({{ item.rotate }}deg); top: {{ item.top }}px; left: {{ item.left }}px; width: {{ item.showWidth }}px; height: {{ item.showHeight }}px; z-index: {{ item.zIndex }}"
+        bindtouchend="itemEnd">
+    <image style="width: 100%; height: 100%;" src="{{ item.path }}"></image>
+    <image style="position:absolute; top: -{{ item.border.width / 2 }}px; left: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(45deg);" src="{{ item.border.path }}"></image>
+    <image style="position:absolute; top: -{{ item.border.width / 2 }}px; right: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(135deg);" src="{{ item.border.path }}"></image>
+    <image style="position:absolute; bottom: -{{ item.border.width / 2 }}px; left:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(315deg);" src="{{ item.border.path }}"></image>
+    <image style="position:absolute; bottom: -{{ item.border.width / 2 }}px; right:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(225deg);" src="{{ item.border.path }}"></image>
+  </view>
 </view>
+<view class="tac lh80 cff362c br10 bgfff" catchtap="canvasDraw">save</view>
+<view class="tac lh80 cff362c br10 bgfff" catchtap="setBorder">setBorder</view>
+<canvas style="width: 1000px; height: 1000px; position: fixed; bottom: -200%;right:-200%;" canvas-id="outPic"></canvas>
+
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

@@ -7,7 +7,7 @@ let y = null
 // let yy = null
 let moveYT = null
 let moveXT = null
-let canvas = null
+// let canvas = null
 let start = null
 // 创建页面实例对象
 Page({
@@ -166,89 +166,89 @@ Page({
       [type]: !this.data[type]
     })
   },
-  getImageInfo (src, flag) {
-    let that = this
-    wx.getImageInfo({
-      src,
-      success (res) {
-        if (flag) {
-          that.setData({
-            chooseImageInfo: res
-          })
-        } else {
-          that.setData({
-            backImageInfo: res,
-            systemWidth: app.data.system.windowWidth,
-            backImageHeight: app.data.system.windowWidth * res.height / res.width
-          })
-          that.getImageInfo('https://c.jiangwenqiang.com/lqsy/list1.png', true)
-        }
-      }
-    })
-  },
-  canvasDraw () {
-    let ctx = wx.createCanvasContext('cOne', this)
-    let that = this
-    ctx.setFillStyle('white')
-    ctx.fillRect(0, 0, that.data.systemWidth, that.data.backImageHeight)
-    let chooseWidth = that.data.chooseImageInfo.width
-    let chooseHeight = that.data.chooseImageInfo.height
-    let scale = that.data.scale
-
-
-    // if (that.data.rotate != 0) {
-    //   ctx.translate(that.data.moveX + that.data.chooseImageInfo.width / 2, that.data.moveY + that.data.chooseImageInfo.height / 2)
-    //   ctx.rotate(that.data.rotate * Math.PI / 180)
-    //   ctx.drawImage(that.data.chooseImageInfo.path, that.data.moveX - ((that.data.chooseImageInfo.width * that.data.scale - that.data.chooseImageInfo.width) / 2) - that.data.systemWidth / 2, that.data.moveY - ((that.data.chooseImageInfo.height * that.data.scale - that.data.chooseImageInfo.height) / 2) - that.data.backImageHeight / 2, that.data.chooseImageInfo.width * that.data.scale, that.data.chooseImageInfo.height * that.data.scale)
-    // } else {
-    //   ctx.drawImage(that.data.chooseImageInfo.path, that.data.moveX - ((that.data.chooseImageInfo.width * that.data.scale - that.data.chooseImageInfo.width) / 2), that.data.moveY - ((that.data.chooseImageInfo.height * that.data.scale - that.data.chooseImageInfo.height) / 2), that.data.chooseImageInfo.width * that.data.scale, that.data.chooseImageInfo.height * that.data.scale)
-    // }
-    // if (that.data.rotate != 0) {
-    //   ctx.rotate((360 - that.data.rotate) * Math.PI / 180)
-    //   ctx.translate(-that.data.moveX + that.data.chooseImageInfo.width / 2, -that.data.moveY + that.data.chooseImageInfo.height / 2)
-    //   ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.systemWidth, that.data.backImageHeight)
-    // } else {
-    //   ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.systemWidth, that.data.backImageHeight)
-    // }
-    ctx.draw()
-    setTimeout(() => {
-      wx.canvasToTempFilePath({
-        x: 0,
-        y: 0,
-        width: that.data.systemWidth,
-        height: that.data.backImageHeight,
-        destWidth: that.data.systemWidth,
-        destHeight: that.data.backImageHeight,
-        canvasId: 'cOne',
-        success: res => {
-          if (res.errMsg === 'canvasToTempFilePath:ok') {
-            that.setData({
-              temp: res.tempFilePath
-            })
-            // wx.saveImageToPhotosAlbum({
-            //   filePath: res.tempFilePath,
-            //   success () {
-            //     wx.showToast({
-            //       title: '保存成功'
-            //     })
-            //   },
-            //   fail () {
-            //     // app.setToast(that, {content: '请授权相册保存'})
-            //     // that.setData({
-            //     //   buttonShow: true
-            //     // })
-            //   }
-            // })
-          }
-        }
-      }, this)
-    }, 100)
-  },
+  // getImageInfo (src, flag) {
+  //   let that = this
+  //   wx.getImageInfo({
+  //     src,
+  //     success (res) {
+  //       if (flag) {
+  //         that.setData({
+  //           chooseImageInfo: res
+  //         })
+  //       } else {
+  //         that.setData({
+  //           backImageInfo: res,
+  //           systemWidth: app.data.system.windowWidth,
+  //           backImageHeight: app.data.system.windowWidth * res.height / res.width
+  //         })
+  //         that.getImageInfo('https://c.jiangwenqiang.com/lqsy/list1.png', true)
+  //       }
+  //     }
+  //   })
+  // },
+  // canvasDraw () {
+  //   let ctx = wx.createCanvasContext('cOne', this)
+  //   let that = this
+  //   ctx.setFillStyle('white')
+  //   ctx.fillRect(0, 0, that.data.systemWidth, that.data.backImageHeight)
+  //   // let chooseWidth = that.data.chooseImageInfo.width
+  //   // let chooseHeight = that.data.chooseImageInfo.height
+  //   // let scale = that.data.scale
+  //
+  //
+  //   // if (that.data.rotate != 0) {
+  //   //   ctx.translate(that.data.moveX + that.data.chooseImageInfo.width / 2, that.data.moveY + that.data.chooseImageInfo.height / 2)
+  //   //   ctx.rotate(that.data.rotate * Math.PI / 180)
+  //   //   ctx.drawImage(that.data.chooseImageInfo.path, that.data.moveX - ((that.data.chooseImageInfo.width * that.data.scale - that.data.chooseImageInfo.width) / 2) - that.data.systemWidth / 2, that.data.moveY - ((that.data.chooseImageInfo.height * that.data.scale - that.data.chooseImageInfo.height) / 2) - that.data.backImageHeight / 2, that.data.chooseImageInfo.width * that.data.scale, that.data.chooseImageInfo.height * that.data.scale)
+  //   // } else {
+  //   //   ctx.drawImage(that.data.chooseImageInfo.path, that.data.moveX - ((that.data.chooseImageInfo.width * that.data.scale - that.data.chooseImageInfo.width) / 2), that.data.moveY - ((that.data.chooseImageInfo.height * that.data.scale - that.data.chooseImageInfo.height) / 2), that.data.chooseImageInfo.width * that.data.scale, that.data.chooseImageInfo.height * that.data.scale)
+  //   // }
+  //   // if (that.data.rotate != 0) {
+  //   //   ctx.rotate((360 - that.data.rotate) * Math.PI / 180)
+  //   //   ctx.translate(-that.data.moveX + that.data.chooseImageInfo.width / 2, -that.data.moveY + that.data.chooseImageInfo.height / 2)
+  //   //   ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.systemWidth, that.data.backImageHeight)
+  //   // } else {
+  //   //   ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.systemWidth, that.data.backImageHeight)
+  //   // }
+  //   ctx.draw()
+  //   setTimeout(() => {
+  //     wx.canvasToTempFilePath({
+  //       x: 0,
+  //       y: 0,
+  //       width: that.data.systemWidth,
+  //       height: that.data.backImageHeight,
+  //       destWidth: that.data.systemWidth,
+  //       destHeight: that.data.backImageHeight,
+  //       canvasId: 'cOne',
+  //       success: res => {
+  //         if (res.errMsg === 'canvasToTempFilePath:ok') {
+  //           that.setData({
+  //             temp: res.tempFilePath
+  //           })
+  //           // wx.saveImageToPhotosAlbum({
+  //           //   filePath: res.tempFilePath,
+  //           //   success () {
+  //           //     wx.showToast({
+  //           //       title: '保存成功'
+  //           //     })
+  //           //   },
+  //           //   fail () {
+  //           //     // app.setToast(that, {content: '请授权相册保存'})
+  //           //     // that.setData({
+  //           //     //   buttonShow: true
+  //           //     // })
+  //           //   }
+  //           // })
+  //         }
+  //       }
+  //     }, this)
+  //   }, 100)
+  // },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    this.getImageInfo('https://c.jiangwenqiang.com/lqsy/canvas_bottom.jpg')
+    // this.getImageInfo('https://c.jiangwenqiang.com/lqsy/canvas_bottom.jpg')
     // this.setData({
     //   options
     // }, this.choosePhoto)

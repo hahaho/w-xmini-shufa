@@ -3,7 +3,7 @@
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // 获取全局应用程序实例对象
-var app = getApp();
+// const app = getApp()
 // 创建页面实例对象
 Page({
   /**

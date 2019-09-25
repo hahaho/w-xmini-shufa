@@ -2,45 +2,45 @@
   <text class="cfff">叠影纠错</text>
 </jwqcapsule>
 
-<!--&lt;!&ndash;比较区域 -s&ndash;&gt;-->
-<!--<camera hidden="{{ !(options.type == 1 && !cameraMaskAnimate) }}"  class="comCamera pr">-->
-  <!--<cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" style="transform: scale({{ scale }}) rotate({{ rotate }}deg);  top: {{ moveY }}rpx; left: {{ moveX }}rpx;" class="pa mainPic" mode="widthFix" src="{{ main }}"></cover-image>-->
-  <!--<cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ bottomImg[bottomIndex].i }}" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>-->
-<!--</camera>-->
-<!--<view hidden="{{ !(options.type == 1 && cameraMaskAnimate) }}" class="camerZw"></view>-->
-<!--&lt;!&ndash;比较区域 -e&ndash;&gt;-->
+<!--比较区域 -s-->
+<camera hidden="{{ !(options.type == 1 && !cameraMaskAnimate) }}"  class="comCamera pr">
+  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" style="transform: scale({{ scale }}) rotate({{ rotate }}deg);  top: {{ moveY }}rpx; left: {{ moveX }}rpx;" class="pa mainPic" mode="widthFix" src="{{ main }}"></cover-image>
+  <cover-image bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ bottomImg[bottomIndex].i }}" class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></cover-image>
+</camera>
+<view hidden="{{ !(options.type == 1 && cameraMaskAnimate) }}" class="camerZw"></view>
+<!--比较区域 -e-->
 
-<!--&lt;!&ndash;比较区域 -s&ndash;&gt;-->
-<!--<view bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ options.type != 1 }}"  class="comparison pr bgfff">-->
-  <!--<image class="pa bgPic" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>-->
-  <!--<image style="transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}rpx; left: {{ moveX }}rpx;"  class="pa mainPic" mode="widthFix" src="{{ main }}"></image>-->
-  <!--<image class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></image>-->
-<!--</view>-->
-<!--&lt;!&ndash;比较区域 -e&ndash;&gt;-->
+<!--比较区域 -s-->
+<view bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ options.type != 1 }}"  class="comparison pr bgfff">
+  <image class="pa bgPic" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <image style="transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}rpx; left: {{ moveX }}rpx;"  class="pa mainPic" mode="widthFix" src="{{ main }}"></image>
+  <image class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></image>
+</view>
+<!--比较区域 -e-->
 
-<!--<slider wx:if="{{ options.type == 1 }}" style="margin: 0 80rpx;" value="{{ scale * 100 }}" min="100" max="200" bindchanging="changeSlider"></slider>-->
-<!--&lt;!&ndash;底格 -s&ndash;&gt;-->
-<!--<view class="bgfff mt20 f18 pr c787878 df typeChoose">-->
-<!--<view class="df dfc dfac p20">-->
-  <!--<text class="jwqfont jwqyanjing"></text>-->
-  <!--<text class="mt10">字格</text>-->
-<!--</view>-->
-<!--<view catchtap="chooseType"-->
-      <!--data-index="{{ index }}"-->
-      <!--wx:for="{{ bottomImg }}"-->
-      <!--wx:key-->
-      <!--class="df dfc dfac p20 {{ index == bottomIndex ? 'active' : '' }} tr5">-->
-  <!--<text wx:if="{{ !item.i }}" class="jwqfont jwqwu tac"></text>-->
-  <!--<image wx:else src="{{ item.i }}"></image>-->
-  <!--<text class="mt10 {{ index == bottomIndex ? 'cff362c' : '' }}">{{ item.t }}</text>-->
-<!--</view>-->
-<!--</view>-->
-<!--&lt;!&ndash;底格 -e&ndash;&gt;-->
+<slider wx:if="{{ options.type == 1 }}" style="margin: 0 80rpx;" value="{{ scale * 100 }}" min="100" max="200" bindchanging="changeSlider"></slider>
+<!--底格 -s-->
+<view class="bgfff mt20 f18 pr c787878 df typeChoose">
+<view class="df dfc dfac p20">
+  <text class="jwqfont jwqyanjing"></text>
+  <text class="mt10">字格</text>
+</view>
+<view catchtap="chooseType"
+      data-index="{{ index }}"
+      wx:for="{{ bottomImg }}"
+      wx:key
+      class="df dfc dfac p20 {{ index == bottomIndex ? 'active' : '' }} tr5">
+  <text wx:if="{{ !item.i }}" class="jwqfont jwqwu tac"></text>
+  <image wx:else src="{{ item.i }}"></image>
+  <text class="mt10 {{ index == bottomIndex ? 'cff362c' : '' }}">{{ item.t }}</text>
+</view>
+</view>
+<!--底格 -e-->
 
-<!--<view class="cameraSe df p20">-->
-  <!--<image catchtap="_toggleMask" data-type="cameraMask" src="https://c.jiangwenqiang.com/lqsy/camera_share.png"></image>-->
-  <!--<navigator open-type="navigateBack"><image src="https://c.jiangwenqiang.com/lqsy/camera_back.png"></image></navigator>-->
-<!--</view>-->
+<view class="cameraSe df p20">
+  <image catchtap="_toggleMask" data-type="cameraMask" src="https://c.jiangwenqiang.com/lqsy/camera_share.png"></image>
+  <navigator open-type="navigateBack"><image src="https://c.jiangwenqiang.com/lqsy/camera_back.png"></image></navigator>
+</view>
 
 <!--分享 -s-->
 <view class="mask cameraMask o0 {{ cameraMaskAnimate ? 'o1' : '' }} tr5">
@@ -67,15 +67,15 @@
 </view>
 <!--分享 -e-->
 
-<view bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ options.type != 1 }}" style="width: {{  systemWidth}}px; height: {{ backImageHeight }}px;"  class="bgfff pr">
-  <image class="pa" style="width: {{ systemWidth }}px; height: {{ backImageHeight }}px;top:0;left:0;z-index: 10" src="{{ backImageInfo.path }}"></image>
-  <image style="width: {{ chooseImageInfo.width }}px; height: {{ chooseImageInfo.height }}px; transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}px; left: {{ moveX }}px;"  class="pa" src="{{ chooseImageInfo.path }}"></image>
-</view>
-        <!--transform-origin:(0,0);-->
-<view catchtap="canvasDraw" class="lh80">save</view>
-<canvas style="width: {{ systemWidth }}px; height: {{ backImageHeight }}px" class="cameraCanvas" canvas-id="cOne"></canvas>
+<!--<view bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ options.type != 1 }}" style="width: {{  systemWidth}}px; height: {{ backImageHeight }}px;"  class="bgfff pr">-->
+  <!--<image class="pa" style="width: {{ systemWidth }}px; height: {{ backImageHeight }}px;top:0;left:0;z-index: 10" src="{{ backImageInfo.path }}"></image>-->
+  <!--<image style="width: {{ chooseImageInfo.width }}px; height: {{ chooseImageInfo.height }}px; transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}px; left: {{ moveX }}px;"  class="pa" src="{{ chooseImageInfo.path }}"></image>-->
+<!--</view>-->
+        <!--&lt;!&ndash;transform-origin:(0,0);&ndash;&gt;-->
+<!--<view catchtap="canvasDraw" class="lh80">save</view>-->
+<!--<canvas style="width: {{ systemWidth }}px; height: {{ backImageHeight }}px" class="cameraCanvas" canvas-id="cOne"></canvas>-->
 
-<image mode="widthFix" class="w100" src="{{ temp }}"></image>
+<!--<image mode="widthFix" class="w100" src="{{ temp }}"></image>-->
 
 <view></view>
 <!--错误弹窗-->
