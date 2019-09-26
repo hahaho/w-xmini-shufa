@@ -122,3 +122,52 @@
     transform: translateX(5%);
   }
 }
+
+.commentScrollOut {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.closeComment {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  &:before, &:after {
+    content: '';
+    width: 20rpx;
+    height: 20rpx;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+  }
+  &:after {
+    left: 100%;
+  }
+}
+.commentScroll {
+  width: 100%;
+  min-height: 300rpx;
+  max-height: 1000rpx;
+  background: #fff;
+  padding: 10rpx;
+  box-sizing: border-box;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+}
+
+.commentImage {
+  flex-wrap: wrap;
+  image {
+    width: 100rpx;
+    height: 100rpx;
+    margin: 5rpx;
+  }
+}

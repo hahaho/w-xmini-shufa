@@ -240,9 +240,9 @@ Page({
    */
   onLoad: function onLoad(options) {
     // this.getImageInfo('https://c.jiangwenqiang.com/lqsy/canvas_bottom.jpg')
-    // this.setData({
-    //   options
-    // }, this.choosePhoto)
+    this.setData({
+      options: options
+    }, this.choosePhoto);
     // if (options.type > 1) {
     //   canvas = wx.createCanvasContext('cOne')
     // }

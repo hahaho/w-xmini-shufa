@@ -7,6 +7,7 @@ let moveXT = null
 let x = null
 let y = null
 let changeIndex = 0
+let canChoose = true
 // let beforeIndex = -1
 let tapTime = null
 // 创建页面实例对象
@@ -25,16 +26,59 @@ Page({
         rotate: 0
       },
       {
-          src: 'https://c.jiangwenqiang.com/lqsy/list1.png',
-          scale: 1,
-          rotate: 0
+        src: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+        scale: 1,
+        rotate: 0
       }
     ],
     canUseWidth: 100,
     canUseHeight: 100,
     centerX: 375 / 2,
     centerY: 150,
-    borderImg: 'https://c.jiangwenqiang.com/lqsy/canvas_border.jpg'
+    borderImg: 'https://c.jiangwenqiang.com/lqsy/canvas_border.jpg',
+    tabArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    tabIndex: null,
+    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    tabBorderIndex: -1,
+  },
+  _toggleMask (e) {
+    let type = e.currentTarget.dataset.type
+    let animate = type + 'Animate'
+    if (this.data[type]) {
+      this.setData({
+        [animate]: !this.data[animate]
+      })
+      setTimeout(() => {
+        this.setData({
+          [type]: !this.data[type]
+        })
+      }, 900)
+      return
+    }
+    this.setData({
+      [animate]: !this.data[animate],
+      [type]: !this.data[type]
+    })
+  },
+  chooseIndex (e) {
+    if (!canChoose) return
+    if (e.currentTarget.dataset.type === 'bgc') {
+      if (this.data.tabIndex === e.currentTarget.dataset.index) return
+      canChoose = false
+      this.setData({
+        tabIndex: e.currentTarget.dataset.index
+        // tabId: e.currentTarget.dataset.index
+      }, () => {
+        this.getBackImageInfo(`https://c.jiangwenqiang.com/lqsy/canvas_bottom_${e.currentTarget.dataset.index}.jpg`)
+      })
+    } else {
+      canChoose = false
+      this.setData({
+        tabBorderIndex: e.currentTarget.dataset.index
+      }, () => {
+        this.setBorder()
+      })
+    }
   },
   itemStart (e) {
     if (e.touches.length < 2) tapTime = e.timeStamp
@@ -50,21 +94,62 @@ Page({
     if (e.timeStamp - tapTime < 100) {
       tapTime = 0
       wx.showActionSheet({
-        itemList: ['替换图片', '删除图片'],
+        itemList: that.data.imgArr.length >= 2 ? ['替换图片', '垂直放置', '水平放置', '复位', '删除图片'] : ['替换图片', '垂直放置', '水平放置', '复位'],
         success (res) {
           if (res.tapIndex === 0) {
             wx.chooseImage({
               count: 1,
               success (img) {
-                console.log(img)
                 that.data.imgArr[changeIndex].src = img.tempFilePaths[0]
                 that.getItemImageInfo(changeIndex, true)
               }
             })
-          } else if (res.tapIndex === 1) {
+          } else if (res.tapIndex === 4) {
             that.data.imgArr.splice(changeIndex, 1)
             that.setData({
               imgArr: that.data.imgArr
+            })
+          } else if (res.tapIndex === 1) {
+            that.setData({
+              reload: true
+            })
+            that.setData({
+              [`imgArr[${changeIndex}].rotate`]: 0
+            }, () => {
+              setTimeout(() => {
+                that.setData({
+                  reload: false
+                })
+              }, 510)
+            })
+          } else if (res.tapIndex === 2) {
+            that.setData({
+              reload: true
+            })
+            that.setData({
+              [`imgArr[${changeIndex}].rotate`]: 90
+            }, () => {
+              setTimeout(() => {
+                that.setData({
+                  reload: false
+                })
+              }, 510)
+            })
+          } else if (res.tapIndex === 3) {
+            that.setData({
+              reload: true
+            })
+            that.setData({
+              [`imgArr[${changeIndex}].rotate`]: 0,
+              [`imgArr[${changeIndex}].scale`]: 1,
+              [`imgArr[${changeIndex}].left`]: that.data.centerX - that.data.imgArr[changeIndex].showWidth / 2,
+              [`imgArr[${changeIndex}].top`]: that.data.centerY - that.data.imgArr[changeIndex].showHeight / 2
+            }, () => {
+              setTimeout(() => {
+                that.setData({
+                  reload: false
+                })
+              }, 510)
             })
           }
         }
@@ -139,12 +224,37 @@ Page({
   getBackImageInfo (src) {
     let that = this
     wx.showLoading({
-      title: '加载图片中'
+      title: '加载底图中',
+      mask: true
     })
+    let storage = app.gs('canvasImgArr') || []
+    if (storage.length) {
+      for (let v of storage) {
+        if (src === v.src) {
+          that.setData({
+            backImageInfo: v.backImageInfo
+          }, that.getItemImageInfo(0))
+          return
+        }
+      }
+    }
     wx.getImageInfo({
       src,
       success (res) {
         wx.hideLoading()
+        storage.push(
+          {
+            src,
+            backImageInfo: {
+              oWidth: res.width,
+              oHeight: res.height,
+              path: res.path,
+              showWidth: app.data.system.windowWidth,
+              showHeight: app.data.system.windowWidth * res.height / res.width,
+              zIndex: 1
+            }
+          }
+        )
         that.setData({
           backImageInfo: {
             oWidth: res.width,
@@ -155,13 +265,15 @@ Page({
             zIndex: 1
           }
         }, that.getItemImageInfo(0))
+        app.su('canvasImgArr', storage)
       }
     })
   },
   getItemImageInfo (index, change = false) {
     let that = this
     wx.showLoading({
-      title: '加载图片中'
+      title: '加载图片中',
+      mask: true
     })
     wx.getImageInfo({
       src: that.data.imgArr[index].src,
@@ -175,50 +287,16 @@ Page({
           [`imgArr[${index}].path`]: res.path,
           [`imgArr[${index}].left`]: that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.centerX - (res.width > that.data.canUseWidth ? that.data.canUseWidth : that.data.backImageInfo.showWidth ? res.width : that.data.backImageInfo.showWidth) / 2,
           [`imgArr[${index}].top`]: that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.centerY - (res.width > that.data.canUseWidth ? that.data.canUseWidth * res.height / res.width : that.data.backImageInfo.showWidth ? res.height : that.data.backImageInfo.showWidth * res.height / res.width) / 2,
-          [`imgArr[${index}].zIndex`]: index + 1
+          [`imgArr[${index}].zIndex`]: index + 1,
+          [`imgArr[${index}].rotate`]: 0
         }, () => {
+          canChoose = true
           change ? '' : index >= that.data.imgArr.length - 1 ? '' : that.getItemImageInfo(index + 1)
         })
       }
     })
   },
   // canvas 绘图
-  canvasDrawUp () {
-    let ctx = wx.createCanvasContext('outPic', this)
-    let that = this
-    ctx.setFillStyle('white')
-    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth, that.data.backImageInfo.showHeight)
-    for (let v of that.data.imgArr) {
-      ctx.save()
-      ctx.translate(v.left + v.showWidth / 2, v.top + v.showHeight / 2)
-      ctx.rotate(v.rotate * Math.PI / 180)
-      ctx.drawImage(v.path, -(v.showWidth * v.scale) / 2, -(v.showHeight * v.scale) / 2, v.showWidth * v.scale, v.showHeight * v.scale)
-      ctx.restore()
-    }
-    ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth, that.data.backImageInfo.showHeight)
-    ctx.draw()
-    setTimeout(() => {
-      this.outImage()
-    }, 300)
-  },
-  canvasDrawDown () {
-    let ctx = wx.createCanvasContext('outPic', this)
-    let that = this
-    ctx.setFillStyle('white')
-    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth, that.data.backImageInfo.showHeight)
-    ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth, that.data.backImageInfo.showHeight)
-    for (let v of that.data.imgArr) {
-      ctx.save()
-      ctx.translate(v.left + v.showWidth / 2, v.top + v.showHeight / 2)
-      ctx.rotate(v.rotate * Math.PI / 180)
-      ctx.drawImage(v.path, -(v.showWidth * v.scale) / 2, -(v.showHeight * v.scale) / 2, v.showWidth * v.scale, v.showHeight * v.scale)
-      ctx.restore()
-    }
-    ctx.draw()
-    setTimeout(() => {
-      this.outImage()
-    }, 300)
-  },
   canvasDraw () {
     wx.showLoading({
       title: '疯狂生成中',
@@ -237,25 +315,25 @@ Page({
       ctx.rotate(v.rotate * Math.PI / 180)
       ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
       if (v.border) {
-          // 左上角
-          ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale)
-          ctx.rotate(45 * Math.PI / 180)
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
-          ctx.rotate(-45 * Math.PI / 180)
-          ctx.translate(v.showWidth * 2 * v.scale, 0)
-          ctx.rotate(135 * Math.PI / 180)
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
-          ctx.rotate(-135 * Math.PI / 180)
-          ctx.translate(0, v.showHeight * 2 * v.scale)
-          ctx.rotate(225 * Math.PI / 180)
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
-          ctx.rotate(-225 * Math.PI / 180)
-          ctx.translate(-v.showWidth * 2 * v.scale, 0)
-          ctx.rotate(315 * Math.PI / 180)
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
-          ctx.rotate(-315 * Math.PI / 180)
-          ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale)
-          ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
+        // 左上角
+        ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale)
+        ctx.rotate(45 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-45 * Math.PI / 180)
+        ctx.translate(v.showWidth * 2 * v.scale, 0)
+        ctx.rotate(135 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-135 * Math.PI / 180)
+        ctx.translate(0, v.showHeight * 2 * v.scale)
+        ctx.rotate(225 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-225 * Math.PI / 180)
+        ctx.translate(-v.showWidth * 2 * v.scale, 0)
+        ctx.rotate(315 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-315 * Math.PI / 180)
+        ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale)
+        ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
       }
       ctx.restore()
     }
@@ -269,39 +347,6 @@ Page({
     }, 300)
   },
 
-  outImage () {
-    let that = this
-    wx.canvasToTempFilePath({
-      x: 0,
-      y: 0,
-      width: that.data.backImageInfo.showWidth,
-      height: that.data.backImageInfo.showHeight,
-      destWidth: that.data.backImageInfo.showWidth,
-      destHeight: that.data.backImageInfo.showHeight,
-      canvasId: 'outPic',
-      success: res => {
-        if (res.errMsg === 'canvasToTempFilePath:ok') {
-          that.setData({
-            showImgSrc: res.tempFilePath
-          })
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success () {
-              wx.showToast({
-                title: '保存成功'
-              })
-            },
-            fail () {
-              // app.setToast(that, {content: '请授权相册保存'})
-              // that.setData({
-              //   buttonShow: true
-              // })
-            }
-          })
-        }
-      }
-    })
-  },
   outImageDouble () {
     let that = this
     wx.canvasToTempFilePath({
@@ -318,20 +363,20 @@ Page({
             showImgSrc: res.tempFilePath
           })
           wx.hideLoading()
-          // wx.saveImageToPhotosAlbum({
-          //   filePath: res.tempFilePath,
-          //   success () {
-          //     wx.showToast({
-          //       title: '图片已存入相册'
-          //     })
-          //   },
-          //   fail () {
-          //     // app.setToast(that, {content: '请授权相册保存'})
-          //     // that.setData({
-          //     //   buttonShow: true
-          //     // })
-          //   }
-          // })
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success () {
+              wx.showToast({
+                title: '图片已存入相册'
+              })
+            },
+            fail () {
+              // app.setToast(that, {content: '请授权相册保存'})
+              // that.setData({
+              //   buttonShow: true
+              // })
+            }
+          })
         }
       }
     })
@@ -340,13 +385,20 @@ Page({
     app.showImg(this.data.showImgSrc, [this.data.showImgSrc])
   },
   setBorder () {
+    if (this.data.tabBorderIndex < 0) {
+      this.setData({
+        [`imgArr[${changeIndex}].border`]: null
+      })
+      canChoose = true
+      return
+    }
     let that = this
     wx.showLoading({
       title: '加载边框中',
       mask: true
     })
     wx.getImageInfo({
-      src: that.data.borderImg,
+      src: `https://c.jiangwenqiang.com/lqsy/canvas_border_${that.data.tabBorderIndex}.jpg`,
       success (res) {
         wx.hideLoading()
         that.setData({
@@ -355,14 +407,23 @@ Page({
             path: res.path
           }
         })
+        canChoose = true
       }
     })
   },
+  onShareAppMessage () {},
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    this.getBackImageInfo('https://c.jiangwenqiang.com/lqsy/canvas_bottom_2.jpg')
+    this.chooseIndex({
+      currentTarget: {
+        dataset: {
+          index: 0,
+          type: 'bgc'
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -388,6 +449,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload () {
+    app.su('canvasImgArr', [])
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
   },

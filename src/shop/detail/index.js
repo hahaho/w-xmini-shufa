@@ -48,6 +48,11 @@ Page({
       showShare: !this.data.showShare
     })
   },
+  _showComment () {
+    this.setData({
+      showComment: !this.data.showComment
+    })
+  },
   _toggleSpec () {
     this.setData({
       showSpec: !this.data.showSpec

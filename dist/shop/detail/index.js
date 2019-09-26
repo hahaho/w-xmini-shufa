@@ -50,6 +50,11 @@ Page({
       showShare: !this.data.showShare
     });
   },
+  _showComment: function _showComment() {
+    this.setData({
+      showComment: !this.data.showComment
+    });
+  },
   _toggleSpec: function _toggleSpec() {
     this.setData({
       showSpec: !this.data.showSpec

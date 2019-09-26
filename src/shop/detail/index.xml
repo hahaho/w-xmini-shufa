@@ -33,7 +33,7 @@
 <!--商品标题 -e-->
 <!--评论 -s-->
 <view class="p30 bgfff mt20">
-  <view class="f21 df dfb">
+  <view catchtap="_showComment" class="f21 df dfb">
     <text>宝贝评价(100)</text>
     <text class="arrow">查看全部</text>
   </view>
@@ -117,6 +117,24 @@
   </view>
 </view>
 <!--规格选择 -e-->
-
+<!--展示评论 -s-->
+<view class="mask" wx:if="{{ showComment }}">
+  <view class="commentScrollOut">
+    <view catchtap="_showComment" class="tac f30 bgfff c323232 p20 closeComment">关闭</view>
+    <scroll-view class="commentScroll" scroll-y="1">
+      <view wx:for="{{20}}" wx:key="*78" class="commentItem mt20">
+        <view class="f21 c787878 df dfac">
+          <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+          <text class="ml20">cm厘米</text>
+        </view>
+        <view class="f22 c323232 mt10 ell3">adfasdfjhasdfhksadhfjgoaghsgf</view>
+        <view class="commentImage df">
+          <image wx:for="{{ 10 }}" wx:key="*77" mode="asppectFill" src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<!--展示评论 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
