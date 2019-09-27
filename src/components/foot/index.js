@@ -11,7 +11,6 @@ Component({
     // bgc: '#f00'
   },
   ready () {
-    // let that = this
     if ((new Date().getTime() - (app.gs('openTime') || 0)) >= 86400000) {
       this.getNav()
     } else {
