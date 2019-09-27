@@ -35,23 +35,23 @@
   </swiper-item>
 </swiper>
 <!--轮播图 -e-->
-<view wx:if="{{ !main }}" class="bd1 p20 f25 c323232">栏目简介</view>
+<view wx:if="{{ main }}" class="bd1 p20 f25 c323232">栏目简介</view>
 
 <!--课程列表 -s-->
-<view wx:if="{{ !main }}" class="teachingList">
+<view wx:if="{{ main }}" class="teachingList">
   <navigator url="../detail/index?id=123" class="tlItem bd1" wx:for="12312312" wx:key="*11">
-    <view class="tliTop pr">
+    <view class="tliTop pr tac">
       <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
       <view class="playIcon pa cfff"></view>
     </view>
     <view class="f25 c323232 tliTil">书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖书法必修课：临帖</view>
     <view class="c787878 f19 tliTil">17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···17节课，教你系统掌···</view>
-    <view class="c787878 f19">已更新150期 | 1.25w人已学</view>
+    <view class="c787878 f16">已更新150期 | 1.25w人已学</view>
   </navigator>
 </view>
 <!--课程列表 -e-->
 <!--课程列表 -s-->
-<navigator wx:if="{{ main }}" url="../detail/index?id=123" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
+<navigator wx:if="{{ !main }}" url="../detail/index?id=123" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
   <view class="tliTop pr">
     <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
     <view class="playIcon pa cfff"></view>
@@ -66,8 +66,6 @@
   </view>
 </navigator>
 <!--课程列表 -e-->
-
+<jwqfoot wx:if="{{ main }}"></jwqfoot>
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

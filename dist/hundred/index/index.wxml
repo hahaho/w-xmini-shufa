@@ -75,7 +75,7 @@
 </view>
 <!--列表 -e-->
 <jwqnav url="/commonPage/talk/index?type=talk">
-  <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk.png"></image>
+  <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk{{ options.from == 'main' ? 2 : '' }}.png"></image>
 </jwqnav>
 <!--分享方式选择 -s-->
 <view class="mask" wx:if="{{ showShare }}">
@@ -88,7 +88,6 @@
 </view>
 </view>
 <!--分享方式选择 -e-->
+<jwqfoot wx:if="{{ options.from == 'main' }}"></jwqfoot>
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

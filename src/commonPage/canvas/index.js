@@ -39,7 +39,7 @@ Page({
     tabArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
     tabIndex: null,
     tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
-    tabBorderIndex: -1,
+    tabBorderIndex: -1
   },
   _toggleMask (e) {
     let type = e.currentTarget.dataset.type

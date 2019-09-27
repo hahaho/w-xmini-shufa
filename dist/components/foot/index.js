@@ -8,71 +8,91 @@ Component({
   properties: {},
   observers: {},
   data: {
-    fix: app.data.fix
+    fix: app.data.fix,
+    shop: false
     // bgc: '#f00'
   },
   ready: function ready() {
-    var that = this;
-    if (!app.gs('footArr')) {
-      app.wxrequest({
-        url: 'https://teach.idwenshi.com/teaching/public/index.php/home/page',
-        data: {
-          style: 1
-        }
-      }).then(function (res) {
-        var current = getCurrentPages()[getCurrentPages().length - 1];
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var v = _step.value;
-
-            v['active'] = false;
-            if (v.url.indexOf(current) >= 0) {
-              v['active'] = true;
-            }
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        app.su('footArr', res);
-        that.setData({
-          footArr: res
-        });
-      });
+    // let that = this
+    if (new Date().getTime() - (app.gs('openTime') || 0) >= 86400000) {
+      this.getNav();
     } else {
-      this.setData({
-        footArr: app.gs('footArr')
-      });
+      this.setFootArr();
     }
   },
 
   methods: {
     footOp: function footOp(e) {
       if (this.data.footArr[e.currentTarget.dataset.index]['active']) return;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.data.footArr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v['active'] = false;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      this.data.footArr[e.currentTarget.dataset.index]['active'] = true;
+      this.setData({
+        footArr: this.data.footArr
+      });
+      app.su(this.data.shop ? 'shop_nav' : 'main_nav', this.data.footArr);
+      wx.reLaunch({
+        url: this.data.footArr[e.currentTarget.dataset.index].url
+        // url: '/shop/index/index'
+      });
+    },
+    getNav: function getNav() {
+      var that = this;
+      app.wxrequest({
+        method: 'GET',
+        url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+      }).then(function (res) {
+        app.su('openTime', new Date().getTime());
+        app.su('main_nav', res.main_nav);
+        app.su('shop_nav', res.shop_nav);
+        that.setFootArr();
+      });
+    },
+    checkIndex: function checkIndex() {
+      var arr = [];
+      var current = getCurrentPages()[getCurrentPages().length - 1].route;
+      if (current.indexOf('shop') >= 0) {
+        // 商城
+        arr = app.gs('shop_nav');
+        this.data.shop = true;
+      } else {
+        arr = app.gs('main_nav');
+        this.data.shop = false;
+      }
+      // ? arr = app.gs('shop_nav') : arr = app.gs('main_nav')
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator2 = this.data.footArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (var _iterator2 = arr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var v = _step2.value;
 
           v['active'] = false;
+          v.url.indexOf(current) >= 0 ? v['active'] = true : '';
         }
       } catch (err) {
         _didIteratorError2 = true;
@@ -89,15 +109,10 @@ Component({
         }
       }
 
-      this.data.footArr[e.currentTarget.dataset.index]['active'] = true;
-      this.setData({
-        footArr: this.data.footArr
-      });
-      app.su('footArr', this.data.footArr);
-      wx.reLaunch({
-        // url: this.data.footArr[e.currentTarget.dataset.index].url
-        url: '/shop/index/index'
-      });
+      return arr;
+    },
+    setFootArr: function setFootArr() {
+      this.setData({ footArr: this.checkIndex() });
     }
   }
 });

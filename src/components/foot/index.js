@@ -6,35 +6,16 @@ Component({
   properties: {},
   observers: {},
   data: {
-    fix: app.data.fix
+    fix: app.data.fix,
+    shop: false
     // bgc: '#f00'
   },
   ready () {
-    let that = this
-    if (!app.gs('footArr')) {
-      app.wxrequest({
-        url: 'https://teach.idwenshi.com/teaching/public/index.php/home/page',
-        data: {
-          style: 1
-        }
-      })
-        .then(res => {
-          let current = getCurrentPages()[getCurrentPages().length - 1]
-          for (let v of res) {
-            v['active'] = false
-            if (v.url.indexOf(current) >= 0) {
-              v['active'] = true
-            }
-          }
-          app.su('footArr', res)
-          that.setData({
-            footArr: res
-          })
-        })
+    // let that = this
+    if ((new Date().getTime() - (app.gs('openTime') || 0)) >= 86400000) {
+      this.getNav()
     } else {
-      this.setData({
-        footArr: app.gs('footArr')
-      })
+      this.setFootArr()
     }
   },
   methods: {
@@ -47,11 +28,44 @@ Component({
       this.setData({
         footArr: this.data.footArr
       })
-      app.su('footArr', this.data.footArr)
+      app.su(this.data.shop ? 'shop_nav' : 'main_nav', this.data.footArr)
       wx.reLaunch({
-        // url: this.data.footArr[e.currentTarget.dataset.index].url
-        url: '/shop/index/index'
+        url: this.data.footArr[e.currentTarget.dataset.index].url
+        // url: '/shop/index/index'
       })
+    },
+    getNav () {
+      let that = this
+      app.wxrequest({
+        method: 'GET',
+        url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+      })
+        .then(res => {
+          app.su('openTime', new Date().getTime())
+          app.su('main_nav', res.main_nav)
+          app.su('shop_nav', res.shop_nav)
+          that.setFootArr()
+        })
+    },
+    checkIndex () {
+      let arr = []
+      let current = getCurrentPages()[getCurrentPages().length - 1].route
+      if (current.indexOf('shop') >= 0) { // 商城
+        arr = app.gs('shop_nav')
+        this.data.shop = true
+      } else {
+        arr = app.gs('main_nav')
+        this.data.shop = false
+      }
+       // ? arr = app.gs('shop_nav') : arr = app.gs('main_nav')
+      for (let v of arr) {
+        v['active'] = false
+        v.url.indexOf(current) >= 0 ? v['active'] = true : ''
+      }
+      return arr
+    },
+    setFootArr () {
+      this.setData({footArr: this.checkIndex()})
     }
   }
 })
