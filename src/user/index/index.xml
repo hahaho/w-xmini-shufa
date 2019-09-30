@@ -29,9 +29,9 @@
 </view>
 <!--导航 -e-->
 <!--操作 -s-->
-<navigator url="{{ item.url }}" wx:for="{{ op }}" wx:key="*21" class="arrow p2030 f25 bgfff bd1 jwqfont {{ item.i }}" style="color: {{ item.c }};">　<text class="c323232">{{ item.t }}</text></navigator>
+<navigator url="{{ item.url }}" wx:for="{{ op }}" wx:key="*21" class="arrow p2030 f25 bgfff df bd1 jwqfont {{ item.i }}" style="color: {{ item.c }};">　<text class="c323232　ml10">{{ item.t }}</text></navigator>
 <button open-type="contact">
-  <view class="arrow p2030 f25 bgfff jwqfont df jwqqunfengkefujingli" style="color: #31cf2d;">　<text class="c323232">联系客服</text></view>
+  <view class="arrow p2030 f25 bgfff jwqfont df jwqqunfengkefujingli" style="color: #31cf2d;"><text class="c323232 ml10">　联系客服</text></view>
 </button>
 <!--操作 -e-->
 <navigator url="../login/index" class="f29 fw7 tac br10 bgfff login">退出登陆</navigator>

@@ -39,15 +39,13 @@
         class="snItem tr5 f21 ell1 {{ secondIndex == index ? 'active' : '' }}">田英章硬笔楷书7000</view>
 </view>
 <!--二级类别 -e-->
-        <!--名师列表 -s-->
+<!--名师列表 -s-->
 <view class="teacherList">
   <navigator url="/camera/detail/index?id=123" class="listItem bd1 mt20" wx:for="123445" wx:key="*1">
     <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
     <text>一{{index}}</text>
   </navigator>
 </view>
-        <!--名师列表 -e-->
+<!--名师列表 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

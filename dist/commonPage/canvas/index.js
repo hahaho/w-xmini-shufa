@@ -14,6 +14,7 @@ var changeIndex = 0;
 var canChoose = true;
 // let beforeIndex = -1
 var tapTime = null;
+var chooseArea = {};
 // 创建页面实例对象
 Page({
   /**
@@ -27,20 +28,51 @@ Page({
       src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png',
       scale: 1,
       rotate: 0
-    }, {
-      src: 'https://c.jiangwenqiang.com/lqsy/list1.png',
-      scale: 1,
-      rotate: 0
     }],
     canUseWidth: 100,
     canUseHeight: 100,
-    centerX: 375 / 2,
-    centerY: 150,
+    positionLeft: 250,
+    positionTop: 150,
+    positionLeftShow: 0,
+    positionTopShow: 0,
     borderImg: 'https://c.jiangwenqiang.com/lqsy/canvas_border.jpg',
-    tabArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    tabArr: [{
+      src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      oX: 750 / 2 - 100,
+      oY: 750 / 2 - 175,
+      oW: 200,
+      oH: 250
+    }, {
+      src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      oX: 150,
+      oY: 100,
+      oW: 200,
+      oH: 200
+    }, {
+      src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      oX: 100,
+      oY: 150,
+      oW: 200,
+      oH: 200
+    }, {
+      src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      oX: 200,
+      oY: 200,
+      oW: 200,
+      oH: 200
+    }],
     tabIndex: null,
     tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
-    tabBorderIndex: -1
+    tabBorderIndex: -1,
+    chooseAreaInfo: {
+      path: 'https://c.jiangwenqiang.com/api/logo.jpg',
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 100,
+      imgW: 375,
+      imgH: 375
+    }
   },
   _toggleMask: function _toggleMask(e) {
     var _this = this,
@@ -93,17 +125,16 @@ Page({
     if (e.timeStamp - tapTime < 100) {
       tapTime = 0;
       wx.showActionSheet({
-        itemList: that.data.imgArr.length >= 2 ? ['替换图片', '垂直放置', '水平放置', '复位', '删除图片'] : ['替换图片', '垂直放置', '水平放置', '复位'],
+        itemList: that.data.imgArr.length >= 2 ? ['替换图片', '垂直放置', '水平放置', '复位', '裁切图片', '删除图片'] : ['替换图片', '垂直放置', '水平放置', '复位', '裁切图片'],
         success: function success(res) {
           if (res.tapIndex === 0) {
             wx.chooseImage({
               count: 1,
               success: function success(img) {
-                that.data.imgArr[changeIndex].src = img.tempFilePaths[0];
-                that.getItemImageInfo(changeIndex, true);
+                that.fixImg(img.tempFilePaths[0]);
               }
             });
-          } else if (res.tapIndex === 4) {
+          } else if (res.tapIndex === 5) {
             that.data.imgArr.splice(changeIndex, 1);
             that.setData({
               imgArr: that.data.imgArr
@@ -117,7 +148,7 @@ Page({
                 that.setData({
                   reload: false
                 });
-              }, 510);
+              }, 530);
             });
           } else if (res.tapIndex === 2) {
             that.setData({
@@ -128,7 +159,7 @@ Page({
                 that.setData({
                   reload: false
                 });
-              }, 510);
+              }, 530);
             });
           } else if (res.tapIndex === 3) {
             var _that$setData3;
@@ -136,13 +167,15 @@ Page({
             that.setData({
               reload: true
             });
-            that.setData((_that$setData3 = {}, _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].rotate', 0), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].scale', 1), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].left', that.data.centerX - that.data.imgArr[changeIndex].showWidth / 2), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].top', that.data.centerY - that.data.imgArr[changeIndex].showHeight / 2), _that$setData3), function () {
+            that.setData((_that$setData3 = {}, _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].rotate', 0), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].scale', 1), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].left', that.data.backImageInfo.sX), _defineProperty(_that$setData3, 'imgArr[' + changeIndex + '].top', that.data.backImageInfo.sY), _that$setData3), function () {
               setTimeout(function () {
                 that.setData({
                   reload: false
                 });
-              }, 510);
+              }, 530);
             });
+          } else if (res.tapIndex === 4) {
+            that.fixImg(that.data.imgArr[changeIndex].path);
           }
         }
       });
@@ -252,26 +285,21 @@ Page({
       src: src,
       success: function success(res) {
         wx.hideLoading();
-        storage.push({
-          src: src,
-          backImageInfo: {
-            oWidth: res.width,
-            oHeight: res.height,
-            path: res.path,
-            showWidth: app.data.system.windowWidth,
-            showHeight: app.data.system.windowWidth * res.height / res.width,
-            zIndex: 1
-          }
-        });
+        var backImageInfo = {
+          oWidth: res.width,
+          oHeight: res.height,
+          path: res.path,
+          showWidth: app.data.system.windowWidth,
+          showHeight: app.data.system.windowWidth * res.height / res.width,
+          zIndex: 1,
+          sX: app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oX / res.width,
+          sY: app.data.system.windowWidth * res.height / res.width * that.data.tabArr[that.data.tabIndex].oY / res.height,
+          imgWidth: app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width,
+          imgHeight: that.data.tabArr[that.data.tabIndex].oH / that.data.tabArr[that.data.tabIndex].oW * (app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width)
+        };
+        storage.push({ src: src, backImageInfo: backImageInfo });
         that.setData({
-          backImageInfo: {
-            oWidth: res.width,
-            oHeight: res.height,
-            path: res.path,
-            showWidth: app.data.system.windowWidth,
-            showHeight: app.data.system.windowWidth * res.height / res.width,
-            zIndex: 1
-          }
+          backImageInfo: backImageInfo
         }, that.getItemImageInfo(0));
         app.su('canvasImgArr', storage);
       }
@@ -291,9 +319,35 @@ Page({
         var _that$setData4;
 
         wx.hideLoading();
-        that.setData((_that$setData4 = {}, _defineProperty(_that$setData4, 'imgArr[' + index + '].oWidth', res.width), _defineProperty(_that$setData4, 'imgArr[' + index + '].oHeight', res.height), _defineProperty(_that$setData4, 'imgArr[' + index + '].showWidth', res.width > that.data.canUseWidth ? that.data.canUseWidth : that.data.backImageInfo.showWidth ? res.width : that.data.backImageInfo.showWidth), _defineProperty(_that$setData4, 'imgArr[' + index + '].showHeight', res.width > that.data.canUseWidth ? that.data.canUseWidth * res.height / res.width : that.data.backImageInfo.showWidth ? res.height : that.data.backImageInfo.showWidth * res.height / res.width), _defineProperty(_that$setData4, 'imgArr[' + index + '].path', res.path), _defineProperty(_that$setData4, 'imgArr[' + index + '].left', that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.centerX - (res.width > that.data.canUseWidth ? that.data.canUseWidth : that.data.backImageInfo.showWidth ? res.width : that.data.backImageInfo.showWidth) / 2), _defineProperty(_that$setData4, 'imgArr[' + index + '].top', that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.centerY - (res.width > that.data.canUseWidth ? that.data.canUseWidth * res.height / res.width : that.data.backImageInfo.showWidth ? res.height : that.data.backImageInfo.showWidth * res.height / res.width) / 2), _defineProperty(_that$setData4, 'imgArr[' + index + '].zIndex', index + 1), _defineProperty(_that$setData4, 'imgArr[' + index + '].rotate', 0), _that$setData4), function () {
+        that.setData((_that$setData4 = {
+          cutImg: false
+        }, _defineProperty(_that$setData4, 'imgArr[' + index + '].oWidth', res.width), _defineProperty(_that$setData4, 'imgArr[' + index + '].oHeight', res.height), _defineProperty(_that$setData4, 'imgArr[' + index + '].showWidth', that.data.backImageInfo.imgWidth), _defineProperty(_that$setData4, 'imgArr[' + index + '].showHeight', that.data.backImageInfo.imgHeight), _defineProperty(_that$setData4, 'imgArr[' + index + '].path', res.path), _defineProperty(_that$setData4, 'imgArr[' + index + '].left', that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.backImageInfo.sX), _defineProperty(_that$setData4, 'imgArr[' + index + '].top', that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.backImageInfo.sY), _defineProperty(_that$setData4, 'imgArr[' + index + '].zIndex', index + 1), _defineProperty(_that$setData4, 'imgArr[' + index + '].rotate', 0), _that$setData4), function () {
           canChoose = true;
           change ? '' : index >= that.data.imgArr.length - 1 ? '' : that.getItemImageInfo(index + 1);
+        });
+      }
+    });
+  },
+  fixImg: function fixImg(src) {
+    var that = this;
+    wx.showLoading({
+      title: '获取图片信息'
+    });
+    wx.getImageInfo({
+      src: src,
+      success: function success(res) {
+        wx.hideLoading();
+        that.setData({
+          chooseAreaInfo: {
+            path: res.path,
+            x: that.data.backImageInfo.sX,
+            y: that.data.backImageInfo.sY,
+            w: that.data.backImageInfo.imgWidth,
+            h: that.data.backImageInfo.imgHeight,
+            imgW: that.data.backImageInfo.showWidth,
+            imgH: res.height * that.data.backImageInfo.showWidth / res.width
+          },
+          cutImg: true
         });
       }
     });
@@ -372,6 +426,36 @@ Page({
       _this3.outImageDouble();
     }, 300);
   },
+
+  // canvas 裁切图片
+  canvasCut: function canvasCut() {
+    wx.showLoading({
+      title: '图片裁切中',
+      mask: true
+    });
+    var ctx = wx.createCanvasContext('outPic', this);
+    var that = this;
+    ctx.clearRect(0, 0, that.data.chooseAreaInfo.imgW * 2, that.data.chooseAreaInfo.imgH * 2);
+    ctx.drawImage(that.data.chooseAreaInfo.path, 0, 0, that.data.chooseAreaInfo.imgW * 2, that.data.chooseAreaInfo.imgH * 2);
+    ctx.draw();
+    setTimeout(function () {
+      wx.canvasToTempFilePath({
+        x: that.data.chooseAreaInfo.x * 2,
+        y: that.data.chooseAreaInfo.y * 2,
+        width: that.data.chooseAreaInfo.w * 2,
+        height: that.data.chooseAreaInfo.h * 2,
+        destWidth: that.data.chooseAreaInfo.w * 2,
+        destHeight: that.data.chooseAreaInfo.h * 2,
+        canvasId: 'outPic',
+        success: function success(res) {
+          wx.hideLoading();
+          console.log(res.tempFilePath);
+          that.data.imgArr[changeIndex].src = res.tempFilePath;
+          that.getItemImageInfo(changeIndex, true);
+        }
+      });
+    }, 300);
+  },
   outImageDouble: function outImageDouble() {
     var that = this;
     wx.canvasToTempFilePath({
@@ -431,6 +515,31 @@ Page({
         canChoose = true;
       }
     });
+  },
+  chooseAreaStart: function chooseAreaStart(e) {
+    chooseArea.x = e.touches[0].pageX;
+    chooseArea.y = e.touches[0].pageY;
+    chooseArea.xx = this.data.chooseAreaInfo.x;
+    chooseArea.yy = this.data.chooseAreaInfo.y;
+    chooseArea.w = this.data.chooseAreaInfo.w;
+    chooseArea.h = this.data.chooseAreaInfo.h;
+  },
+  chooseAreaMove: function chooseAreaMove(e) {
+    var chooseAreaInfo = this.data.chooseAreaInfo;
+    if (e.currentTarget.dataset.type === 'img') {
+      var _setData6;
+
+      var _x2 = chooseArea.xx + (e.touches[0].pageX - chooseArea.x);
+      var _y = chooseArea.yy + (e.touches[0].pageY - chooseArea.y);
+      this.setData((_setData6 = {}, _defineProperty(_setData6, 'chooseAreaInfo.x', _x2 < 0 ? 0 : _x2 >= chooseAreaInfo.imgW - chooseAreaInfo.w ? chooseAreaInfo.imgW - chooseAreaInfo.w : _x2), _defineProperty(_setData6, 'chooseAreaInfo.y', _y < 0 ? 0 : _y >= chooseAreaInfo.imgH - chooseAreaInfo.h ? chooseAreaInfo.imgH - chooseAreaInfo.h : _y), _setData6));
+    } else if (e.currentTarget.dataset.type === 'point') {
+      var _setData7;
+
+      var width = chooseArea.w + (e.touches[0].pageX - chooseArea.x) < 10 ? 10 : chooseArea.w + (e.touches[0].pageX - chooseArea.x);
+      var height = chooseArea.h * width / chooseArea.w;
+      if (width > chooseAreaInfo.imgW || height > chooseAreaInfo.imgH) return;
+      this.setData((_setData7 = {}, _defineProperty(_setData7, 'chooseAreaInfo.w', width), _defineProperty(_setData7, 'chooseAreaInfo.h', height), _setData7));
+    }
   },
   onShareAppMessage: function onShareAppMessage() {},
 

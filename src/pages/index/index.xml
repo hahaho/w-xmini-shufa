@@ -17,8 +17,8 @@
 <view>
   <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/4.png"></image>
   <view class="navTab">
-    <navigator class="ntItem" url="/hundred/index/index?from=tabNav" wx:for="12345" wx:key="*this">
-      <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/nav_{{ index }}.png"></image>
+    <navigator class="ntItem" url="{{ item.url }}" wx:for="{{ nav }}" wx:key="*2">
+      <image mode="widthFix" src="{{ item.icon }}"></image>
     </navigator>
   </view>
 </view>

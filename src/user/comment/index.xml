@@ -38,7 +38,7 @@
         <text class="f22 c787878">默默茶</text>
         <text class="f25 c323232">个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名个性签名</text>
       </view>
-      <view class="tac f28 unfollow {{ index < 2 ? '' : 'follow' }}">{{ index < 2 ? '关注' : '互相关注' }}</view>
+      <view class="tac f28 unfollow {{ index < 2 ? '' : 'follow' }}">{{ follow ? '关注' : '互相关注' }}</view>
     </view>
   </view>
 </view>

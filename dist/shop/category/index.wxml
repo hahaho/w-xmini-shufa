@@ -4,7 +4,7 @@
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
-  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+  <view style="height: 40px; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
     <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
   </view>
@@ -18,7 +18,7 @@
     <view wx:key="*44" catchtap='_leftChoose' id="l{{ index }}" data-index="{{ index }}" class="f22 c323232 tac lh60 bd1 {{ cLeftIndex == index ? 'bgfff active' : '' }}" wx:for="{{ 50 }}">{{ item }}</view>
   </scroll-view>
   <view class="h100 flex1 df dfc crr">
-    <navigator url="/shop/goodsList/index?id=1" class="lh60 bgfff arrow w100">　</navigator>
+    <navigator url="/shop/goodsList/index?id=1" class="zw60 bgfff arrow w100"></navigator>
     <view class="cRight ">
       <navigator url="/shop/detail/index?id=1" class="goodsItem tac mt20" wx:for="123123123" wx:key="*42">
         <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>

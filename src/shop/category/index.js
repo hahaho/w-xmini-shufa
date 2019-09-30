@@ -11,7 +11,7 @@ Page({
       bgc: ''
     },
     capsules: app.data.capsule,
-    scrollHeight: wx.getSystemInfoSync().screenHeight - app.data.capsule.bottom - app.data.capsule.top / 2 - 128,
+    scrollHeight: wx.getSystemInfoSync().screenHeight - app.data.capsule.bottom - app.data.capsule.top / 2 - 105 - (app.data.fix ? 20 : 0),
     cLeftIndex: 0
   },
   upFormId (e) {

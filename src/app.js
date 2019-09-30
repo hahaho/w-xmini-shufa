@@ -641,7 +641,7 @@ App({
   },
   onLaunch () {
     // wx.removeStorageSync('shopBottomNav')
-    // wx.removeStorageSync('bottomNav')
+    wx.removeStorageSync('canvasImgArr')
     // this.getNavTab({})
     // this.getEnum()
     // setTimeout(() => {

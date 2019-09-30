@@ -20,6 +20,18 @@
     <image style="width: 100%; height: 100%; position:absolute; top: 0; left:0;" src="{{ item.path }}"></image>
   </view>
 </view>
+
+<view class="mask" wx:if="{{ cutImg }}">
+  <view class="pa mask-out" style="width: {{ chooseAreaInfo.imgW }}px; height: {{ chooseAreaInfo.imgH }}px; z-index: 90;">
+    <image src="{{ chooseAreaInfo.path }}" style="width: 100%; height: 100%;"></image>
+    <view catchtouchstart="chooseAreaStart" catchtouchmove="chooseAreaMove" data-type="img" class="pa chooseArea" style="width: {{ chooseAreaInfo.w }}px;height: {{ chooseAreaInfo.h }}px; top: {{ chooseAreaInfo.y || 0 }}px;left: {{ chooseAreaInfo.x || 0 }}px;">
+      <view catchtouchstart="chooseAreaStart" catchtouchmove="chooseAreaMove" data-type="point" class="tapPoint pa"></view>
+    </view>
+  </view>
+  <view catchtap="canvasCut" class="cut tac f30 c323232 pa">裁切图片</view>
+</view>
+
+
 <view class="tac lh80 cff362c br10 bgfff" catchtap="canvasDraw">保存图片</view>
 <!--<view class="tac lh80 cff362c br10 bgfff" catchtap="setBorder">setBorder</view>-->
 <canvas style="width: 1000px; height: 1000px; position: fixed; bottom: -200%;right:-200%;" canvas-id="outPic"></canvas>

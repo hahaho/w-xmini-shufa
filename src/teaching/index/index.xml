@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">书法教学</text>
+  <text class="cfff fw7">{{ main ? '视频' : '书法教学' }}</text>
 </jwqcapsule>
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
@@ -35,10 +35,10 @@
   </swiper-item>
 </swiper>
 <!--轮播图 -e-->
-<view wx:if="{{ main }}" class="bd1 p20 f25 c323232">栏目简介</view>
+<view wx:if="{{ !main }}" class="bd1 p20 f25 c323232">精品课程</view>
 
 <!--课程列表 -s-->
-<view wx:if="{{ main }}" class="teachingList">
+<view wx:if="{{ !main }}" class="teachingList">
   <navigator url="../detail/index?id=123" class="tlItem bd1" wx:for="12312312" wx:key="*11">
     <view class="tliTop pr tac">
       <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
@@ -51,7 +51,7 @@
 </view>
 <!--课程列表 -e-->
 <!--课程列表 -s-->
-<navigator wx:if="{{ !main }}" url="../detail/index?id=123" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
+<navigator wx:if="{{ main }}" url="../detail/index?id=123" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
   <view class="tliTop pr">
     <image mode="aspectFill" lazy-load="1" class="tlitImg" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
     <view class="playIcon pa cfff"></view>

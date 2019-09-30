@@ -1,6 +1,6 @@
 // 获取全局应用程序实例对象
 const app = getApp()
-const bmap = require('../../utils/bmap-wx')
+// const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({
   /**
@@ -53,25 +53,25 @@ Page({
       })
     }
   },
-  Bmap (that, site) {
-    let BMap = new bmap.BMapWX({
-      ak: 'RBTsmFCaerZ25VkuGhpSIZa5lyC36BcV'
-    })
-    BMap.regeocoding({
-      location: site || null,
-      success (res) {
-        that.setData({
-          addressInfo: res
-        })
-      },
-      fail (data) {
-        that.setData({
-          openType: 'openSetting'
-        })
-        console.log('fail', data)
-      }
-    })
-  },
+  // Bmap (that, site) {
+  //   let BMap = new bmap.BMapWX({
+  //     ak: 'RBTsmFCaerZ25VkuGhpSIZa5lyC36BcV'
+  //   })
+  //   BMap.regeocoding({
+  //     location: site || null,
+  //     success (res) {
+  //       that.setData({
+  //         addressInfo: res
+  //       })
+  //     },
+  //     fail (data) {
+  //       that.setData({
+  //         openType: 'openSetting'
+  //       })
+  //       console.log('fail', data)
+  //     }
+  //   })
+  // },
   getLocation () {
     let that = this
     wx.getLocation({
@@ -197,11 +197,22 @@ Page({
       }
     })
   },
+  getTopNav () {
+    let that = this
+    app.wxrequest({
+      method: 'GET',
+      url: 'https://c.jiangwenqiang.com/lqsy/index_tab.json'
+    }).then(res => {
+      that.setData({
+        nav: res.index_tab
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-
+    this.getTopNav()
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()
@@ -234,7 +245,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    app.toast()
+    // app.toast()
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

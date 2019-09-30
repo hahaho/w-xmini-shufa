@@ -20,7 +20,7 @@
   </swiper-item>
 </swiper>
 <!--轮播图 -e-->
-<view wx:if="{{ !showColumn }}" catchtap="_showColumn" class="bd1 p20 f25 c323232">栏目简介 <text class="angle">></text></view>
+<view wx:if="{{ !showColumn }}" catchtap="_showColumn" class="bd1 p20 f25 c323232 df dfb">栏目简介 <text class="angle">></text></view>
 <!--栏目详情 -s-->
 <view wx:if="{{ showColumn }}" class="p20 columnDetail f28 c3e3a39">
   <view catchtap="_showColumn" class="tac pr bd1 p200">栏目详情<text class="pa cdClose">X</text></view>
