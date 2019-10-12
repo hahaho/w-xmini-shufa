@@ -19,7 +19,7 @@
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">一级订单</view>
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? 'active' : '' }}">二级订单</view>
 </view>
-<view class="gift f21">您今日新增待收入帐¥0.00，购买会员10天后奖励到帐</view>
+<view class="gift f21">您今日新增待收入帐¥0.00，购买会员7天后奖励到帐</view>
 <!--等级 -e-->
 <!--成员 -s-->
 <view wx:for="123" wx:key="*27" class="df dfc dfb bgfff {{ index > 0 ? 'mt20' : '' }} pr">

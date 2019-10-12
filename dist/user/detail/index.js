@@ -11,9 +11,16 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    tab: ['全部收益', '今日收益', '已到帐', '待到账'],
-    tabIndex: 0,
-    capsules: app.data.capsule
+    // tab: [
+    //   '全部收益',
+    //   '今日收益',
+    //   '已到帐',
+    //   '待到账'
+    // ],
+    // tabIndex: 0,
+    // capsules: app.data.capsule,
+    tab: ['我的奖励', '我的提现'],
+    leftChoose: 0
   },
   _tnBChoose: function _tnBChoose(e) {
     this.setData({
@@ -31,13 +38,18 @@ Page({
       ruler: !this.data.ruler
     });
   },
+  _leftChoose: function _leftChoose(e) {
+    this.setData({
+      leftChoose: e.currentTarget.dataset.index
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
     this.setData({
-      tabIndex: options.type || 0
+      options: options
     });
   },
 

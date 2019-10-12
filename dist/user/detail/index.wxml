@@ -1,6 +1,13 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">余额明细</text>
 </jwqcapsule>
+
+<!--切换 -s-->
+<view wx:if="{{ options.type == 'shop' }}" class="df topNav bd1 f24 bgfff">
+  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="*61" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
+</view>
+<!--切换 -e-->
+
 <view wx:for="123" wx:key="*31" class="bd1 p30 bgfff">
   <view class="df dfb">
     <text class="f25 c323232">三星订单结算奖励 </text>

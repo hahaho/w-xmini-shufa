@@ -12,7 +12,7 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     tab: ['全部收益', '今日收益', '已到帐', '待到账'],
-    tabShop: ['已付款', '已收货', '已到账', '退款订单'],
+    tabShop: ['未到账', '已到账', '退款订单'],
     tabIndex: 0,
     capsules: app.data.capsule
   },

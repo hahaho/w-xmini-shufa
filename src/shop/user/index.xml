@@ -29,7 +29,7 @@
       <text class="c323232">待入帐</text>
       <text class="c646464">今日＋16.57元</text>
     </navigator>
-    <navigator url="/user/profit/index?from=shop&type=2" class="df dfc dfac flex1">
+    <navigator url="/user/profit/index?from=shop&type=1" class="df dfc dfac flex1">
       <text class="f29 cff362c">28.56元</text>
       <text class="c323232">累计入帐</text>
       <text class="c646464">今日＋0.00元</text>
