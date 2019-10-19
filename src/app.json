@@ -108,6 +108,9 @@
         "talk/index", // 说一说
         "camera/index",
         "canvas/index",
+        "canvas2/index",
+        "canvas2/step_one/index",
+        "canvas2/step_two/index",
         "literacy/index",
         "back/back"
       ]

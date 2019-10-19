@@ -28,8 +28,8 @@
   </view>
   <navigator hover-class="none" url="/user/tnext/index?id=123" wx:if="{{ !right }}" class="{{ options.type != 'shop' ? index > 0 ? 'arrow' : '' : '' }} tar c787878 nextTeam">
     <view wx:if="{{ options.type != 'shop' }}"><text wx:for="123" wx:key="*26" class="jwqfont jwqxingxing "></text></view>
-    <view wx:if="{{ options.type == 'shop' }}">二级 {{ index }}</view>
-    <text wx:if="{{ options.type != 'shop' }}">{{ index }}</text>
+    <view wx:if="{{ options.type == 'shop' }}">二级</view>
+    <!-- <text wx:if="{{ options.type != 'shop' }}">{{ index }}</text> -->
   </navigator>
 </view>
 <!--成员 -e-->

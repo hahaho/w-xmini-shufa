@@ -1,7 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-// const app = getApp()
+var app = getApp();
 // 创建页面实例对象
 Page({
   /**
@@ -10,48 +10,24 @@ Page({
   data: {
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    },
-    // tab: [
-    //   '全部收益',
-    //   '今日收益',
-    //   '已到帐',
-    //   '待到账'
-    // ],
-    // tabIndex: 0,
-    // capsules: app.data.capsule,
-    tab: ['我的奖励', '我的提现'],
-    leftChoose: 0
+    }
   },
-  _tnBChoose: function _tnBChoose(e) {
-    this.setData({
-      tabIndex: e.currentTarget.dataset.index
-    });
-  },
-  _tnChoose: function _tnChoose() {
-    this.setData({
-      right: !this.data.right
-    });
-  },
-  noUp: function noUp() {},
-  _toggleGift: function _toggleGift() {
-    this.setData({
-      ruler: !this.data.ruler
-    });
-  },
-  _leftChoose: function _leftChoose(e) {
-    this.setData({
-      leftChoose: e.currentTarget.dataset.index
+  typeChoose: function typeChoose() {
+    wx.chooseImage({
+      count: 1,
+      success: function success(res) {
+        app.data['chooseImage'] = res.tempFilePaths[0];
+        wx.navigateTo({
+          url: '/commonPage/canvas2/step_two/index'
+        });
+      }
     });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad(options) {
-    this.setData({
-      options: options
-    });
-  },
+  onLoad: function onLoad() {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -82,13 +58,6 @@ Page({
   onUnload: function onUnload() {
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
-  },
-  onShareAppMessage: function onShareAppMessage() {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
   },
 
   /**

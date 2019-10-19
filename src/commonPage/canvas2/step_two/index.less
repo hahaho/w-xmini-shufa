@@ -1,0 +1,40 @@
+page {
+  background: #000;
+  transform: translate3d(0, 0, 0);
+  height: 100%;
+}
+.cutArea {
+  background: linear-gradient(90deg,rgba(200,0,0, 0) 1px,transparent 0, transparent 50%),
+  linear-gradient(rgba(200,0,0,0) 1px,transparent 0, transparent 50%);
+  background-size: 33% 33%, 33% 33%;
+  &.cutMove {
+    background: linear-gradient(90deg,rgba(200,0,0,.5) 1px,transparent 0, transparent 50%),
+    linear-gradient(rgba(200,0,0,.5) 1px,transparent 0, transparent 50%);
+    background-size: 33% 33%, 33% 33%;
+  }
+  border: 2px solid #f00;
+  .dot {
+    position: absolute;
+    bottom: -25rpx;
+    right: -25rpx;
+    width: 50rpx;
+    height: 50rpx;
+    background: #ff0000;
+    border-radius: 50%;
+  }
+}
+
+.bottomOp {
+  position: fixed;
+  bottom: 30rpx;
+  left: 0;
+  width: 100%;
+  justify-content: space-around;
+  view {
+    padding: 20rpx 50rpx;
+    border-radius: 20rpx;
+    background: #3a3a3a;
+    color: #fff;
+    font-size: 28rpx;
+  }
+}

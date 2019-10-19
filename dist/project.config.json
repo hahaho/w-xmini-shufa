@@ -29,6 +29,8 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -46,7 +48,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 39,
 			"list": [
 				{
 					"id": 0,
@@ -318,6 +320,20 @@
 					"id": -1,
 					"name": "图片合成",
 					"pathName": "commonPage/canvas/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "装裱选择",
+					"pathName": "commonPage/canvas2/step_one/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "图片处理",
+					"pathName": "commonPage/canvas2/step_two/index",
 					"query": "",
 					"scene": null
 				}

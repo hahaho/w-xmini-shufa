@@ -1,0 +1,8 @@
+<image style="position: fixed; top: {{ img.y }}px; left: {{ img.x }}px; width: {{ img.width }}px;height: {{ img.height }}px;" src="{{ img.path }}"></image>
+<view catchtouchstart="chooseAreaStart" catchtouchend="chooseAreaEnd" catchtouchmove="chooseAreaMove" data-type="img" class="cutArea {{ cutAreaMove ? 'cutMove' : '' }}" style="position: fixed; top: {{ img.cutY}}px; left: {{ img.cutX }}px; width: {{ img.cutW }}px;height: {{ img.cutH }}px;">
+  <view catchtouchstart="chooseAreaStart" catchtouchend="chooseAreaEnd" catchtouchmove="chooseAreaMove" data-type="point" class="dot"></view>
+</view>
+<view class="bottomOp df">
+  <view class="tac" catchtap="go" data-type="back">取消</view>
+  <view class="tac" catchtap="go" data-type="next">下一步</view>
+</view>
