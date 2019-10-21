@@ -505,15 +505,14 @@ Page({
       src: `https://c.jiangwenqiang.com/lqsy/canvas_border_${that.data.tabBorderIndex}.jpg`,
       success (res) {
         wx.hideLoading()
-        let width = that.data.imgArr[changeIndex].showWidth > that.data.imgArr[changeIndex].showHeight ? that.data.imgArr[changeIndex].showHeight / 2 : that.data.imgArr[changeIndex].showWidth / 2
-        console.log(that.data.imgArr[changeIndex].showWidth / width)
-        console.log(that.data.imgArr[changeIndex].showHeight / width)
+        // let width = that.data.imgArr[changeIndex].showWidth > that.data.imgArr[changeIndex].showHeight ? that.data.imgArr[changeIndex].showHeight / 2 : that.data.imgArr[changeIndex].showWidth / 2
+        let width = 4
         that.setData({
           [`imgArr[${changeIndex}].border`]: {
             width,
             path: res.path,
-            x: Math.ceil(that.data.imgArr[changeIndex].showWidth / width) + 1,
-            y: Math.ceil(that.data.imgArr[changeIndex].showHeight / width) + 1
+            x: Math.floor(that.data.imgArr[changeIndex].showWidth / 2) - 1 || 1,
+            y: Math.floor(that.data.imgArr[changeIndex].showHeight / 2) || 1
           }
         })
         canChoose = true

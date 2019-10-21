@@ -41,7 +41,7 @@ Page({
       let cutX = chooseArea.xx + (e.touches[0].pageX - chooseArea.x)
       let cutY = chooseArea.yy + (e.touches[0].pageY - chooseArea.y)
       if (e.currentTarget.dataset.scroll === 'xy') {
-        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 80 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 80) return
         this.setData({
           [`img.cutX`]: cutX,
           [`img.cutY`]: cutY,
@@ -49,7 +49,7 @@ Page({
           [`img.cutW`]: chooseArea.w - (e.touches[0].pageX - chooseArea.x)
         })
       } else if (e.currentTarget.dataset.scroll === 'y') {
-        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || width < 30) return
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 80 || width < 80) return
         this.setData({
           [`img.cutY`]: cutY,
           [`img.cutH`]: chooseArea.h - (e.touches[0].pageY - chooseArea.y),
@@ -57,14 +57,14 @@ Page({
         })
         height = chooseArea.h - (e.touches[0].pageY - chooseArea.y)
       } else if (e.currentTarget.dataset.scroll === 'x') {
-        if (height < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return
+        if (height < 80 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 80) return
         this.setData({
           [`img.cutX`]: cutX,
           [`img.cutH`]: height,
           [`img.cutW`]: chooseArea.w - (e.touches[0].pageX - chooseArea.x)
         })
       } else {
-        if (height < 30 || width < 30) return
+        if (height < 80 || width < 80) return
         this.setData({
           [`img.cutH`]: height,
           [`img.cutW`]: width

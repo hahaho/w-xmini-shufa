@@ -46,23 +46,23 @@ Page({
       if (e.currentTarget.dataset.scroll === 'xy') {
         var _setData2;
 
-        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return;
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 80 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 80) return;
         this.setData((_setData2 = {}, _defineProperty(_setData2, 'img.cutX', cutX), _defineProperty(_setData2, 'img.cutY', cutY), _defineProperty(_setData2, 'img.cutH', chooseArea.h - (e.touches[0].pageY - chooseArea.y)), _defineProperty(_setData2, 'img.cutW', chooseArea.w - (e.touches[0].pageX - chooseArea.x)), _setData2));
       } else if (e.currentTarget.dataset.scroll === 'y') {
         var _setData3;
 
-        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || width < 30) return;
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 80 || width < 80) return;
         this.setData((_setData3 = {}, _defineProperty(_setData3, 'img.cutY', cutY), _defineProperty(_setData3, 'img.cutH', chooseArea.h - (e.touches[0].pageY - chooseArea.y)), _defineProperty(_setData3, 'img.cutW', width), _setData3));
         height = chooseArea.h - (e.touches[0].pageY - chooseArea.y);
       } else if (e.currentTarget.dataset.scroll === 'x') {
         var _setData4;
 
-        if (height < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return;
+        if (height < 80 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 80) return;
         this.setData((_setData4 = {}, _defineProperty(_setData4, 'img.cutX', cutX), _defineProperty(_setData4, 'img.cutH', height), _defineProperty(_setData4, 'img.cutW', chooseArea.w - (e.touches[0].pageX - chooseArea.x)), _setData4));
       } else {
         var _setData5;
 
-        if (height < 30 || width < 30) return;
+        if (height < 80 || width < 80) return;
         this.setData((_setData5 = {}, _defineProperty(_setData5, 'img.cutH', height), _defineProperty(_setData5, 'img.cutW', width), _setData5));
       }
     }
