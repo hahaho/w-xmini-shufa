@@ -2,16 +2,14 @@
   width: 100%;
   height: 100%;
 }
-
+page {
+  background: #404040;
+}
 .tab-scroll {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   padding: 10rpx;
   &.borderScroll {
     padding: 0;
-    background: #fff;
+    background: #404040;
     .tab-inside {
       padding: 10rpx;
     }
@@ -26,9 +24,12 @@
   flex-wrap: nowrap;
 }
 .tab-item {
-  flex: 0 0 20%;
+  flex: 1;
   text-align: center;
-  padding: 10rpx;
+  min-width: 92rpx;
+  min-height: 92rpx;
+  line-height: 92rpx;
+  //padding: 10rpx;
   background: #fff;
   margin-right: 10rpx;
   border: 2rpx solid #fff;
@@ -43,11 +44,6 @@
     position: absolute;
     bottom: 0;
     right: 0;
-  }
-  image {
-    width: 100rpx;
-    //height: 100rpx;
-    display: inline-block;
   }
 }
 .active {
@@ -116,4 +112,36 @@
   border-radius: 50rpx;
   padding: 20rpx 60rpx;
   z-index: 99;
+}
+
+.bottomOp {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  .typeImg {
+    width: 80rpx;
+    height: 80rpx;
+    display: inline-block;
+  }
+}
+.bottomOpType {
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.bottomOpSend {
+  background-color: #ff362c;
+}
+.sliderArea {
+  background: #404040;
+  align-items: center;
+  padding: 10rpx;
+  padding-bottom: 0;
+}
+.borderImg {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 10rpx;
+  display: flex;
 }

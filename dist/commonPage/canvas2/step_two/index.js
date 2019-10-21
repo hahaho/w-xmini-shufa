@@ -7,6 +7,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var app = getApp();
 var maxSize = app.data.system.windowWidth - 40; // left & right give gap 20
 var chooseArea = {};
+var x = null;
+var y = null;
+var start = null;
+var moveYT = null;
+var moveXT = null;
 Page({
   /**
    * 页面的初始数据
@@ -34,11 +39,32 @@ Page({
 
       this.setData((_setData = {}, _defineProperty(_setData, 'img.cutX', chooseArea.xx + (e.touches[0].pageX - chooseArea.x)), _defineProperty(_setData, 'img.cutY', chooseArea.yy + (e.touches[0].pageY - chooseArea.y)), _setData));
     } else if (e.currentTarget.dataset.type === 'point') {
-      var _setData2;
+      var width = chooseArea.w + (e.touches[0].pageX - chooseArea.x);
+      var height = chooseArea.h + (e.touches[0].pageY - chooseArea.y);
+      var cutX = chooseArea.xx + (e.touches[0].pageX - chooseArea.x);
+      var cutY = chooseArea.yy + (e.touches[0].pageY - chooseArea.y);
+      if (e.currentTarget.dataset.scroll === 'xy') {
+        var _setData2;
 
-      var width = chooseArea.w + (e.touches[0].pageX - chooseArea.x) < 30 ? 30 : chooseArea.w + (e.touches[0].pageX - chooseArea.x);
-      var height = chooseArea.h + (e.touches[0].pageY - chooseArea.y) < 30 ? 30 : chooseArea.h + (e.touches[0].pageY - chooseArea.y);
-      this.setData((_setData2 = {}, _defineProperty(_setData2, 'img.cutW', width), _defineProperty(_setData2, 'img.cutH', height), _setData2));
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return;
+        this.setData((_setData2 = {}, _defineProperty(_setData2, 'img.cutX', cutX), _defineProperty(_setData2, 'img.cutY', cutY), _defineProperty(_setData2, 'img.cutH', chooseArea.h - (e.touches[0].pageY - chooseArea.y)), _defineProperty(_setData2, 'img.cutW', chooseArea.w - (e.touches[0].pageX - chooseArea.x)), _setData2));
+      } else if (e.currentTarget.dataset.scroll === 'y') {
+        var _setData3;
+
+        if (chooseArea.h - (e.touches[0].pageY - chooseArea.y) < 30 || width < 30) return;
+        this.setData((_setData3 = {}, _defineProperty(_setData3, 'img.cutY', cutY), _defineProperty(_setData3, 'img.cutH', chooseArea.h - (e.touches[0].pageY - chooseArea.y)), _defineProperty(_setData3, 'img.cutW', width), _setData3));
+        height = chooseArea.h - (e.touches[0].pageY - chooseArea.y);
+      } else if (e.currentTarget.dataset.scroll === 'x') {
+        var _setData4;
+
+        if (height < 30 || chooseArea.w - (e.touches[0].pageX - chooseArea.x) < 30) return;
+        this.setData((_setData4 = {}, _defineProperty(_setData4, 'img.cutX', cutX), _defineProperty(_setData4, 'img.cutH', height), _defineProperty(_setData4, 'img.cutW', chooseArea.w - (e.touches[0].pageX - chooseArea.x)), _setData4));
+      } else {
+        var _setData5;
+
+        if (height < 30 || width < 30) return;
+        this.setData((_setData5 = {}, _defineProperty(_setData5, 'img.cutH', height), _defineProperty(_setData5, 'img.cutW', width), _setData5));
+      }
     }
   },
   chooseAreaEnd: function chooseAreaEnd() {
@@ -48,6 +74,9 @@ Page({
   },
   getImageInfo: function getImageInfo(src) {
     var that = this;
+    this.setData({
+      time: 0.5
+    });
     wx.getImageInfo({
       src: src,
       success: function success(res) {
@@ -62,6 +91,8 @@ Page({
           width: useWidth ? maxSize : maxSize * res.width / res.height,
           height: !useWidth ? maxSize : maxSize * res.height / res.width
         };
+        img.scale = 1;
+        img.rotate = 0;
         img.x = img.width < maxSize ? 20 + (maxSize - img.width) / 2 : 20;
         img.y = img.height < maxSize ? 20 + (maxSize - img.height) / 2 : 20;
         img.cutX = img.x - 2;
@@ -72,12 +103,113 @@ Page({
         img.cutOH = img.height + 4;
         that.setData({
           img: img
+        }, function () {
+          setTimeout(function () {
+            that.setData({
+              time: 0
+            });
+          }, 600);
         });
       }
     });
   },
   go: function go(e) {
-    if (e.currentTarget.dataset.type === 'back') wx.navigateBack();else {}
+    if (e.currentTarget.dataset.type === 'back') wx.navigateBack();else if (e.currentTarget.dataset.type === 'init') {
+      this.getImageInfo(this.data.img.path);
+    } else {
+      this.canvasDraw();
+    }
+  },
+  touchStart: function touchStart(e) {
+    // console.log(1)
+    start = e.touches;
+    if (e.touches.length <= 1) {
+      x = e.touches[0].pageX;
+      y = e.touches[0].pageY;
+      moveYT = this.data.img.y;
+      moveXT = this.data.img.x;
+    } else if (e.touches.length <= 2) {
+      start = e.touches;
+    } else {
+      app.toast({ content: '囧，小主人的手指太灵活了，无法识别呢，请双指或单指操作' });
+    }
+  },
+  touchMove: function touchMove(e) {
+    // console.log(2)
+    if (e.touches.length <= 1 && start.length <= 1) {
+      var _setData6;
+
+      // console.log(`3-single`)
+      this.setData((_setData6 = {}, _defineProperty(_setData6, 'img.x', moveXT + (e.touches[0].pageX - x)), _defineProperty(_setData6, 'img.y', moveYT + (e.touches[0].pageY - y)), _setData6));
+    } else if (e.touches.length <= 2) {
+      var _setData7;
+
+      if (start.length < 1) start = e.touches;
+      var now = e.touches;
+      var scale = (this.getDistance(now[0], now[1]) / this.getDistance(start[0], start[1])).toFixed(1);
+      var rotate = (this.getAngle(now[0], now[1]) - this.getAngle(start[0], start[1])).toFixed(1);
+      // console.log(`3-more`)
+      this.setData((_setData7 = {}, _defineProperty(_setData7, 'img.scale', scale > 2 ? 2 : scale < 1 ? 1 : scale), _defineProperty(_setData7, 'img.rotate', rotate), _setData7));
+    }
+  },
+  touchEnd: function touchEnd() {
+    // this.setData({
+    //   [`imgArr[${changeIndex}].zIndex`]: beforeIndex
+    // })
+  },
+  getDistance: function getDistance(p1, p2) {
+    var x = p2.pageX - p1.pageX;
+    var y = p2.pageY - p1.pageY;
+    return Math.sqrt(x * x + y * y);
+  },
+  getAngle: function getAngle(p1, p2) {
+    var x = p1.pageX - p2.pageX;
+    var y = p1.pageY - p2.pageY;
+    return Math.atan2(y, x) * 180 / Math.PI;
+  },
+  canvasDraw: function canvasDraw() {
+    var _this = this;
+
+    wx.showLoading({
+      title: '获取所需区域中',
+      mask: true
+    });
+    var ctx = wx.createCanvasContext('outPic', this);
+    // let that = this
+    var img = this.data.img;
+    // ctx.setFillStyle('white')
+    ctx.fillRect(0, 0, maxSize * 2, img.height * 2);
+    ctx.save();
+    ctx.translate(img.x * 2 + img.width, img.y * 2 + img.height);
+    ctx.rotate(img.rotate * Math.PI / 180);
+    ctx.drawImage(img.path, -(img.width * img.scale), -(img.height * img.scale), img.width * img.scale * 2, img.height * img.scale * 2);
+    ctx.restore();
+    ctx.draw();
+    setTimeout(function () {
+      _this.outImageDouble();
+    }, 300);
+  },
+  outImageDouble: function outImageDouble() {
+    // let that = this
+    var img = this.data.img;
+    wx.canvasToTempFilePath({
+      x: (img.cutX + 2) * 2,
+      y: (img.cutY + 2) * 2,
+      width: (img.cutW - 4) * 2,
+      height: (img.cutH - 4) * 2,
+      destWidth: (img.cutW - 4) * 2,
+      destHeight: (img.cutH - 4) * 2,
+      canvasId: 'outPic',
+      success: function success(res) {
+        if (res.errMsg === 'canvasToTempFilePath:ok') {
+          app.data['userUseImg'] = res.tempFilePath;
+          wx.hideLoading();
+          wx.navigateTo({
+            url: '/commonPage/canvas2/index'
+          });
+        }
+      }
+    });
   },
 
   /**

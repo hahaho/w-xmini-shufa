@@ -22,11 +22,43 @@ Page({
     },
     imgArr: [
       {
-        src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png',
+        src: '',
         scale: 1,
         rotate: 0
       }
     ],
+    operationArr: {
+      chooseIndex: 0,
+      tab: [
+        {
+          t: '画框',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '缩放',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 100
+        },
+        {
+          t: '卡纸',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '宽度',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 20
+        },
+        {
+          t: '局条',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '宽度',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 3
+        }]
+    },
+    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
     canUseWidth: 100,
     canUseHeight: 100,
     positionLeft: 250,
@@ -65,7 +97,6 @@ Page({
       }
     ],
     tabIndex: null,
-    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
     tabBorderIndex: -1,
     chooseAreaInfo: {
       path: 'https://c.jiangwenqiang.com/api/logo.jpg',
@@ -76,6 +107,17 @@ Page({
       imgW: 375,
       imgH: 375
     }
+  },
+  sliderChanging (e) {
+
+    this.setData({
+      [`operationArr.tab[${this.data.operationArr.chooseIndex}].currentSlider`]: e.detail.value
+    })
+  },
+  chooseType (e) {
+    this.setData({
+      [`operationArr.chooseIndex`]: e.currentTarget.dataset.index
+    })
   },
   _toggleMask (e) {
     let type = e.currentTarget.dataset.type
@@ -103,7 +145,6 @@ Page({
       canChoose = false
       this.setData({
         tabIndex: e.currentTarget.dataset.index
-        // tabId: e.currentTarget.dataset.index
       }, () => {
         this.getBackImageInfo(`https://c.jiangwenqiang.com/lqsy/canvas_bottom_${e.currentTarget.dataset.index}.jpg`)
       })
@@ -264,23 +305,23 @@ Page({
       title: '加载底图中',
       mask: true
     })
-    let storage = app.gs('canvasImgArr') || []
-    if (storage.length) {
-      for (let v of storage) {
-        if (src === v.src) {
-          for (let [i] of that.data.imgArr.entries()) {
-            that.setData({
-              [`imgArr[${i}].left`]: v.backImageInfo.sX,
-              [`imgArr[${i}].top`]: v.backImageInfo.sY
-            })
-          }
-          that.setData({
-            backImageInfo: v.backImageInfo
-          }, that.getItemImageInfo(0))
-          return
-        }
-      }
-    }
+    // let storage = app.gs('canvasImgArr') || []
+    // if (storage.length) {
+    //   for (let v of storage) {
+    //     if (src === v.src) {
+    //       for (let [i] of that.data.imgArr.entries()) {
+    //         that.setData({
+    //           [`imgArr[${i}].left`]: v.backImageInfo.sX,
+    //           [`imgArr[${i}].top`]: v.backImageInfo.sY
+    //         })
+    //       }
+    //       that.setData({
+    //         backImageInfo: v.backImageInfo
+    //       }, that.getItemImageInfo(0))
+    //       return
+    //     }
+    //   }
+    // }
     wx.getImageInfo({
       src,
       success (res) {
@@ -297,17 +338,19 @@ Page({
           imgWidth: app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width,
           imgHeight: that.data.tabArr[that.data.tabIndex].oH / that.data.tabArr[that.data.tabIndex].oW * (app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width)
         }
-        storage.push({src, backImageInfo})
-        for (let [i] of that.data.imgArr.entries()) {
-          that.setData({
-            [`imgArr[${i}].left`]: backImageInfo.sX,
-            [`imgArr[${i}].top`]: backImageInfo.sY
-          })
-        }
+        // storage.push({src, backImageInfo})
+        // for (let [i] of that.data.imgArr.entries()) {
+        //   that.setData({
+        //     [`imgArr[${i}].left`]: backImageInfo.sX,
+        //     [`imgArr[${i}].top`]: backImageInfo.sY
+        //   })
+        // }
         that.setData({
           backImageInfo
-        }, that.getItemImageInfo(0))
-        app.su('canvasImgArr', storage)
+        }, setTimeout(() => {
+          that.getItemImageInfo(0)
+        }), 50)
+        // app.su('canvasImgArr', storage)
       }
     })
   },
@@ -495,6 +538,7 @@ Page({
     wx.getImageInfo({
       src: `https://c.jiangwenqiang.com/lqsy/canvas_border_${that.data.tabBorderIndex}.jpg`,
       success (res) {
+        console.log(res)
         wx.hideLoading()
         that.setData({
           [`imgArr[${changeIndex}].border`]: {
@@ -538,6 +582,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    this.setData({
+      [`imgArr[0].src`]: app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
+    })
     this.chooseIndex({
       currentTarget: {
         dataset: {

@@ -1,7 +1,5 @@
 'use strict';
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // 获取全局应用程序实例对象
@@ -27,10 +25,39 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     imgArr: [{
-      src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png',
+      src: '',
       scale: 1,
       rotate: 0
     }],
+    operationArr: {
+      chooseIndex: 0,
+      tab: [{
+        t: '画框',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '缩放',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 100
+      }, {
+        t: '卡纸',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 20
+      }, {
+        t: '局条',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 3
+      }]
+    },
+    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
     canUseWidth: 100,
     canUseHeight: 100,
     positionLeft: 250,
@@ -64,7 +91,6 @@ Page({
       oH: 200
     }],
     tabIndex: null,
-    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
     tabBorderIndex: -1,
     chooseAreaInfo: {
       path: 'https://c.jiangwenqiang.com/api/logo.jpg',
@@ -76,9 +102,16 @@ Page({
       imgH: 375
     }
   },
+  sliderChanging: function sliderChanging(e) {
+
+    this.setData(_defineProperty({}, 'operationArr.tab[' + this.data.operationArr.chooseIndex + '].currentSlider', e.detail.value));
+  },
+  chooseType: function chooseType(e) {
+    this.setData(_defineProperty({}, 'operationArr.chooseIndex', e.currentTarget.dataset.index));
+  },
   _toggleMask: function _toggleMask(e) {
     var _this = this,
-        _setData2;
+        _setData4;
 
     var type = e.currentTarget.dataset.type;
     var animate = type + 'Animate';
@@ -89,7 +122,7 @@ Page({
       }, 900);
       return;
     }
-    this.setData((_setData2 = {}, _defineProperty(_setData2, animate, !this.data[animate]), _defineProperty(_setData2, type, !this.data[type]), _setData2));
+    this.setData((_setData4 = {}, _defineProperty(_setData4, animate, !this.data[animate]), _defineProperty(_setData4, type, !this.data[type]), _setData4));
   },
   chooseIndex: function chooseIndex(e) {
     var _this2 = this;
@@ -100,7 +133,6 @@ Page({
       canChoose = false;
       this.setData({
         tabIndex: e.currentTarget.dataset.index
-        // tabId: e.currentTarget.dataset.index
       }, function () {
         _this2.getBackImageInfo('https://c.jiangwenqiang.com/lqsy/canvas_bottom_' + e.currentTarget.dataset.index + '.jpg');
       });
@@ -198,17 +230,17 @@ Page({
   },
   touchMove: function touchMove(e) {
     if (e.touches.length <= 1 && start.length <= 1) {
-      var _setData3;
+      var _setData5;
 
-      this.setData((_setData3 = {}, _defineProperty(_setData3, 'imgArr[' + changeIndex + '].left', moveXT + (e.touches[0].pageX - x)), _defineProperty(_setData3, 'imgArr[' + changeIndex + '].top', moveYT + (e.touches[0].pageY - y)), _setData3));
+      this.setData((_setData5 = {}, _defineProperty(_setData5, 'imgArr[' + changeIndex + '].left', moveXT + (e.touches[0].pageX - x)), _defineProperty(_setData5, 'imgArr[' + changeIndex + '].top', moveYT + (e.touches[0].pageY - y)), _setData5));
     } else if (e.touches.length <= 2) {
-      var _setData4;
+      var _setData6;
 
       if (start.length < 1) start = e.touches;
       var now = e.touches;
       var scale = (this.getDistance(now[0], now[1]) / this.getDistance(start[0], start[1])).toFixed(1);
       var rotate = (this.getAngle(now[0], now[1]) - this.getAngle(start[0], start[1])).toFixed(1);
-      this.setData((_setData4 = {}, _defineProperty(_setData4, 'imgArr[' + changeIndex + '].scale', scale > 2 ? 2 : scale < 1 ? 1 : scale), _defineProperty(_setData4, 'imgArr[' + changeIndex + '].rotate', rotate), _setData4));
+      this.setData((_setData6 = {}, _defineProperty(_setData6, 'imgArr[' + changeIndex + '].scale', scale > 2 ? 2 : scale < 1 ? 1 : scale), _defineProperty(_setData6, 'imgArr[' + changeIndex + '].rotate', rotate), _setData6));
     }
   },
   touchEnd: function touchEnd() {
@@ -251,66 +283,23 @@ Page({
       title: '加载底图中',
       mask: true
     });
-    var storage = app.gs('canvasImgArr') || [];
-    if (storage.length) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = storage[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var v = _step.value;
-
-          if (src === v.src) {
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-              for (var _iterator2 = that.data.imgArr.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var _that$setData4;
-
-                var _step2$value = _slicedToArray(_step2.value, 1),
-                    i = _step2$value[0];
-
-                that.setData((_that$setData4 = {}, _defineProperty(_that$setData4, 'imgArr[' + i + '].left', v.backImageInfo.sX), _defineProperty(_that$setData4, 'imgArr[' + i + '].top', v.backImageInfo.sY), _that$setData4));
-              }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-              } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
-                }
-              }
-            }
-
-            that.setData({
-              backImageInfo: v.backImageInfo
-            }, that.getItemImageInfo(0));
-            return;
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-    }
+    // let storage = app.gs('canvasImgArr') || []
+    // if (storage.length) {
+    //   for (let v of storage) {
+    //     if (src === v.src) {
+    //       for (let [i] of that.data.imgArr.entries()) {
+    //         that.setData({
+    //           [`imgArr[${i}].left`]: v.backImageInfo.sX,
+    //           [`imgArr[${i}].top`]: v.backImageInfo.sY
+    //         })
+    //       }
+    //       that.setData({
+    //         backImageInfo: v.backImageInfo
+    //       }, that.getItemImageInfo(0))
+    //       return
+    //     }
+    //   }
+    // }
     wx.getImageInfo({
       src: src,
       success: function success(res) {
@@ -326,40 +315,19 @@ Page({
           sY: app.data.system.windowWidth * res.height / res.width * that.data.tabArr[that.data.tabIndex].oY / res.height,
           imgWidth: app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width,
           imgHeight: that.data.tabArr[that.data.tabIndex].oH / that.data.tabArr[that.data.tabIndex].oW * (app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width)
-        };
-        storage.push({ src: src, backImageInfo: backImageInfo });
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
-
-        try {
-          for (var _iterator3 = that.data.imgArr.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var _that$setData5;
-
-            var _step3$value = _slicedToArray(_step3.value, 1),
-                i = _step3$value[0];
-
-            that.setData((_that$setData5 = {}, _defineProperty(_that$setData5, 'imgArr[' + i + '].left', backImageInfo.sX), _defineProperty(_that$setData5, 'imgArr[' + i + '].top', backImageInfo.sY), _that$setData5));
-          }
-        } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-              _iterator3.return();
-            }
-          } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
-            }
-          }
-        }
-
-        that.setData({
+          // storage.push({src, backImageInfo})
+          // for (let [i] of that.data.imgArr.entries()) {
+          //   that.setData({
+          //     [`imgArr[${i}].left`]: backImageInfo.sX,
+          //     [`imgArr[${i}].top`]: backImageInfo.sY
+          //   })
+          // }
+        };that.setData({
           backImageInfo: backImageInfo
-        }, that.getItemImageInfo(0));
-        app.su('canvasImgArr', storage);
+        }, setTimeout(function () {
+          that.getItemImageInfo(0);
+        }), 50);
+        // app.su('canvasImgArr', storage)
       }
     });
   },
@@ -374,12 +342,12 @@ Page({
     wx.getImageInfo({
       src: that.data.imgArr[index].src,
       success: function success(res) {
-        var _that$setData6;
+        var _that$setData4;
 
         wx.hideLoading();
-        that.setData((_that$setData6 = {
+        that.setData((_that$setData4 = {
           cutImg: false
-        }, _defineProperty(_that$setData6, 'imgArr[' + index + '].oWidth', res.width), _defineProperty(_that$setData6, 'imgArr[' + index + '].oHeight', res.height), _defineProperty(_that$setData6, 'imgArr[' + index + '].showWidth', that.data.backImageInfo.imgWidth), _defineProperty(_that$setData6, 'imgArr[' + index + '].showHeight', that.data.backImageInfo.imgHeight), _defineProperty(_that$setData6, 'imgArr[' + index + '].path', res.path), _defineProperty(_that$setData6, 'imgArr[' + index + '].left', that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.backImageInfo.sX), _defineProperty(_that$setData6, 'imgArr[' + index + '].top', that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.backImageInfo.sY), _defineProperty(_that$setData6, 'imgArr[' + index + '].zIndex', index + 1), _defineProperty(_that$setData6, 'imgArr[' + index + '].rotate', 0), _that$setData6), function () {
+        }, _defineProperty(_that$setData4, 'imgArr[' + index + '].oWidth', res.width), _defineProperty(_that$setData4, 'imgArr[' + index + '].oHeight', res.height), _defineProperty(_that$setData4, 'imgArr[' + index + '].showWidth', that.data.backImageInfo.imgWidth), _defineProperty(_that$setData4, 'imgArr[' + index + '].showHeight', that.data.backImageInfo.imgHeight), _defineProperty(_that$setData4, 'imgArr[' + index + '].path', res.path), _defineProperty(_that$setData4, 'imgArr[' + index + '].left', that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.backImageInfo.sX), _defineProperty(_that$setData4, 'imgArr[' + index + '].top', that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.backImageInfo.sY), _defineProperty(_that$setData4, 'imgArr[' + index + '].zIndex', index + 1), _defineProperty(_that$setData4, 'imgArr[' + index + '].rotate', 0), _that$setData4), function () {
           canChoose = true;
           change ? '' : index >= that.data.imgArr.length - 1 ? '' : that.getItemImageInfo(index + 1);
         });
@@ -426,13 +394,13 @@ Page({
     if (that.data.backImageInfo.zIndex <= 1) {
       ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
     }
-    var _iteratorNormalCompletion4 = true;
-    var _didIteratorError4 = false;
-    var _iteratorError4 = undefined;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
     try {
-      for (var _iterator4 = that.data.imgArr[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-        var v = _step4.value;
+      for (var _iterator = that.data.imgArr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var v = _step.value;
 
         ctx.save();
         ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight);
@@ -462,16 +430,16 @@ Page({
         ctx.restore();
       }
     } catch (err) {
-      _didIteratorError4 = true;
-      _iteratorError4 = err;
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion4 && _iterator4.return) {
-          _iterator4.return();
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
         }
       } finally {
-        if (_didIteratorError4) {
-          throw _iteratorError4;
+        if (_didIteratorError) {
+          throw _iteratorError;
         }
       }
     }
@@ -565,6 +533,7 @@ Page({
     wx.getImageInfo({
       src: 'https://c.jiangwenqiang.com/lqsy/canvas_border_' + that.data.tabBorderIndex + '.jpg',
       success: function success(res) {
+        console.log(res);
         wx.hideLoading();
         that.setData(_defineProperty({}, 'imgArr[' + changeIndex + '].border', {
           width: res.width > that.data.imgArr[changeIndex].showWidth / 4 ? that.data.imgArr[changeIndex].showWidth / 4 : res.width,
@@ -585,18 +554,18 @@ Page({
   chooseAreaMove: function chooseAreaMove(e) {
     var chooseAreaInfo = this.data.chooseAreaInfo;
     if (e.currentTarget.dataset.type === 'img') {
-      var _setData6;
+      var _setData8;
 
       var _x2 = chooseArea.xx + (e.touches[0].pageX - chooseArea.x);
       var _y = chooseArea.yy + (e.touches[0].pageY - chooseArea.y);
-      this.setData((_setData6 = {}, _defineProperty(_setData6, 'chooseAreaInfo.x', _x2 < 0 ? 0 : _x2 >= chooseAreaInfo.imgW - chooseAreaInfo.w ? chooseAreaInfo.imgW - chooseAreaInfo.w : _x2), _defineProperty(_setData6, 'chooseAreaInfo.y', _y < 0 ? 0 : _y >= chooseAreaInfo.imgH - chooseAreaInfo.h ? chooseAreaInfo.imgH - chooseAreaInfo.h : _y), _setData6));
+      this.setData((_setData8 = {}, _defineProperty(_setData8, 'chooseAreaInfo.x', _x2 < 0 ? 0 : _x2 >= chooseAreaInfo.imgW - chooseAreaInfo.w ? chooseAreaInfo.imgW - chooseAreaInfo.w : _x2), _defineProperty(_setData8, 'chooseAreaInfo.y', _y < 0 ? 0 : _y >= chooseAreaInfo.imgH - chooseAreaInfo.h ? chooseAreaInfo.imgH - chooseAreaInfo.h : _y), _setData8));
     } else if (e.currentTarget.dataset.type === 'point') {
-      var _setData7;
+      var _setData9;
 
       var width = chooseArea.w + (e.touches[0].pageX - chooseArea.x) < 10 ? 10 : chooseArea.w + (e.touches[0].pageX - chooseArea.x);
       var height = chooseArea.h * width / chooseArea.w;
       if (width > chooseAreaInfo.imgW || height > chooseAreaInfo.imgH) return;
-      this.setData((_setData7 = {}, _defineProperty(_setData7, 'chooseAreaInfo.w', width), _defineProperty(_setData7, 'chooseAreaInfo.h', height), _setData7));
+      this.setData((_setData9 = {}, _defineProperty(_setData9, 'chooseAreaInfo.w', width), _defineProperty(_setData9, 'chooseAreaInfo.h', height), _setData9));
     }
   },
   onShareAppMessage: function onShareAppMessage() {},
@@ -605,6 +574,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
+    this.setData(_defineProperty({}, 'imgArr[0].src', app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'));
     this.chooseIndex({
       currentTarget: {
         dataset: {
