@@ -69,33 +69,22 @@ Page({
     tabArr: [
       {
         src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-        oX: 750 / 2 - 100,
-        oY: 750 / 2 - 175,
+        oX: 750 / 2,
+        oY: 750 / 2,
         oW: 200,
         oH: 250
-      },
-      {
-        src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-        oX: 150,
-        oY: 100,
-        oW: 200,
-        oH: 200
-      },
-      {
-        src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-        oX: 232.441,
-        oY: 93.543,
-        oW: 283,
-        oH: 198
-      },
-      {
-        src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-        oX: 200,
-        oY: 200,
-        oW: 200,
-        oH: 200
-      }
-    ],
+      }],
+    bottomImage: {
+      src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      showImgArr: [
+        {
+          oX: 750 / 2 - 100,
+          oY: 750 / 2 - 175,
+          oW: 200,
+          oH: 250
+        }
+      ]
+    },
     tabIndex: null,
     tabBorderIndex: -1,
     chooseAreaInfo: {
@@ -109,9 +98,9 @@ Page({
     }
   },
   sliderChanging (e) {
-
     this.setData({
-      [`operationArr.tab[${this.data.operationArr.chooseIndex}].currentSlider`]: e.detail.value
+      [`operationArr.tab[${this.data.operationArr.chooseIndex}].currentSlider`]: e.detail.value,
+      [`imgArr[0].scale`]: this.data.operationArr.chooseIndex <= 0 ? 12 - Math.floor(e.detail.value / 10) : this.data.imgArr[0].scale
     })
   },
   chooseType (e) {
@@ -146,7 +135,7 @@ Page({
       this.setData({
         tabIndex: e.currentTarget.dataset.index
       }, () => {
-        this.getBackImageInfo(`https://c.jiangwenqiang.com/lqsy/canvas_bottom_${e.currentTarget.dataset.index}.jpg`)
+        this.getBackImageInfo(`${this.data.bottomImage.src}`)
       })
     } else {
       canChoose = false
@@ -305,23 +294,6 @@ Page({
       title: '加载底图中',
       mask: true
     })
-    // let storage = app.gs('canvasImgArr') || []
-    // if (storage.length) {
-    //   for (let v of storage) {
-    //     if (src === v.src) {
-    //       for (let [i] of that.data.imgArr.entries()) {
-    //         that.setData({
-    //           [`imgArr[${i}].left`]: v.backImageInfo.sX,
-    //           [`imgArr[${i}].top`]: v.backImageInfo.sY
-    //         })
-    //       }
-    //       that.setData({
-    //         backImageInfo: v.backImageInfo
-    //       }, that.getItemImageInfo(0))
-    //       return
-    //     }
-    //   }
-    // }
     wx.getImageInfo({
       src,
       success (res) {
@@ -338,19 +310,11 @@ Page({
           imgWidth: app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width,
           imgHeight: that.data.tabArr[that.data.tabIndex].oH / that.data.tabArr[that.data.tabIndex].oW * (app.data.system.windowWidth * that.data.tabArr[that.data.tabIndex].oW / res.width)
         }
-        // storage.push({src, backImageInfo})
-        // for (let [i] of that.data.imgArr.entries()) {
-        //   that.setData({
-        //     [`imgArr[${i}].left`]: backImageInfo.sX,
-        //     [`imgArr[${i}].top`]: backImageInfo.sY
-        //   })
-        // }
         that.setData({
           backImageInfo
         }, setTimeout(() => {
           that.getItemImageInfo(0)
         }), 50)
-        // app.su('canvasImgArr', storage)
       }
     })
   },
@@ -364,17 +328,19 @@ Page({
       src: that.data.imgArr[index].src,
       success (res) {
         wx.hideLoading()
+        let useWidth = res.width > res.height
         that.setData({
           cutImg: false,
           [`imgArr[${index}].oWidth`]: res.width,
           [`imgArr[${index}].oHeight`]: res.height,
-          [`imgArr[${index}].showWidth`]: that.data.backImageInfo.imgWidth,
-          [`imgArr[${index}].showHeight`]: that.data.backImageInfo.imgHeight,
+          [`imgArr[${index}].showWidth`]: (useWidth ? that.data.backImageInfo.imgWidth : that.data.backImageInfo.imgHeight * res.width / res.height) / 10,
+          [`imgArr[${index}].showHeight`]: (!useWidth ? that.data.backImageInfo.imgHeight : that.data.backImageInfo.imgWidth * res.height / res.width) / 10,
           [`imgArr[${index}].path`]: res.path,
-          [`imgArr[${index}].left`]: that.data.imgArr[index].left ? that.data.imgArr[index].left : that.data.backImageInfo.sX,
-          [`imgArr[${index}].top`]: that.data.imgArr[index].top ? that.data.imgArr[index].top : that.data.backImageInfo.sY,
+          [`imgArr[${index}].left`]: that.data.backImageInfo.sX - ((useWidth ? that.data.backImageInfo.imgWidth : that.data.backImageInfo.imgHeight * res.width / res.height) / 10) / 2,
+          [`imgArr[${index}].top`]: that.data.backImageInfo.sY - ((!useWidth ? that.data.backImageInfo.imgHeight : that.data.backImageInfo.imgWidth * res.height / res.width) / 10) / 2,
           [`imgArr[${index}].zIndex`]: index + 1,
-          [`imgArr[${index}].rotate`]: 0
+          [`imgArr[${index}].rotate`]: 0,
+          [`imgArr[${index}].scale`]: 12
         }, () => {
           canChoose = true
           change ? '' : index >= that.data.imgArr.length - 1 ? '' : that.getItemImageInfo(index + 1)
@@ -538,12 +504,16 @@ Page({
     wx.getImageInfo({
       src: `https://c.jiangwenqiang.com/lqsy/canvas_border_${that.data.tabBorderIndex}.jpg`,
       success (res) {
-        console.log(res)
         wx.hideLoading()
+        let width = that.data.imgArr[changeIndex].showWidth > that.data.imgArr[changeIndex].showHeight ? that.data.imgArr[changeIndex].showHeight / 2 : that.data.imgArr[changeIndex].showWidth / 2
+        console.log(that.data.imgArr[changeIndex].showWidth / width)
+        console.log(that.data.imgArr[changeIndex].showHeight / width)
         that.setData({
           [`imgArr[${changeIndex}].border`]: {
-            width: res.width > that.data.imgArr[changeIndex].showWidth / 4 ? that.data.imgArr[changeIndex].showWidth / 4 : res.width,
-            path: res.path
+            width,
+            path: res.path,
+            x: Math.ceil(that.data.imgArr[changeIndex].showWidth / width) + 1,
+            y: Math.ceil(that.data.imgArr[changeIndex].showHeight / width) + 1
           }
         })
         canChoose = true

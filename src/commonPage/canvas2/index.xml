@@ -10,11 +10,26 @@
         class="pa {{ reload ? 'tr5' : '' }}"
         style="transform: scale({{ item.scale }}) rotate({{ item.rotate }}deg); top: {{ item.top }}px; left: {{ item.left }}px; width: {{ item.showWidth }}px; height: {{ item.showHeight }}px; z-index: {{ item.zIndex }}"
         bindtouchend="itemEnd">
-    <image wx:if="{{ item.border }}" style="position:absolute; top: -{{ item.border.width / 2 }}px; left: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(45deg);" src="{{ item.border.path }}"></image>
-    <image wx:if="{{ item.border }}" style="position:absolute; top: -{{ item.border.width / 2 }}px; right: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(135deg);" src="{{ item.border.path }}"></image>
-    <image wx:if="{{ item.border }}" style="position:absolute; bottom: -{{ item.border.width / 2 }}px; left:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(315deg);" src="{{ item.border.path }}"></image>
-    <image wx:if="{{ item.border }}" style="position:absolute; bottom: -{{ item.border.width / 2 }}px; right:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(225deg);" src="{{ item.border.path }}"></image>
-    <image style="width: 100%; height: 100%; position:absolute; top: 0; left:0;" src="{{ item.path }}"></image>
+    <!--边框-->
+    <view wx:if="{{ item.border }}">
+
+      <!--四边-->
+      <!--上边-->
+      <image wx:for="{{ item.border.x }}" wx:for-item="xItem" wx:for-index="xIndex" style="position:absolute; top: -{{ item.border.width / 2 }}px; left: {{ (item.border.x - 1 - xIndex) * item.border.width / 2  - item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(45deg);" src="{{ item.border.path }}"></image>
+      <!--左边-->
+      <image wx:for="{{ item.border.y }}" wx:for-item="xItem" wx:for-index="xIndex" style="position:absolute; top: {{ (item.border.y - 1 - xIndex) * item.border.width / 2 - item.border.width / 2  }}px; left: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotateZ(45deg);" src="{{ item.border.path }}"></image>
+      <!--下边-->
+      <image wx:for="{{ item.border.x }}" wx:for-item="xItem" wx:for-index="xIndex" style="position:absolute; bottom: -{{ item.border.width / 2 }}px; left: {{ (item.border.x - 1 - xIndex) * item.border.width / 2 - item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform: rotateY(180deg) rotate(225deg);" src="{{ item.border.path }}"></image>
+      <!--右边-->
+      <image wx:for="{{ item.border.y }}" wx:for-item="xItem" wx:for-index="xIndex" style="position:absolute; top: {{ (item.border.y - 1 - xIndex) * item.border.width / 2 - item.border.width / 2  }}px; right: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform: rotateY(180deg) rotate(45deg);" src="{{ item.border.path }}"></image>
+      <!--<image style="position:absolute; top: 0px; left: 0px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(45deg);" src="{{ item.border.path }}"></image>-->
+      <!--四角-->
+      <!--<image style="position:absolute; top: -{{ item.border.width / 2 }}px; left: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(45deg);" src="{{ item.border.path }}"></image>-->
+      <!--<image style="position:absolute; top: -{{ item.border.width / 2 }}px; right: -{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(135deg);" src="{{ item.border.path }}"></image>-->
+      <!--<image style="position:absolute; bottom: -{{ item.border.width / 2 }}px; left:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(315deg);" src="{{ item.border.path }}"></image>-->
+      <image style="position:absolute; bottom: -{{ item.border.width / 2 }}px; right:-{{ item.border.width / 2 }}px; width:{{ item.border.width }}px; height:{{ item.border.width }}px; transform:rotate(225deg);" src="{{ item.border.path }}"></image>
+    </view>
+    <image style="width: 100%; height: 100%; position:absolute; top:100%; left:0;" src="{{ item.path }}"></image>
   </view>
 </view>
 
