@@ -15,29 +15,43 @@
     <image wx:for="{{ borderImageInfo.x }}"
            src="{{ borderImageInfo.path }}"
            class="pa"
-           style="transform: rotate(45deg); top: {{ -borderImageInfo.width / 2 }}px; left: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.angleWidth / 4) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           style="transform: rotate(45deg); top: {{ -borderImageInfo.width / 2 }}px; left: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
            wx:key="*122"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--右边-->
-    <!--<image wx:for="{{ borderImageInfo.y }}"-->
-           <!--src="{{ borderImageInfo.path }}"-->
-           <!--class="pa"-->
-           <!--style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.angleWidth / 2) - (borderImageInfo.width / 2) }}px; right: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"-->
-           <!--wx:key="*122"-->
-           <!--wx:for-item="bItem"-->
-           <!--wx:for-index="bIndex"></image>-->
-
-
+    <image wx:for="{{ borderImageInfo.y }}"
+           src="{{ borderImageInfo.path }}"
+           class="pa"
+           style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; right: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           wx:key="*122"
+           wx:for-item="bItem"
+           wx:for-index="bIndex"></image>
+    <!--底边-->
+    <image wx:for="{{ borderImageInfo.x }}"
+           src="{{ borderImageInfo.path }}"
+           class="pa"
+           style="transform: rotate(225deg); bottom: {{ -borderImageInfo.width / 2 }}px; right: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           wx:key="*122"
+           wx:for-item="bItem"
+           wx:for-index="bIndex"></image>
+    <!--左边-->
+    <image wx:for="{{ borderImageInfo.y }}"
+           src="{{ borderImageInfo.path }}"
+           class="pa"
+           style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; left: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           wx:key="*122"
+           wx:for-item="bItem"
+           wx:for-index="bIndex"></image>
 
     <!--显示的图片-->
-    <image src="{{ item.path }}" class="pa" style="top: 0px; left: 0px; width: {{ item.width }}px; height: {{ item.height }}px; border: {{ item.border.width }}px solid {{ item.border.color }};"></image>
+    <image src="{{ item.path }}" class="pa" style="display:inline-block; top: 0px; left: 0px; width: {{ item.width }}px; height: {{ item.height }}px; border: {{ item.border.width }}px solid {{ item.border.color }};"></image>
   </view>
 </view>
 
 <canvas style="width: 1000px; height: 1000px; position: fixed; bottom: -200%;right:-200%;" canvas-id="outPic"></canvas>
 
-<view hidden="1" class="bottomOp">
+<view class="bottomOp">
 <view class="sliderArea df">
   <view class="cfff f28">{{ operationArr.tab[operationArr.chooseIndex].sliderText }}: {{ operationArr.tab[operationArr.chooseIndex].currentSlider }}</view>
   <slider bindchanging="sliderChanging" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>

@@ -23,7 +23,39 @@ Page({
       {
         src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
       }
-    ]
+    ],
+    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    operationArr: {
+      chooseIndex: 0,
+      tab: [
+        {
+          t: '画框',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '缩放',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 100
+        },
+        {
+          t: '卡纸',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '宽度',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 20
+        },
+        {
+          t: '局条',
+          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+          sliderText: '宽度',
+          currentSlider: 0,
+          minSlider: 0,
+          maxSlider: 3
+        }]
+    }
   },
   /**
    * 获取图片信息
@@ -59,12 +91,15 @@ Page({
       for (let v of this.data.backImageInfo.positionItem) {
         v.x = baseScale * v.x
         v.y = baseScale * v.y
-        v.width = baseScale * v.width / 8
-        v.height = baseScale * v.height / 8
+        // v.width = baseScale * v.width / 8
+        // v.height = baseScale * v.height / 8
+        v.width = baseScale * v.width / 2
+        v.height = baseScale * v.height / 2
       }
       this.setData({
         backImageInfo: Object.assign(this.data.backImageInfo, res)
       }, () => {
+        this.data.upImgArr[0].src = app.data.userUseImg
         this.getItemImageInfo(0)
       })
     })
@@ -75,14 +110,20 @@ Page({
    */
   getItemImageInfo (index) {
     this.getImageInfo(this.data.upImgArr[index].src).then(res => {
-      let temp = this.data.backImageInfo.positionItem[index].width * res.height / res.width
-      res.width = this.data.backImageInfo.positionItem[index].width
-      res.height = temp
+      if (res.width >= res.height) {
+        let temp = this.data.backImageInfo.positionItem[index].width * res.height / res.width
+        res.width = this.data.backImageInfo.positionItem[index].width.toFixed(1)
+        res.height = temp.toFixed(1)
+      } else {
+        let temp = this.data.backImageInfo.positionItem[index].height * res.width / res.height
+        res.height = this.data.backImageInfo.positionItem[index].height.toFixed(1)
+        res.width = temp.toFixed(1)
+      }
       // 记录图片的宽高
       res.startWidth = res.width
       res.startHeight = res.height
       res.useWidth = res.width < res.height
-      res.scale = 5
+      res.scale = 1
       res.x = this.data.backImageInfo.positionItem[index].x - res.width / 2
       res.y = this.data.backImageInfo.positionItem[index].y - res.height / 2
       res.bgc = '#ffffff'
@@ -93,7 +134,7 @@ Page({
       this.setData({
         [`upImgArr[${index}]`]: res
       }, () => {
-        this.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_3.jpg', 0)
+        this.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 0)
       })
     })
   },
@@ -104,11 +145,11 @@ Page({
    */
   getBorderInfo (src, index = 0) {
     this.getImageInfo(src).then(res => {
-      let angleWidth = this.data.upImgArr[index][this.data.upImgArr[index].useWidth ? 'startWidth' : 'startHeight'] * 2
-      res.width = Math.sqrt(Math.pow(angleWidth, 2) / 2)
-      res[this.data.upImgArr[index].useWidth ? 'x' : 'y'] = Math.floor(this.data.upImgArr[index][this.data.upImgArr[index].useWidth ? 'startWidth' : 'startHeight'] / (angleWidth / 2)) + 1
-      res[this.data.upImgArr[index].useWidth ? 'y' : 'x'] = Math.floor(this.data.upImgArr[index][this.data.upImgArr[index].useWidth ? 'startHeight' : 'startWidth'] / (angleWidth / 2)) + 1
-      res.angleWidth = angleWidth
+      res.width = (res.width * baseScale / 2).toFixed(1)
+      let x = this.data.upImgArr[index].startWidth / (res.width / 2)
+      let y = this.data.upImgArr[index].startHeight / (res.width / 2)
+      res.x = x === Math.floor(x) ? Math.floor(x) - 1 : Math.floor(x)
+      res.y = y === Math.floor(y) ? Math.floor(y) - 1 : Math.floor(y)
       this.setData({
         borderImageInfo: res
       })

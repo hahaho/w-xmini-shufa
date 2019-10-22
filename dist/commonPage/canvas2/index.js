@@ -23,7 +23,36 @@ Page({
     },
     upImgArr: [{
       src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
-    }]
+    }],
+    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    operationArr: {
+      chooseIndex: 0,
+      tab: [{
+        t: '画框',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '缩放',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 100
+      }, {
+        t: '卡纸',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 20
+      }, {
+        t: '局条',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 3
+      }]
+    }
   },
   /**
    * 获取图片信息
@@ -69,8 +98,10 @@ Page({
 
           v.x = baseScale * v.x;
           v.y = baseScale * v.y;
-          v.width = baseScale * v.width / 8;
-          v.height = baseScale * v.height / 8;
+          // v.width = baseScale * v.width / 8
+          // v.height = baseScale * v.height / 8
+          v.width = baseScale * v.width / 2;
+          v.height = baseScale * v.height / 2;
         }
       } catch (err) {
         _didIteratorError = true;
@@ -90,6 +121,7 @@ Page({
       _this.setData({
         backImageInfo: Object.assign(_this.data.backImageInfo, res)
       }, function () {
+        _this.data.upImgArr[0].src = app.data.userUseImg;
         _this.getItemImageInfo(0);
       });
     });
@@ -103,14 +135,20 @@ Page({
     var _this2 = this;
 
     this.getImageInfo(this.data.upImgArr[index].src).then(function (res) {
-      var temp = _this2.data.backImageInfo.positionItem[index].width * res.height / res.width;
-      res.width = _this2.data.backImageInfo.positionItem[index].width;
-      res.height = temp;
+      if (res.width >= res.height) {
+        var temp = _this2.data.backImageInfo.positionItem[index].width * res.height / res.width;
+        res.width = _this2.data.backImageInfo.positionItem[index].width.toFixed(1);
+        res.height = temp.toFixed(1);
+      } else {
+        var _temp = _this2.data.backImageInfo.positionItem[index].height * res.width / res.height;
+        res.height = _this2.data.backImageInfo.positionItem[index].height.toFixed(1);
+        res.width = _temp.toFixed(1);
+      }
       // 记录图片的宽高
       res.startWidth = res.width;
       res.startHeight = res.height;
       res.useWidth = res.width < res.height;
-      res.scale = 5;
+      res.scale = 1;
       res.x = _this2.data.backImageInfo.positionItem[index].x - res.width / 2;
       res.y = _this2.data.backImageInfo.positionItem[index].y - res.height / 2;
       res.bgc = '#ffffff';
@@ -119,7 +157,7 @@ Page({
         color: '#ffffff'
       };
       _this2.setData(_defineProperty({}, 'upImgArr[' + index + ']', res), function () {
-        _this2.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_3.jpg', 0);
+        _this2.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 0);
       });
     });
   },
@@ -135,11 +173,11 @@ Page({
     var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
     this.getImageInfo(src).then(function (res) {
-      var angleWidth = _this3.data.upImgArr[index][_this3.data.upImgArr[index].useWidth ? 'startWidth' : 'startHeight'] * 2;
-      res.width = Math.sqrt(Math.pow(angleWidth, 2) / 2);
-      res[_this3.data.upImgArr[index].useWidth ? 'x' : 'y'] = Math.floor(_this3.data.upImgArr[index][_this3.data.upImgArr[index].useWidth ? 'startWidth' : 'startHeight'] / (angleWidth / 2)) + 1;
-      res[_this3.data.upImgArr[index].useWidth ? 'y' : 'x'] = Math.floor(_this3.data.upImgArr[index][_this3.data.upImgArr[index].useWidth ? 'startHeight' : 'startWidth'] / (angleWidth / 2)) + 1;
-      res.angleWidth = angleWidth;
+      res.width = (res.width * baseScale / 2).toFixed(1);
+      var x = _this3.data.upImgArr[index].startWidth / (res.width / 2);
+      var y = _this3.data.upImgArr[index].startHeight / (res.width / 2);
+      res.x = x === Math.floor(x) ? Math.floor(x) - 1 : Math.floor(x);
+      res.y = y === Math.floor(y) ? Math.floor(y) - 1 : Math.floor(y);
       _this3.setData({
         borderImageInfo: res
       });
