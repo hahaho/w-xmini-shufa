@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f3563a0-fd60-4593-928e-c9bd9a5d5e2e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/commonPage/canvas2/index.js" afterPath="$PROJECT_DIR$/dist/commonPage/canvas2/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/commonPage/canvas2/index.wxml" afterPath="$PROJECT_DIR$/dist/commonPage/canvas2/index.wxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/commonPage/canvas2/index3.js" afterPath="$PROJECT_DIR$/dist/commonPage/canvas2/index3.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/project.config.json" afterPath="$PROJECT_DIR$/dist/project.config.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/wxParse/showdown.js" afterPath="$PROJECT_DIR$/dist/wxParse/showdown.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commonPage/canvas2/index.js" afterPath="$PROJECT_DIR$/src/commonPage/canvas2/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commonPage/canvas2/index.xml" afterPath="$PROJECT_DIR$/src/commonPage/canvas2/index.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,7 +23,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/commonPage/canvas2/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="182">
@@ -72,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/commonPage/canvas2/index.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+            <state relative-caret-position="133">
+              <caret line="18" column="23" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -124,8 +117,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/commonPage/canvas2/step_two/index.js" />
-        <option value="$PROJECT_DIR$/src/commonPage/canvas2/index.xml" />
         <option value="$PROJECT_DIR$/src/commonPage/canvas2/index.js" />
+        <option value="$PROJECT_DIR$/src/commonPage/canvas2/index.xml" />
       </list>
     </option>
   </component>
@@ -314,12 +307,12 @@
       <workItem from="1569419471439" duration="9000" />
       <workItem from="1571656121407" duration="12086000" />
       <workItem from="1571671886026" duration="2462000" />
-      <workItem from="1571749435446" duration="5697000" />
+      <workItem from="1571749435446" duration="6298000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20254000" />
+    <option name="totallyTimeSpent" value="20855000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -331,7 +324,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -493,14 +486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/commonPage/canvas2/index.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/commonPage/canvas2/index3.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -513,6 +498,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="26" column="67" lean-forward="false" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commonPage/canvas2/index.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="18" column="23" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
           <folding />
         </state>
       </provider>

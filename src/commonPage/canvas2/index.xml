@@ -16,7 +16,7 @@
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(45deg); top: {{ -borderImageInfo.width / 2 }}px; left: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
-           wx:key="*122"
+           wx:key="*121"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--右边-->
@@ -32,7 +32,7 @@
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(225deg); bottom: {{ -borderImageInfo.width / 2 }}px; right: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
-           wx:key="*122"
+           wx:key="*123"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--左边-->
@@ -40,7 +40,7 @@
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; left: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
-           wx:key="*122"
+           wx:key="*124"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
 
