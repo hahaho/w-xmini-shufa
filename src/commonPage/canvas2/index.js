@@ -272,14 +272,27 @@ Page({
     let ctx = wx.createCanvasContext('outPic', this)
     let that = this
     ctx.setFillStyle('white')
-    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
+    ctx.fillRect(0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2)
     if (that.data.backImageInfo.zIndex <= 1) {
-      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2)
     }
-    for (let v of that.data.imgArr) {
+    for (let v of that.data.upImgArr) {
       ctx.save()
-      ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight)
+      // 移动坐标点到图片中心位置
+      ctx.translate(v.x * 2 + v.startWidth, v.y * 2 + v.startHeight)
+      // 旋转画布对应的角度
       ctx.rotate(v.rotate * Math.PI / 180)
+      // 卡纸 ---s
+      ctx.setFillStyle(v.bgc)
+      ctx.fillRect(-(v.startWidth * v.scale), -(v.startHeight * v.scale), v.startWidth * v.scale * 2, v.startHeight * v.scale * 2)
+      // 卡纸 ---e
+      // 局条 ---s
+      if (v.border) {
+        ctx.setFillStyle(v.border.color)
+        ctx.fillRect(-(v.border.width * v.scale), -(v.border.height * v.scale), v.border.height * v.scale * 2, v.startHeight * v.scale * 2)
+      }
+      // 局条 ---e
+
       ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
       if (v.border) {
         // 左上角

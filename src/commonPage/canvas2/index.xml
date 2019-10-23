@@ -1,5 +1,5 @@
 <view  class="position: relative;">
-  <!--地图-->
+  <!--底图-->
   <image class="backImage pa"
          src="{{ backImageInfo.path }}"
          style="top: 0;left:0; width: {{ backImageInfo.fixWidth }}px; height: {{ backImageInfo.fixHeight }}px;"></image>
