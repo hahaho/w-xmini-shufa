@@ -220,6 +220,7 @@ Page({
       res.startHeight = res.height;
       res.useWidth = res.width < res.height;
       res.scale = 1;
+      res.rotate = 0;
       res.x = _this3.data.backImageInfo.positionItem[index].x - res.width / 2;
       res.y = _this3.data.backImageInfo.positionItem[index].y - res.height / 2;
       res.xx = 0;
@@ -261,6 +262,78 @@ Page({
         borderImageInfo: res
       });
     });
+  },
+  canvasDraw: function canvasDraw() {
+    var _this5 = this;
+
+    wx.showLoading({
+      title: '疯狂生成中',
+      mask: true
+    });
+    var ctx = wx.createCanvasContext('outPic', this);
+    var that = this;
+    ctx.setFillStyle('white');
+    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+    if (that.data.backImageInfo.zIndex <= 1) {
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+    }
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = that.data.imgArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var v = _step2.value;
+
+        ctx.save();
+        ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight);
+        ctx.rotate(v.rotate * Math.PI / 180);
+        ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
+        if (v.border) {
+          // 左上角
+          ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale);
+          ctx.rotate(45 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-45 * Math.PI / 180);
+          ctx.translate(v.showWidth * 2 * v.scale, 0);
+          ctx.rotate(135 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-135 * Math.PI / 180);
+          ctx.translate(0, v.showHeight * 2 * v.scale);
+          ctx.rotate(225 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-225 * Math.PI / 180);
+          ctx.translate(-v.showWidth * 2 * v.scale, 0);
+          ctx.rotate(315 * Math.PI / 180);
+          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
+          ctx.rotate(-315 * Math.PI / 180);
+          ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale);
+          ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
+        }
+        ctx.restore();
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    if (that.data.backImageInfo.zIndex >= 10) {
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+    }
+    ctx.draw();
+    setTimeout(function () {
+      _this5.outImageDouble();
+    }, 300);
   },
 
   /**

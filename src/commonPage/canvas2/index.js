@@ -223,6 +223,7 @@ Page({
       res.startHeight = res.height
       res.useWidth = res.width < res.height
       res.scale = 1
+      res.rotate = 0
       res.x = this.data.backImageInfo.positionItem[index].x - res.width / 2
       res.y = this.data.backImageInfo.positionItem[index].y - res.height / 2
       res.xx = 0
@@ -261,6 +262,56 @@ Page({
         borderImageInfo: res
       })
     })
+  },
+
+  canvasDraw () {
+    wx.showLoading({
+      title: '疯狂生成中',
+      mask: true
+    })
+    let ctx = wx.createCanvasContext('outPic', this)
+    let that = this
+    ctx.setFillStyle('white')
+    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
+    if (that.data.backImageInfo.zIndex <= 1) {
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
+    }
+    for (let v of that.data.imgArr) {
+      ctx.save()
+      ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight)
+      ctx.rotate(v.rotate * Math.PI / 180)
+      ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
+      if (v.border) {
+        // 左上角
+        ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale)
+        ctx.rotate(45 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-45 * Math.PI / 180)
+        ctx.translate(v.showWidth * 2 * v.scale, 0)
+        ctx.rotate(135 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-135 * Math.PI / 180)
+        ctx.translate(0, v.showHeight * 2 * v.scale)
+        ctx.rotate(225 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-225 * Math.PI / 180)
+        ctx.translate(-v.showWidth * 2 * v.scale, 0)
+        ctx.rotate(315 * Math.PI / 180)
+        ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2)
+        ctx.rotate(-315 * Math.PI / 180)
+        ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale)
+        ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2)
+      }
+      ctx.restore()
+    }
+
+    if (that.data.backImageInfo.zIndex >= 10) {
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2)
+    }
+    ctx.draw()
+    setTimeout(() => {
+      this.outImageDouble()
+    }, 300)
   },
   /**
    * 生命周期函数--监听页面加载
