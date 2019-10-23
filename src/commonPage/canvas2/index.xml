@@ -8,11 +8,12 @@
   <view wx:for="{{ upImgArr }}"
         wx:key="*111"
         class="backImage pa"
-        style="background: {{ item.bgc }};transform: scale({{ item.scale }}); top: {{ item.y }}px; left: {{ item.x }}px; width: {{ item.startWidth }}px; height: {{ item.startHeight }}px;">
+        style="transform: scale({{ item.scale }}); top: {{ item.y }}px; left: {{ item.x }}px; width: {{ item.startWidth }}px; height: {{ item.startHeight }}px;">
 
     <!--四边-->
     <!--上边-->
     <image wx:for="{{ borderImageInfo.x }}"
+           wx:if="{{ borderImageInfo }}"
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(45deg); top: {{ -borderImageInfo.width / 2 }}px; left: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
@@ -21,6 +22,7 @@
            wx:for-index="bIndex"></image>
     <!--右边-->
     <image wx:for="{{ borderImageInfo.y }}"
+           wx:if="{{ borderImageInfo }}"
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; right: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
@@ -29,6 +31,7 @@
            wx:for-index="bIndex"></image>
     <!--底边-->
     <image wx:for="{{ borderImageInfo.x }}"
+           wx:if="{{ borderImageInfo }}"
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(225deg); bottom: {{ -borderImageInfo.width / 2 }}px; right: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
@@ -37,54 +40,66 @@
            wx:for-index="bIndex"></image>
     <!--左边-->
     <image wx:for="{{ borderImageInfo.y }}"
+           wx:if="{{ borderImageInfo }}"
            src="{{ borderImageInfo.path }}"
            class="pa"
            style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; left: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
            wx:key="*124"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
-
+    <!--卡纸-->
+    <view class="pa" style="top:0; left:0; width: 100%; height: 100%; background: {{ item.bgc }};"></view>
+    <!--局条-->
+    <view class="pa" style="top: {{ item.border.y }}px; left: {{ item.border.x }}px; width: {{ item.border.width }}px; height: {{ item.border.height }}px; background: {{ item.border.color }};"></view>
     <!--显示的图片-->
-    <image src="{{ item.path }}" class="pa" style="display:inline-block; top: 0px; left: 0px; width: {{ item.width }}px; height: {{ item.height }}px; border: {{ item.border.width }}px solid {{ item.border.color }};"></image>
+    <image src="{{ item.path }}"
+           class="pa"
+           style="display:inline-block; top: {{ item.yy }}px; left: {{ item.xx }}px; width: {{ item.width }}px; height: {{ item.height }}px;"></image>
   </view>
 </view>
 
 <canvas style="width: 1000px; height: 1000px; position: fixed; bottom: -200%;right:-200%;" canvas-id="outPic"></canvas>
 
 <view class="bottomOp">
-<view class="sliderArea df">
-  <view class="cfff f28">{{ operationArr.tab[operationArr.chooseIndex].sliderText }}: {{ operationArr.tab[operationArr.chooseIndex].currentSlider }}</view>
-  <slider bindchanging="sliderChanging" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>
-</view>
-<scroll-view class="tab-scroll bb borderScroll"
-  scroll-with-animation="1"
-  scroll-x="1"
-  scroll-into-view="tab{{ tabBorderIndex - 1 }}">
-    <view class="tab-inside">
-      <button hover-class="none"
-        class="tab-item br10 f25 cfff {{ tabBorderIndex == -1 ? 'active' : '' }} tr5 cff362c fw7"
-        id="tab-1"
-        catchtap="chooseIndex"
-        data-type="border"
-        data-index="-1">
-      无边框
-      </button>
-      <button hover-class="none"
-        class="tab-item f25 br10 cfff {{ tabBorderIndex == index ? 'active' : '' }} tr5"
-        id="tab{{ index }}"
-        catchtap="chooseIndex"
-        data-type="border"
-        data-index="{{ index }}"
-        wx:key
-        wx:for="{{ tabBorderArr }}">
-      <image class="borderImg" mode="aspectFill" src="https://c.jiangwenqiang.com/lqsy/canvas_border_{{ index }}.jpg"></image>
-      </button>
-    </view>
-</scroll-view>
+  <view class="sliderArea df">
+    <view class="cfff f28">{{ operationArr.tab[operationArr.chooseIndex].sliderText }}: {{ operationArr.tab[operationArr.chooseIndex].currentSlider }}</view>
+    <slider bindchange="sliderChanage" bindchanging="sliderChanage" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>
+  </view>
+  <scroll-view class="tab-scroll bb borderScroll"
+    scroll-with-animation="1"
+    scroll-x="1"
+    scroll-into-view="tab{{ tabBorderIndex - 1 }}">
+      <view class="tab-inside">
+        <button hover-class="none"
+          class="tab-item br10 f25 cfff {{ (operationArr.chooseIndex <= 0 ? tabBorderArr.i : operationArr.chooseIndex <= 1 ? bgColorArr.i : borderColorArr.i) == -1 ? 'active' : '' }} tr5 cff362c fw7"
+          id="tab-1"
+          wx:if="{{ operationArr.chooseIndex <= 0 }}"
+          catchtap="chooseIndex"
+          data-type="type{{ operationArr.chooseIndex }}"
+          data-index="-1">
+        无画框
+        </button>
+        <button hover-class="none"
+          class="tab-item f25 br10 cfff {{ (operationArr.chooseIndex <= 0 ? tabBorderArr.i : operationArr.chooseIndex <= 1 ? bgColorArr.i : borderColorArr.i) == index ? 'active' : '' }} tr5"
+          id="tab{{ index }}"
+          catchtap="chooseIndex"
+          data-type="type{{ operationArr.chooseIndex }}"
+          data-index="{{ index }}"
+          style="background: {{ operationArr.chooseIndex <= 0 ? '#ffffff' : item }};"
+          wx:key
+          wx:for="{{ operationArr.chooseIndex <= 0 ? tabBorderArr.item : operationArr.chooseIndex <= 1 ? bgColorArr.item : borderColorArr.item }}">
+        <image wx:if="{{ operationArr.chooseIndex <= 0 }}"
+               class="borderImg"
+               mode="aspectFill"
+               src="{{ item }}?123"></image>
+        </button>
+      </view>
+  </scroll-view>
   <view class="df tac p20 bgfff">
     <view wx:for="{{ operationArr.tab }}"
           wx:key="*78"
-          catchtap="chooseType"
+          data-type="type"
+          catchtap="chooseIndex"
           data-index="{{ index }}"
           class="df flex1 bottomOpType">
       <image class="typeImg" src="{{ operationArr.chooseIndex == index ? item.imgChoose : item.img }}"></image>

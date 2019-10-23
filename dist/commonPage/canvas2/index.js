@@ -6,6 +6,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var app = getApp();
 // const UpLoad = require('../upLoad')
 var baseScale = 1; // 底图缩放率
+var currentIndex = 0; // 当前的图片
 // 创建页面实例对象
 Page({
   /**
@@ -17,14 +18,25 @@ Page({
       positionItem: [{
         x: 375,
         y: 375,
-        width: 350,
-        height: 350
+        width: 500,
+        height: 500
       }]
     },
     upImgArr: [{
       src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
     }],
-    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    tabBorderArr: {
+      i: -1,
+      item: ['https://c.jiangwenqiang.com/lqsy/canvas_border_0.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_2.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_3.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_4.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_5.jpg']
+    },
+    bgColorArr: {
+      i: -1,
+      item: ['#ffffff', '#ff0000', '#ffff00', '#00ff00', '#0000ff', '#ff00ff']
+    },
+    borderColorArr: {
+      i: 0,
+      item: ['#ffffff', '#ff0000', '#ffff00', '#00ff00', '#0000ff', '#ff00ff']
+    },
     operationArr: {
       chooseIndex: 0,
       tab: [{
@@ -34,7 +46,7 @@ Page({
         sliderText: '缩放',
         currentSlider: 0,
         minSlider: 0,
-        maxSlider: 100
+        maxSlider: 80
       }, {
         t: '卡纸',
         img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
@@ -54,6 +66,65 @@ Page({
       }]
     }
   },
+  /**
+   * slider对应不同内容处理
+   * @param e
+   */
+  sliderChanage: function sliderChanage(e) {
+    if (this.data.operationArr.chooseIndex === 0) {
+      var _setData;
+
+      // 改变整体大小
+      this.setData((_setData = {}, _defineProperty(_setData, 'operationArr.tab[0].currentSlider', e.detail.value), _defineProperty(_setData, 'upImgArr[0].scale', (100 - e.detail.value) / 100), _setData));
+    } else if (this.data.operationArr.chooseIndex === 1) {
+      var _setData2;
+
+      // 改变图片大小
+      var inScale = 1 - e.detail.value / 40;
+      this.setData((_setData2 = {}, _defineProperty(_setData2, 'operationArr.tab[1].currentSlider', e.detail.value), _defineProperty(_setData2, 'upImgArr[' + currentIndex + '].width', this.data.upImgArr[currentIndex].startWidth * inScale), _defineProperty(_setData2, 'upImgArr[' + currentIndex + '].height', this.data.upImgArr[currentIndex].startHeight * inScale), _defineProperty(_setData2, 'upImgArr[' + currentIndex + '].xx', (1 - inScale) * this.data.upImgArr[currentIndex].startWidth / 2), _defineProperty(_setData2, 'upImgArr[' + currentIndex + '].yy', (1 - inScale) * this.data.upImgArr[currentIndex].startHeight / 2), _setData2));
+      if (this.data.operationArr.tab[2].currentSlider > 0) {
+        var _setData3;
+
+        var value = this.data.operationArr.tab[2].currentSlider * 2;
+        this.setData((_setData3 = {}, _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.x', this.data.upImgArr[currentIndex].xx - value / 2), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.y', this.data.upImgArr[currentIndex].yy - value / 2), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.width', this.data.upImgArr[currentIndex].width + value), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.height', this.data.upImgArr[currentIndex].height + value), _setData3));
+      }
+    } else if (this.data.operationArr.chooseIndex === 2) {
+      var _setData4;
+
+      // 改变局条颜色
+      var _value = 2 * e.detail.value;
+      this.setData((_setData4 = {}, _defineProperty(_setData4, 'operationArr.tab[2].currentSlider', e.detail.value), _defineProperty(_setData4, 'upImgArr[' + currentIndex + '].border.x', this.data.upImgArr[currentIndex].xx - _value / 2), _defineProperty(_setData4, 'upImgArr[' + currentIndex + '].border.y', this.data.upImgArr[currentIndex].yy - _value / 2), _defineProperty(_setData4, 'upImgArr[' + currentIndex + '].border.width', this.data.upImgArr[currentIndex].width + _value), _defineProperty(_setData4, 'upImgArr[' + currentIndex + '].border.height', this.data.upImgArr[currentIndex].height + _value), _setData4));
+    }
+  },
+
+  /**
+   * 修改不同分类的索引
+   * @param e
+   */
+  chooseIndex: function chooseIndex(e) {
+    var _this = this;
+
+    if (e.currentTarget.dataset.type === 'type') {
+      // 选择类型
+      this.setData(_defineProperty({}, 'operationArr.chooseIndex', e.currentTarget.dataset.index));
+    } else if (e.currentTarget.dataset.type === 'type0') {
+      // 选择边框
+      this.setData(_defineProperty({}, 'tabBorderArr.i', e.currentTarget.dataset.index), function () {
+        _this.getBorderInfo(_this.data.tabBorderArr.item[e.currentTarget.dataset.index]);
+      });
+    } else if (e.currentTarget.dataset.type === 'type1') {
+      var _setData7;
+
+      // 选择卡纸
+      this.setData((_setData7 = {}, _defineProperty(_setData7, 'bgColorArr.i', e.currentTarget.dataset.index), _defineProperty(_setData7, 'upImgArr[' + currentIndex + '].bgc', this.data.bgColorArr.item[e.currentTarget.dataset.index]), _setData7));
+    } else if (e.currentTarget.dataset.type === 'type2') {
+      var _setData8;
+
+      // 选择局条
+      this.setData((_setData8 = {}, _defineProperty(_setData8, 'borderColorArr.i', e.currentTarget.dataset.index), _defineProperty(_setData8, 'upImgArr[' + currentIndex + '].border.color', this.data.borderColorArr.item[e.currentTarget.dataset.index]), _setData8));
+    }
+  },
+
   /**
    * 获取图片信息
    * @param src // 传入图片路径
@@ -82,7 +153,7 @@ Page({
    * @param src
    */
   getBackImageInfo: function getBackImageInfo(src) {
-    var _this = this;
+    var _this2 = this;
 
     this.getImageInfo(src).then(function (res) {
       res.fixWidth = app.data.system.windowWidth;
@@ -93,15 +164,15 @@ Page({
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = _this.data.backImageInfo.positionItem[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (var _iterator = _this2.data.backImageInfo.positionItem[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var v = _step.value;
 
           v.x = baseScale * v.x;
           v.y = baseScale * v.y;
           // v.width = baseScale * v.width / 8
           // v.height = baseScale * v.height / 8
-          v.width = baseScale * v.width / 2;
-          v.height = baseScale * v.height / 2;
+          v.width = baseScale * v.width;
+          v.height = baseScale * v.height;
         }
       } catch (err) {
         _didIteratorError = true;
@@ -118,11 +189,11 @@ Page({
         }
       }
 
-      _this.setData({
-        backImageInfo: Object.assign(_this.data.backImageInfo, res)
+      _this2.setData({
+        backImageInfo: Object.assign(_this2.data.backImageInfo, res)
       }, function () {
-        _this.data.upImgArr[0].src = app.data.userUseImg;
-        _this.getItemImageInfo(0);
+        _this2.data.upImgArr[0].src = app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png';
+        _this2.getItemImageInfo(0);
       });
     });
   },
@@ -132,16 +203,16 @@ Page({
    * @param index
    */
   getItemImageInfo: function getItemImageInfo(index) {
-    var _this2 = this;
+    var _this3 = this;
 
     this.getImageInfo(this.data.upImgArr[index].src).then(function (res) {
       if (res.width >= res.height) {
-        var temp = _this2.data.backImageInfo.positionItem[index].width * res.height / res.width;
-        res.width = _this2.data.backImageInfo.positionItem[index].width.toFixed(1);
+        var temp = _this3.data.backImageInfo.positionItem[index].width * res.height / res.width;
+        res.width = _this3.data.backImageInfo.positionItem[index].width.toFixed(1);
         res.height = temp.toFixed(1);
       } else {
-        var _temp = _this2.data.backImageInfo.positionItem[index].height * res.width / res.height;
-        res.height = _this2.data.backImageInfo.positionItem[index].height.toFixed(1);
+        var _temp = _this3.data.backImageInfo.positionItem[index].height * res.width / res.height;
+        res.height = _this3.data.backImageInfo.positionItem[index].height.toFixed(1);
         res.width = _temp.toFixed(1);
       }
       // 记录图片的宽高
@@ -149,16 +220,19 @@ Page({
       res.startHeight = res.height;
       res.useWidth = res.width < res.height;
       res.scale = 1;
-      res.x = _this2.data.backImageInfo.positionItem[index].x - res.width / 2;
-      res.y = _this2.data.backImageInfo.positionItem[index].y - res.height / 2;
+      res.x = _this3.data.backImageInfo.positionItem[index].x - res.width / 2;
+      res.y = _this3.data.backImageInfo.positionItem[index].y - res.height / 2;
+      res.xx = 0;
+      res.yy = 0;
       res.bgc = '#ffffff';
       res.border = {
+        x: 0,
+        y: 0,
         width: 0,
+        height: 0,
         color: '#ffffff'
       };
-      _this2.setData(_defineProperty({}, 'upImgArr[' + index + ']', res), function () {
-        _this2.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 0);
-      });
+      _this3.setData(_defineProperty({}, 'upImgArr[' + index + ']', res));
     });
   },
 
@@ -168,17 +242,22 @@ Page({
    * @param index
    */
   getBorderInfo: function getBorderInfo(src) {
-    var _this3 = this;
+    var _this4 = this;
 
     var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
+    if (!src) {
+      return this.setData({
+        borderImageInfo: null
+      });
+    }
     this.getImageInfo(src).then(function (res) {
-      res.width = (res.width * baseScale / 2).toFixed(1);
-      var x = _this3.data.upImgArr[index].startWidth / (res.width / 2);
-      var y = _this3.data.upImgArr[index].startHeight / (res.width / 2);
+      res.width = (res.width * baseScale).toFixed(1);
+      var x = _this4.data.upImgArr[index].startWidth / (res.width / 2);
+      var y = _this4.data.upImgArr[index].startHeight / (res.width / 2);
       res.x = x === Math.floor(x) ? Math.floor(x) - 1 : Math.floor(x);
       res.y = y === Math.floor(y) ? Math.floor(y) - 1 : Math.floor(y);
-      _this3.setData({
+      _this4.setData({
         borderImageInfo: res
       });
     });

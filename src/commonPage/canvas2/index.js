@@ -2,6 +2,7 @@
 const app = getApp()
 // const UpLoad = require('../upLoad')
 let baseScale = 1 // 底图缩放率
+let currentIndex = 0 // 当前的图片
 // 创建页面实例对象
 Page({
   /**
@@ -14,8 +15,8 @@ Page({
         {
           x: 375,
           y: 375,
-          width: 350,
-          height: 350
+          width: 500,
+          height: 500
         }
       ]
     },
@@ -24,7 +25,39 @@ Page({
         src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
       }
     ],
-    tabBorderArr: ['关注', '推荐', '热议', '视频', '关注', '推荐', '热议', '视频'],
+    tabBorderArr: {
+      i: -1,
+      item: [
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_0.jpg',
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg',
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_2.jpg',
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_3.jpg',
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_4.jpg',
+        'https://c.jiangwenqiang.com/lqsy/canvas_border_5.jpg'
+      ]
+    },
+    bgColorArr: {
+      i: -1,
+      item: [
+        '#ffffff',
+        '#ff0000',
+        '#ffff00',
+        '#00ff00',
+        '#0000ff',
+        '#ff00ff'
+      ]
+    },
+    borderColorArr: {
+      i: 0,
+      item: [
+        '#ffffff',
+        '#ff0000',
+        '#ffff00',
+        '#00ff00',
+        '#0000ff',
+        '#ff00ff'
+      ]
+    },
     operationArr: {
       chooseIndex: 0,
       tab: [
@@ -35,7 +68,7 @@ Page({
           sliderText: '缩放',
           currentSlider: 0,
           minSlider: 0,
-          maxSlider: 100
+          maxSlider: 80
         },
         {
           t: '卡纸',
@@ -55,6 +88,72 @@ Page({
           minSlider: 0,
           maxSlider: 3
         }]
+    }
+  },
+  /**
+   * slider对应不同内容处理
+   * @param e
+   */
+  sliderChanage (e) {
+    if (this.data.operationArr.chooseIndex === 0) { // 改变整体大小
+      this.setData({
+        [`operationArr.tab[0].currentSlider`]: e.detail.value,
+        [`upImgArr[0].scale`]: (100 - e.detail.value) / 100
+      })
+    } else if (this.data.operationArr.chooseIndex === 1) { // 改变图片大小
+      let inScale = 1 - (e.detail.value / 40)
+      this.setData({
+        [`operationArr.tab[1].currentSlider`]: e.detail.value,
+        [`upImgArr[${currentIndex}].width`]: this.data.upImgArr[currentIndex].startWidth * inScale,
+        [`upImgArr[${currentIndex}].height`]: this.data.upImgArr[currentIndex].startHeight * inScale,
+        [`upImgArr[${currentIndex}].xx`]: ((1 - inScale) * this.data.upImgArr[currentIndex].startWidth) / 2,
+        [`upImgArr[${currentIndex}].yy`]: ((1 - inScale) * this.data.upImgArr[currentIndex].startHeight) / 2
+      })
+      if (this.data.operationArr.tab[2].currentSlider > 0) {
+        let value = this.data.operationArr.tab[2].currentSlider * 2
+        this.setData({
+          [`upImgArr[${currentIndex}].border.x`]: this.data.upImgArr[currentIndex].xx - value / 2,
+          [`upImgArr[${currentIndex}].border.y`]: this.data.upImgArr[currentIndex].yy - value / 2,
+          [`upImgArr[${currentIndex}].border.width`]: this.data.upImgArr[currentIndex].width + value,
+          [`upImgArr[${currentIndex}].border.height`]: this.data.upImgArr[currentIndex].height + value
+        })
+      }
+    } else if (this.data.operationArr.chooseIndex === 2) { // 改变局条颜色
+      let value = 2 * e.detail.value
+      this.setData({
+        [`operationArr.tab[2].currentSlider`]: e.detail.value,
+        [`upImgArr[${currentIndex}].border.x`]: this.data.upImgArr[currentIndex].xx - value / 2,
+        [`upImgArr[${currentIndex}].border.y`]: this.data.upImgArr[currentIndex].yy - value / 2,
+        [`upImgArr[${currentIndex}].border.width`]: this.data.upImgArr[currentIndex].width + value,
+        [`upImgArr[${currentIndex}].border.height`]: this.data.upImgArr[currentIndex].height + value
+      })
+    }
+  },
+  /**
+   * 修改不同分类的索引
+   * @param e
+   */
+  chooseIndex (e) {
+    if (e.currentTarget.dataset.type === 'type') { // 选择类型
+      this.setData({
+        [`operationArr.chooseIndex`]: e.currentTarget.dataset.index
+      })
+    } else if (e.currentTarget.dataset.type === 'type0') { // 选择边框
+      this.setData({
+        [`tabBorderArr.i`]: e.currentTarget.dataset.index
+      }, () => {
+        this.getBorderInfo(this.data.tabBorderArr.item[e.currentTarget.dataset.index])
+      })
+    } else if (e.currentTarget.dataset.type === 'type1') { // 选择卡纸
+      this.setData({
+        [`bgColorArr.i`]: e.currentTarget.dataset.index,
+        [`upImgArr[${currentIndex}].bgc`]: this.data.bgColorArr.item[e.currentTarget.dataset.index]
+      })
+    } else if (e.currentTarget.dataset.type === 'type2') { // 选择局条
+      this.setData({
+        [`borderColorArr.i`]: e.currentTarget.dataset.index,
+        [`upImgArr[${currentIndex}].border.color`]: this.data.borderColorArr.item[e.currentTarget.dataset.index]
+      })
     }
   },
   /**
@@ -93,13 +192,13 @@ Page({
         v.y = baseScale * v.y
         // v.width = baseScale * v.width / 8
         // v.height = baseScale * v.height / 8
-        v.width = baseScale * v.width / 2
-        v.height = baseScale * v.height / 2
+        v.width = baseScale * v.width
+        v.height = baseScale * v.height
       }
       this.setData({
         backImageInfo: Object.assign(this.data.backImageInfo, res)
       }, () => {
-        this.data.upImgArr[0].src = app.data.userUseImg
+        this.data.upImgArr[0].src = app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
         this.getItemImageInfo(0)
       })
     })
@@ -126,15 +225,18 @@ Page({
       res.scale = 1
       res.x = this.data.backImageInfo.positionItem[index].x - res.width / 2
       res.y = this.data.backImageInfo.positionItem[index].y - res.height / 2
+      res.xx = 0
+      res.yy = 0
       res.bgc = '#ffffff'
       res.border = {
+        x: 0,
+        y: 0,
         width: 0,
+        height: 0,
         color: '#ffffff'
       }
       this.setData({
         [`upImgArr[${index}]`]: res
-      }, () => {
-        this.getBorderInfo('https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 0)
       })
     })
   },
@@ -144,8 +246,13 @@ Page({
    * @param index
    */
   getBorderInfo (src, index = 0) {
+    if (!src) {
+      return this.setData({
+        borderImageInfo: null
+      })
+    }
     this.getImageInfo(src).then(res => {
-      res.width = (res.width * baseScale / 2).toFixed(1)
+      res.width = (res.width * baseScale).toFixed(1)
       let x = this.data.upImgArr[index].startWidth / (res.width / 2)
       let y = this.data.upImgArr[index].startHeight / (res.width / 2)
       res.x = x === Math.floor(x) ? Math.floor(x) - 1 : Math.floor(x)
