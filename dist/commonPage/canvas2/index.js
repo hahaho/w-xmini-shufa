@@ -15,6 +15,7 @@ Page({
   data: {
     backImageInfo: {
       src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
+      zIndex: 1,
       positionItem: [{
         x: 375,
         y: 375,
@@ -70,7 +71,7 @@ Page({
    * slider对应不同内容处理
    * @param e
    */
-  sliderChanage: function sliderChanage(e) {
+  sliderChange: function sliderChange(e) {
     if (this.data.operationArr.chooseIndex === 0) {
       var _setData;
 
@@ -85,10 +86,10 @@ Page({
       if (this.data.operationArr.tab[2].currentSlider > 0) {
         var _setData3;
 
-        var value = this.data.operationArr.tab[2].currentSlider * 2;
+        var value = this.data.upImgArr[currentIndex].width < this.data.upImgArr[currentIndex].startWidth - 3 ? this.data.operationArr.tab[2].currentSlider * 2 : 0;
         this.setData((_setData3 = {}, _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.x', this.data.upImgArr[currentIndex].xx - value / 2), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.y', this.data.upImgArr[currentIndex].yy - value / 2), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.width', this.data.upImgArr[currentIndex].width + value), _defineProperty(_setData3, 'upImgArr[' + currentIndex + '].border.height', this.data.upImgArr[currentIndex].height + value), _setData3));
       }
-    } else if (this.data.operationArr.chooseIndex === 2) {
+    } else if (this.data.operationArr.chooseIndex === 2 && this.data.upImgArr[currentIndex].width < this.data.upImgArr[currentIndex].startWidth - 3) {
       var _setData4;
 
       // 改变局条颜色
@@ -248,9 +249,7 @@ Page({
     var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
     if (!src) {
-      return this.setData({
-        borderImageInfo: null
-      });
+      return this.setData(_defineProperty({}, 'upImgArr[' + currentIndex + '].borderImageInfo', null));
     }
     this.getImageInfo(src).then(function (res) {
       res.width = (res.width * baseScale).toFixed(1);
@@ -258,9 +257,7 @@ Page({
       var y = _this4.data.upImgArr[index].startHeight / (res.width / 2);
       res.x = x === Math.floor(x) ? Math.floor(x) - 1 : Math.floor(x);
       res.y = y === Math.floor(y) ? Math.floor(y) - 1 : Math.floor(y);
-      _this4.setData({
-        borderImageInfo: res
-      });
+      _this4.setData(_defineProperty({}, 'upImgArr[' + currentIndex + '].borderImageInfo', res));
     });
   },
   canvasDraw: function canvasDraw() {
@@ -273,45 +270,87 @@ Page({
     var ctx = wx.createCanvasContext('outPic', this);
     var that = this;
     ctx.setFillStyle('white');
-    ctx.fillRect(0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+    ctx.fillRect(0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2);
     if (that.data.backImageInfo.zIndex <= 1) {
-      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2);
     }
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
     var _iteratorError2 = undefined;
 
     try {
-      for (var _iterator2 = that.data.imgArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      for (var _iterator2 = that.data.upImgArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
         var v = _step2.value;
 
         ctx.save();
-        ctx.translate(v.left * 2 + v.showWidth, v.top * 2 + v.showHeight);
-        ctx.rotate(v.rotate * Math.PI / 180);
-        ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
-        if (v.border) {
-          // 左上角
-          ctx.translate(-v.showWidth * v.scale, -v.showHeight * v.scale);
-          ctx.rotate(45 * Math.PI / 180);
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
-          ctx.rotate(-45 * Math.PI / 180);
-          ctx.translate(v.showWidth * 2 * v.scale, 0);
-          ctx.rotate(135 * Math.PI / 180);
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
-          ctx.rotate(-135 * Math.PI / 180);
-          ctx.translate(0, v.showHeight * 2 * v.scale);
-          ctx.rotate(225 * Math.PI / 180);
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
-          ctx.rotate(-225 * Math.PI / 180);
-          ctx.translate(-v.showWidth * 2 * v.scale, 0);
-          ctx.rotate(315 * Math.PI / 180);
-          ctx.drawImage(v.border.path, -(v.border.width * v.scale), -(v.border.width * v.scale), v.border.width * v.scale * 2, v.border.width * v.scale * 2);
-          ctx.rotate(-315 * Math.PI / 180);
-          ctx.translate(v.showWidth * v.scale, -v.showHeight * v.scale);
-          ctx.drawImage(v.path, -(v.showWidth * v.scale), -(v.showHeight * v.scale), v.showWidth * v.scale * 2, v.showHeight * v.scale * 2);
+        // 移动坐标点到图片中心位置
+        ctx.translate(v.x * 2 + v.startWidth * 1, v.y * 2 + v.startHeight * 1);
+        // 旋转画布对应的角度
+        ctx.rotate(v.rotate * 1 * Math.PI / 180);
+        // 边框 ---s
+        if (v.borderImageInfo) {
+          // 上边框
+          var count = 0;
+          while (count < v.borderImageInfo.x) {
+            ctx.translate(((v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width - v.startWidth) * v.scale, -v.startHeight * v.scale);
+            ctx.rotate(45 * Math.PI / 180);
+            ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
+            ctx.rotate(-45 * Math.PI / 180);
+            ctx.translate(-((v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width - v.startWidth) * v.scale, v.startHeight * v.scale);
+            count++;
+          }
+          // 右边框
+          count = 0;
+          while (count < v.borderImageInfo.y) {
+            // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
+            ctx.translate(v.startWidth * v.scale, ((v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width - v.startHeight) * v.scale);
+            ctx.rotate(135 * Math.PI / 180);
+            ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
+            ctx.rotate(-135 * Math.PI / 180);
+            ctx.translate(-v.startWidth * v.scale, -((v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width - v.startHeight) * v.scale);
+            count++;
+          }
+          // 下边框
+          count = 0;
+          while (count < v.borderImageInfo.x) {
+            // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
+            ctx.translate((-(v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width + v.startWidth * 1) * v.scale, v.startHeight * v.scale);
+            ctx.rotate(225 * Math.PI / 180);
+            ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
+            ctx.rotate(-225 * Math.PI / 180);
+            ctx.translate(-(-(v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width + v.startWidth * 1) * v.scale, -v.startHeight * v.scale);
+            count++;
+          }
+          // 右边框
+          count = 0;
+          while (count < v.borderImageInfo.y) {
+            // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
+            ctx.translate(-v.startWidth * v.scale, (-(v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width + v.startHeight * 1) * v.scale);
+            ctx.rotate(315 * Math.PI / 180);
+            ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
+            ctx.rotate(-315 * Math.PI / 180);
+            ctx.translate(v.startWidth * v.scale, -(-(v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width + v.startHeight * 1) * v.scale);
+            count++;
+          }
         }
+        // 边框 ---e
+        // 卡纸 ---s
+        ctx.setFillStyle(v.bgc);
+        ctx.fillRect(-(v.startWidth * v.scale), -(v.startHeight * v.scale), v.startWidth * v.scale * 2, v.startHeight * v.scale * 2);
+        // 卡纸 ---e
+        // 局条 ---s
+        if (v.border) {
+          ctx.setFillStyle(v.border.color);
+          ctx.fillRect(-(v.border.width * v.scale), -(v.border.height * v.scale), v.border.width * v.scale * 2, v.border.height * v.scale * 2);
+        }
+        // 局条 ---e
+        // 图片 ---s
+        ctx.drawImage(v.path, -(v.width * v.scale), -(v.height * v.scale), v.width * v.scale * 2, v.height * v.scale * 2);
+        // 图片 ---e
         ctx.restore();
       }
+
+      // 图片 ---e
     } catch (err) {
       _didIteratorError2 = true;
       _iteratorError2 = err;
@@ -328,12 +367,46 @@ Page({
     }
 
     if (that.data.backImageInfo.zIndex >= 10) {
-      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.showWidth * 2, that.data.backImageInfo.showHeight * 2);
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2);
     }
     ctx.draw();
     setTimeout(function () {
       _this5.outImageDouble();
     }, 300);
+  },
+  outImageDouble: function outImageDouble() {
+    var that = this;
+    wx.canvasToTempFilePath({
+      x: 0,
+      y: 0,
+      width: that.data.backImageInfo.fixWidth * 2,
+      height: that.data.backImageInfo.fixHeight * 2,
+      destWidth: that.data.backImageInfo.fixWidth * 2,
+      destHeight: that.data.backImageInfo.fixHeight * 2,
+      canvasId: 'outPic',
+      success: function success(res) {
+        if (res.errMsg === 'canvasToTempFilePath:ok') {
+          that.setData({
+            showImgSrc: res.tempFilePath
+          });
+          wx.hideLoading();
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: function success() {
+              wx.showToast({
+                title: '图片已存入相册'
+              });
+            },
+            fail: function fail() {
+              // app.setToast(that, {content: '请授权相册保存'})
+              // that.setData({
+              //   buttonShow: true
+              // })
+            }
+          });
+        }
+      }
+    });
   },
 
   /**

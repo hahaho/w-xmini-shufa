@@ -9,41 +9,41 @@
         wx:key="*111"
         class="backImage pa"
         style="transform: scale({{ item.scale }}); top: {{ item.y }}px; left: {{ item.x }}px; width: {{ item.startWidth }}px; height: {{ item.startHeight }}px;">
-
+`
     <!--四边-->
     <!--上边-->
-    <image wx:for="{{ borderImageInfo.x }}"
-           wx:if="{{ borderImageInfo }}"
-           src="{{ borderImageInfo.path }}"
+    <image wx:for="{{ item.borderImageInfo.x }}"
+           wx:if="{{ item.borderImageInfo }}"
+           src="{{ item.borderImageInfo.path }}"
            class="pa"
-           style="transform: rotate(45deg); top: {{ -borderImageInfo.width / 2 }}px; left: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           style="transform: rotate(45deg); top: {{ -item.borderImageInfo.width / 2 }}px; left: {{ (item.borderImageInfo.x - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
            wx:key="*121"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--右边-->
-    <image wx:for="{{ borderImageInfo.y }}"
-           wx:if="{{ borderImageInfo }}"
-           src="{{ borderImageInfo.path }}"
+    <image wx:for="{{ item.borderImageInfo.y }}"
+           wx:if="{{ item.borderImageInfo }}"
+           src="{{ item.borderImageInfo.path }}"
            class="pa"
-           style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; right: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (item.borderImageInfo.y - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; right: {{ -item.borderImageInfo.width / 2 }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
            wx:key="*122"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--底边-->
-    <image wx:for="{{ borderImageInfo.x }}"
-           wx:if="{{ borderImageInfo }}"
-           src="{{ borderImageInfo.path }}"
+    <image wx:for="{{ item.borderImageInfo.x }}"
+           wx:if="{{ item.borderImageInfo }}"
+           src="{{ item.borderImageInfo.path }}"
            class="pa"
-           style="transform: rotate(225deg); bottom: {{ -borderImageInfo.width / 2 }}px; right: {{ (borderImageInfo.x - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           style="transform: rotate(225deg); bottom: {{ -item.borderImageInfo.width / 2 }}px; right: {{ (item.borderImageInfo.x - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
            wx:key="*123"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--左边-->
-    <image wx:for="{{ borderImageInfo.y }}"
-           wx:if="{{ borderImageInfo }}"
-           src="{{ borderImageInfo.path }}"
+    <image wx:for="{{ item.borderImageInfo.y }}"
+           wx:if="{{ item.borderImageInfo }}"
+           src="{{ item.borderImageInfo.path }}"
            class="pa"
-           style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (borderImageInfo.y - 1 - bIndex) * (borderImageInfo.width / 2) - (borderImageInfo.width / 2) }}px; left: {{ -borderImageInfo.width / 2 }}px; width: {{ borderImageInfo.width }}px; height: {{ borderImageInfo.width }}px;"
+           style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (item.borderImageInfo.y - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; left: {{ -item.borderImageInfo.width / 2 }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
            wx:key="*124"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
@@ -63,7 +63,7 @@
 <view class="bottomOp">
   <view class="sliderArea df">
     <view class="cfff f28">{{ operationArr.tab[operationArr.chooseIndex].sliderText }}: {{ operationArr.tab[operationArr.chooseIndex].currentSlider }}</view>
-    <slider bindchange="sliderChanage" bindchanging="sliderChanage" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>
+    <slider bindchange="sliderChange" bindchanging="sliderChange" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>
   </view>
   <scroll-view class="tab-scroll bb borderScroll"
     scroll-with-animation="1"

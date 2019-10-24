@@ -205,7 +205,7 @@ Page({
           app.data['userUseImg'] = res.tempFilePath;
           wx.hideLoading();
           wx.navigateTo({
-            url: '/commonPage/canvas2/index'
+            url: '/commonPage/canvas2/step_three/index'
           });
         }
       }
