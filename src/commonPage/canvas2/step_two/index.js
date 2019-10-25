@@ -15,7 +15,9 @@ Page({
   data: {
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+    },
+    single: 'single',
+    options: null
   },
 
   chooseAreaStart (e) {
@@ -77,7 +79,6 @@ Page({
       cutAreaMove: false
     })
   },
-
   getImageInfo (src) {
     let that = this
     this.setData({
@@ -209,9 +210,20 @@ Page({
         if (res.errMsg === 'canvasToTempFilePath:ok') {
           app.data['userUseImg'] = res.tempFilePath
           wx.hideLoading()
-          wx.navigateTo({
-            url: '/commonPage/canvas2/step_three/index'
-          })
+          if (this.data.single === 'single') {
+            wx.navigateTo({
+              url: '/commonPage/canvas2/step_three/index?single=single'
+            })
+          } else {
+            let index = this.data.options.index
+            let _this = getCurrentPages()[getCurrentPages().length - 2]
+            _this.setData({
+              [`upImgArr[${index}].src`]: res.tempFilePath
+            }, () => {
+              _this.getItemImageInfo(index)
+              wx.navigateBack({})
+            })
+          }
         }
       }
     })
@@ -219,11 +231,13 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
     wx.showLoading({
       title: '加载图片中',
       mask: true
     })
+    this.data.single = options.single
+    this.data.options = options
     this.getImageInfo(app.data.chooseImage)
   },
   /**

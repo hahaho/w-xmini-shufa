@@ -86,13 +86,16 @@ Page({
   chooseImage (e) {
     app.data['userBackImage'] = this.data.imgArr[e.currentTarget.dataset.index]
     wx.navigateTo({
-      url: '/commonPage/canvas2/index'
+      url: `/commonPage/canvas2/index?single=${this.data.single}`
     })
   },
   itemChoose (e) {
     this.setData({
       [`chooseArr[${e.currentTarget.dataset.oindex}].tIndex`]: e.currentTarget.dataset.iindex * 1 === this.data.chooseArr[e.currentTarget.dataset.oindex].tIndex.tIdnex * 1 ? -1 : e.currentTarget.dataset.iindex
     })
+  },
+  confirmSceneChange () {
+    this._toggleSpec()
   },
   _toggleSpec () {
     this.setData({
@@ -113,7 +116,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.data.single = options.single
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

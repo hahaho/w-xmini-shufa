@@ -52,9 +52,11 @@
 
 <!--操作 -s-->
 <navigator url="/user/message/index?type=shopcomment" class="arrow p2030 f25 bgfff bd1 jwqfont jwqpinglun1 mt20">　<text class="c323232 ml10">我的评价</text></navigator>
+<navigator url="/user/message/index?type=shopcomment" class="arrow p2030 f25 bgfff bd1 jwqfont jwqshangcheng">　<text class="c323232 ml10">我的墨宝真迹</text></navigator>
 <button open-type="contact">
   <view class="arrow p2030 f25 bgfff jwqfont df jwqiconset0270">　<text class="c323232 ml10">联系客服</text></view>
 </button>
+
 <!--操作 -e-->
 <navigator url="/user/login/index" class="f29 fw7 tac br10 bgfff login">退出登陆</navigator>
 

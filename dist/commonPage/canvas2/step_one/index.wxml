@@ -5,5 +5,5 @@
 
 <view class="df dfb type_choose_wrap">
   <view catchtap="typeChoose" class="type_choose" data-text="单幅装裱"></view>
-  <navigator hover-class="none" class="type_choose" data-text="多幅装裱"></navigator>
+  <navigator url="/commonPage/canvas2/step_three/index?single=more" hover-class="none" class="type_choose" data-text="多幅装裱"></navigator>
 </view>

@@ -11,21 +11,24 @@ Page({
   data: {
     backImageInfo: {
       src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-      zIndex: 1,
-      positionItem: [
+      zIndex: 10,
+      positionItem: [ // 展示点位置坐标
         {
-          x: 375,
-          y: 375,
-          width: 500,
-          height: 500
+          x: 375, // 中心点x
+          y: 375, // 中心店y
+          width: 200, // 实际宽
+          height: 200 // 实际高
         }
       ]
     },
-    upImgArr: [
-      {
-        src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
-      }
+    shareArr: [
+      '社区',
+      '墨宝真迹',
+      '保存相册',
+      '微信好友',
+      '朋友圈'
     ],
+    upImgArr: [],
     tabBorderArr: {
       i: -1,
       item: [
@@ -90,6 +93,23 @@ Page({
           maxSlider: 3
         }]
     }
+  },
+  _toggleSpec () {
+    this.setData({
+      showSpec: !this.data.showSpec
+    })
+  },
+  chooseImage (e) {
+    if (this.data.single === 'single') return
+    wx.chooseImage({
+      count: 1,
+      success (res) {
+        app.data['chooseImage'] = res.tempFilePaths[0]
+        wx.navigateTo({
+          url: `/commonPage/canvas2/step_two/index?single=more&index=${e.currentTarget.dataset.index}`
+        })
+      }
+    })
   },
   /**
    * slider对应不同内容处理
@@ -199,8 +219,13 @@ Page({
       this.setData({
         backImageInfo: Object.assign(this.data.backImageInfo, res)
       }, () => {
-        this.data.upImgArr[0].src = app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
-        this.getItemImageInfo(0)
+        for (let i of this.data.backImageInfo.positionItem.keys()) {
+          console.log(i)
+          this.data.upImgArr[i] = {
+            'src': app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
+          }
+          this.getItemImageInfo(i)
+        }
       })
     })
   },
@@ -210,7 +235,7 @@ Page({
    */
   getItemImageInfo (index) {
     this.getImageInfo(this.data.upImgArr[index].src).then(res => {
-      if (res.width >= res.height) {
+      if (this.data.backImageInfo.positionItem[index].width <= this.data.backImageInfo.positionItem[index].height) {
         let temp = this.data.backImageInfo.positionItem[index].width * res.height / res.width
         res.width = this.data.backImageInfo.positionItem[index].width.toFixed(1)
         res.height = temp.toFixed(1)
@@ -393,7 +418,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.setData({
+      single: options.single
+    })
     this.getBackImageInfo(this.data.backImageInfo.src)
   },
   /**

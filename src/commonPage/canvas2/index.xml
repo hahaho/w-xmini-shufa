@@ -1,12 +1,15 @@
 <view  class="position: relative;">
   <!--底图-->
   <image class="backImage pa"
+         wx:if="{{ backImageInfo.zIndex <= 9 }}"
          src="{{ backImageInfo.path }}"
          style="top: 0;left:0; width: {{ backImageInfo.fixWidth }}px; height: {{ backImageInfo.fixHeight }}px;"></image>
 
   <!--单张图片-->
   <view wx:for="{{ upImgArr }}"
         wx:key="*111"
+        catchtap="chooseImage"
+        data-index="{{ index }}"
         class="backImage pa"
         style="transform: scale({{ item.scale }}); top: {{ item.y }}px; left: {{ item.x }}px; width: {{ item.startWidth }}px; height: {{ item.startHeight }}px;">
 `
@@ -56,16 +59,20 @@
            class="pa"
            style="display:inline-block; top: {{ item.yy }}px; left: {{ item.xx }}px; width: {{ item.width }}px; height: {{ item.height }}px;"></image>
   </view>
+  <image class="backImage pa"
+         wx:if="{{ backImageInfo.zIndex > 9 }}"
+         src="{{ backImageInfo.path }}"
+         style="top: 0;left:0; width: {{ backImageInfo.fixWidth }}px; height: {{ backImageInfo.fixHeight }}px;"></image>
 </view>
 
 <canvas style="width: 1000px; height: 1000px; position: fixed; bottom: -200%;right:-200%;" canvas-id="outPic"></canvas>
 
 <view class="bottomOp">
-  <view class="sliderArea df">
+  <view wx:if="{{ single == 'single' }}" class="sliderArea df">
     <view class="cfff f28">{{ operationArr.tab[operationArr.chooseIndex].sliderText }}: {{ operationArr.tab[operationArr.chooseIndex].currentSlider }}</view>
     <slider bindchange="sliderChange" bindchanging="sliderChange" class="flex1" block-color="#ff0000" activeColor="#f1f1f1" backgroundColor="#a68f80" value="{{ operationArr.tab[operationArr.chooseIndex].currentSlider }}" min="{{ operationArr.tab[operationArr.chooseIndex].minSlider }}" max="{{ operationArr.tab[operationArr.chooseIndex].maxSlider }}"></slider>
   </view>
-  <scroll-view class="tab-scroll bb borderScroll"
+  <scroll-view wx:if="{{ single == 'single' }}" class="tab-scroll bb borderScroll"
     scroll-with-animation="1"
     scroll-x="1"
     scroll-into-view="tab{{ tabBorderIndex - 1 }}">
@@ -95,7 +102,7 @@
         </button>
       </view>
   </scroll-view>
-  <view class="df tac p20 bgfff">
+  <view wx:if="{{ single == 'single' }}" class="df tac p20 bgfff">
     <view wx:for="{{ operationArr.tab }}"
           wx:key="*78"
           data-type="type"
@@ -106,7 +113,29 @@
       <text class="f33 mt10 {{ operationArr.chooseIndex == index ? 'c323232' : 'caaa' }}">{{ item.t }}</text>
     </view>
   </view>
-  <view catchtap="canvasDraw" class="f34 lh90 cfff fw7 bottomOpSend tac">直接分享</view>
+  <view catchtap="_toggleSpec" class="f34 lh90 cfff fw7 bottomOpSend tac">直接分享</view>
 </view>
+
+<!--分享选择 -s-->
+<view class="mask"
+      wx:if="{{ showSpec }}">
+  <view class="specs bgfff w100 animated slideInUp am5 p30">
+    <view class="">
+      <view class="df dfac">
+        <image style="transform: rotateZ(180deg) rotateX(180deg);" class="flex1" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/canvas_share_line.png"></image>
+        <view class="c646464 f38">分享作品到</view>
+        <image class="flex1" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/canvas_share_line.png"></image>
+      </view>
+    </view>
+    <view style="padding: 50rpx;">
+      <view class="shareChoose df dfc dfac" wx:for="{{ shareArr }}" wx:key="*678">
+        <image src="https://c.jiangwenqiang.com/lqsy/canvas_share_{{ index }}.png"></image>
+        <view class="mt20 tac f28 c646464">{{ item }}</view>
+      </view>
+    </view>
+    <view catchtap="_toggleSpec" class="tac cfff f33 specConfirm p2030">取消</view>
+  </view>
+</view>
+<!--分享选择 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

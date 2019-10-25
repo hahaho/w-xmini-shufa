@@ -102,6 +102,13 @@
       ]
     },
     {
+      "root": "sell", // 个人售卖
+      "name": "sell",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
       "root": "commonPage", // 公共页面
       "name": "common",
       "pages": [

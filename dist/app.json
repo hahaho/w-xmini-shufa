@@ -93,6 +93,13 @@
       ]
     },
     {
+      "root": "sell",
+      "name": "sell",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
       "root": "commonPage",
       "name": "common",
       "pages": [

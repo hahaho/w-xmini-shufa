@@ -46,7 +46,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 41,
+			"current": 42,
 			"list": [
 				{
 					"id": 0,
@@ -340,6 +340,12 @@
 					"name": "场景选择",
 					"pathName": "commonPage/canvas2/step_three/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "售卖",
+					"pathName": "sell/index/index",
 					"scene": null
 				}
 			]

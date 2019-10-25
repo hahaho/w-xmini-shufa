@@ -15,17 +15,17 @@ Page({
   data: {
     backImageInfo: {
       src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-      zIndex: 1,
-      positionItem: [{
-        x: 375,
-        y: 375,
-        width: 500,
-        height: 500
+      zIndex: 10,
+      positionItem: [// 展示点位置坐标
+      {
+        x: 375, // 中心点x
+        y: 375, // 中心店y
+        width: 200, // 实际宽
+        height: 200 // 实际高
       }]
     },
-    upImgArr: [{
-      src: 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
-    }],
+    shareArr: ['社区', '墨宝真迹', '保存相册', '微信好友', '朋友圈'],
+    upImgArr: [],
     tabBorderArr: {
       i: -1,
       item: ['https://c.jiangwenqiang.com/lqsy/canvas_border_0.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_1.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_2.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_3.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_4.jpg', 'https://c.jiangwenqiang.com/lqsy/canvas_border_5.jpg']
@@ -67,6 +67,24 @@ Page({
       }]
     }
   },
+  _toggleSpec: function _toggleSpec() {
+    this.setData({
+      showSpec: !this.data.showSpec
+    });
+  },
+  chooseImage: function chooseImage(e) {
+    if (this.data.single === 'single') return;
+    wx.chooseImage({
+      count: 1,
+      success: function success(res) {
+        app.data['chooseImage'] = res.tempFilePaths[0];
+        wx.navigateTo({
+          url: '/commonPage/canvas2/step_two/index?single=more&index=' + e.currentTarget.dataset.index
+        });
+      }
+    });
+  },
+
   /**
    * slider对应不同内容处理
    * @param e
@@ -193,8 +211,34 @@ Page({
       _this2.setData({
         backImageInfo: Object.assign(_this2.data.backImageInfo, res)
       }, function () {
-        _this2.data.upImgArr[0].src = app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png';
-        _this2.getItemImageInfo(0);
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = _this2.data.backImageInfo.positionItem.keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var i = _step2.value;
+
+            console.log(i);
+            _this2.data.upImgArr[i] = {
+              'src': app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
+            };
+            _this2.getItemImageInfo(i);
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
       });
     });
   },
@@ -207,7 +251,7 @@ Page({
     var _this3 = this;
 
     this.getImageInfo(this.data.upImgArr[index].src).then(function (res) {
-      if (res.width >= res.height) {
+      if (_this3.data.backImageInfo.positionItem[index].width <= _this3.data.backImageInfo.positionItem[index].height) {
         var temp = _this3.data.backImageInfo.positionItem[index].width * res.height / res.width;
         res.width = _this3.data.backImageInfo.positionItem[index].width.toFixed(1);
         res.height = temp.toFixed(1);
@@ -274,13 +318,13 @@ Page({
     if (that.data.backImageInfo.zIndex <= 1) {
       ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2);
     }
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
 
     try {
-      for (var _iterator2 = that.data.upImgArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var v = _step2.value;
+      for (var _iterator3 = that.data.upImgArr[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var v = _step3.value;
 
         ctx.save();
         // 移动坐标点到图片中心位置
@@ -352,16 +396,16 @@ Page({
 
       // 图片 ---e
     } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
         }
       } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
+        if (_didIteratorError3) {
+          throw _iteratorError3;
         }
       }
     }
@@ -412,7 +456,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
+    this.setData({
+      single: options.single
+    });
     this.getBackImageInfo(this.data.backImageInfo.src);
   },
 

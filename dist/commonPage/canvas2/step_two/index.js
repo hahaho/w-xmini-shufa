@@ -19,7 +19,9 @@ Page({
   data: {
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
-    }
+    },
+    single: 'single',
+    options: null
   },
 
   chooseAreaStart: function chooseAreaStart(e) {
@@ -168,7 +170,7 @@ Page({
     return Math.atan2(y, x) * 180 / Math.PI;
   },
   canvasDraw: function canvasDraw() {
-    var _this = this;
+    var _this2 = this;
 
     wx.showLoading({
       title: '获取所需区域中',
@@ -186,10 +188,12 @@ Page({
     ctx.restore();
     ctx.draw();
     setTimeout(function () {
-      _this.outImageDouble();
+      _this2.outImageDouble();
     }, 300);
   },
   outImageDouble: function outImageDouble() {
+    var _this3 = this;
+
     // let that = this
     var img = this.data.img;
     wx.canvasToTempFilePath({
@@ -204,9 +208,18 @@ Page({
         if (res.errMsg === 'canvasToTempFilePath:ok') {
           app.data['userUseImg'] = res.tempFilePath;
           wx.hideLoading();
-          wx.navigateTo({
-            url: '/commonPage/canvas2/step_three/index'
-          });
+          if (_this3.data.single === 'single') {
+            wx.navigateTo({
+              url: '/commonPage/canvas2/step_three/index?single=single'
+            });
+          } else {
+            var index = _this3.data.options.index;
+            var _this = getCurrentPages()[getCurrentPages().length - 2];
+            _this.setData(_defineProperty({}, 'upImgArr[' + index + '].src', res.tempFilePath), function () {
+              _this.getItemImageInfo(index);
+              wx.navigateBack({});
+            });
+          }
         }
       }
     });
@@ -215,11 +228,13 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     wx.showLoading({
       title: '加载图片中',
       mask: true
     });
+    this.data.single = options.single;
+    this.data.options = options;
     this.getImageInfo(app.data.chooseImage);
   },
 

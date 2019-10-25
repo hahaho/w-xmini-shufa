@@ -16,7 +16,7 @@ Page({
       success (res) {
         app.data['chooseImage'] = res.tempFilePaths[0]
         wx.navigateTo({
-          url: '/commonPage/canvas2/step_two/index'
+          url: '/commonPage/canvas2/step_two/index?single=single'
         })
       }
     })
