@@ -1,4 +1,6 @@
-<jwqcapsule capsule="{{ capsule }}"></jwqcapsule>
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">我的墨宝真迹</text>
+</jwqcapsule>
 <!--信息 -s-->
 <view class="userInfo">
 <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
@@ -7,11 +9,11 @@
 <!--屋檐 e-->
 <view class="userTop p2030 df dfac">
   <image mode="aspectFill" class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  <view class="utName">
+  <view class="utName flex1">
     <view class="f28 cfff">cm厘米</view>
     <view class="f22 cece696 mt10">终身会员</view>
   </view>
-  <view catchtap="_toggleSign" class="f21 cfff jwqfont jwqic_pen flex1 tar">个性签名</view>
+  <navigator url="/commonPage/release/index?from=release" class="f21 df dfac c006bff jwqfont jwqzhifeiji tal">　发布商品</navigator>
 </view>
 <view class='uiOperation cfff tac'>
   <navigator url="{{ item.url }}" wx:for="{{ uiOp }}" wx:key="*18">
@@ -44,20 +46,7 @@
 <!--操作 -e-->
 <!--<navigator url="../login/index" class="f29 fw7 tac br10 bgfff login">退出登陆</navigator>-->
 
-<!--个性签名 -s-->
-<view class="mask masktr1" wx:if="{{ sign }}">
-  <view class="mask-in br10 animated zoomIn">
-    <view class="tac f30 c323232 fw7 mt20">我的个性签名</view>
-    <input class="p20 " placeholder="请输入签名" />
-    <view class="df">
-      <view catchtap="_toggleSign" class="lh80 flex1 tac t30 bt1">取消</view>
-      <view catchtap="_toggleSign" class="lh80 flex1 tac t30 bt1 cff362c">确定</view>
-    </view>
-  </view>
-</view>
-<!--个性签名 -e-->
-
-<jwqfoot></jwqfoot>
+<!--<jwqfoot></jwqfoot>-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
 <!--<import src="/template/template"></import>-->

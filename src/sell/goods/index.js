@@ -1,7 +1,6 @@
-'use strict';
-
 // 获取全局应用程序实例对象
-var app = getApp();
+const app = getApp()
+// const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({
   /**
@@ -12,64 +11,50 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     }
   },
-  typeChoose: function typeChoose() {
-    wx.chooseImage({
-      count: 1,
-      success: function success(res) {
-        app.data['chooseImage'] = res.tempFilePaths[0];
-        wx.navigateTo({
-          url: '/commonPage/canvas2/step_two/index?single=single'
-        });
-      }
-    });
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad(options) {
-    if (options.from === 'sell_release') {
-      app.data.sell_release = true;
-    } else {
-      app.data.sell_release = false;
-    }
+  onLoad (options) {
+    this.setData({
+      op: options
+    })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function onReady() {
+  onReady () {
     // console.log(' ---------- onReady ----------')
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function onShow() {
-    // this.setKill()
-    // console.log(' ---------- onShow ----------')
+  onShow () {
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function onHide() {
+  onHide () {
     // clearInterval(timer)
     // console.log(' ---------- onHide ----------')
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function onUnload() {
+  onUnload () {
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
   },
-
+  onShareAppMessage () {
+    // return {
+    //   title: app.gs('shareText').t || '绣学问，真纹绣',
+    //   path: `/pages/index/index`,
+    //   imageUrl: app.gs('shareText').g
+    // }
+  },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function onPullDownRefresh() {
+  onPullDownRefresh () {
     // this.getCourse()
   }
-});
+})

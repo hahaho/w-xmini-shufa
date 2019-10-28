@@ -29,6 +29,7 @@ var upLoad = function () {
     _classCallCheck(this, upLoad);
 
     this.count = param['count'] || 999;
+    this.sourceType = param['sourceType'] || ['album', 'camera'];
     this._that = param['this'] || getCurrentPages()[getCurrentPages().length - 1];
     this.imgArr = param['imgArr'] || 'imgArr';
     this.fileIndex = param['index'] * 1 + 1 > 0 ? param['index'] : -1;
@@ -87,6 +88,23 @@ var upLoad = function () {
       return status;
     }
   }, {
+    key: 'upImgSingle',
+    value: function upImgSingle(url) {
+      var that = this;
+      wx.showLoading();
+      that.tempFilpaths = [url];
+      var temp = [{
+        temp: url,
+        real: '',
+        key: '',
+        progress: 0
+      }];
+      // console.log(that.imgArr)
+      that._that.setData(_defineProperty({}, that.imgArr, that._that.data[that.imgArr] ? that._that.data[that.imgArr].concat(temp) : temp), function () {
+        that.upLoad();
+      });
+    }
+  }, {
     key: 'chooseImage',
     value: function chooseImage() {
       var that = this;
@@ -94,6 +112,7 @@ var upLoad = function () {
       wx.showLoading();
       wx.chooseImage({
         count: that.fileIndex > -1 ? 1 : that.count - (that._that.data[that.imgArr].length || 0),
+        sourceType: that.sourceType,
         success: function success(res) {
           wx.hideLoading();
           that.tempFilpaths = res.tempFilePaths;
@@ -158,6 +177,8 @@ var upLoad = function () {
       var that = this;
       var FilePath = this.tempFilpaths[i];
       var Key = 'image/' + (app.gs('userInfoAll').id || 10000) + '/' + FilePath.substr(FilePath.lastIndexOf('/') + 1);
+      // console.log(Key)
+      // console.log(FilePath)
       cos.postObject({
         Bucket: config.Bucket,
         Region: config.Region,

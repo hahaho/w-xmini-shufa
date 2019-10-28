@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // 获取全局应用程序实例对象
@@ -68,9 +70,11 @@ Page({
     }
   },
   _toggleSpec: function _toggleSpec() {
-    this.setData({
-      showSpec: !this.data.showSpec
-    });
+    if (this.data.sell_release) {
+      this.canvasDraw();
+    } else {
+      this.setData({ showSpec: !this.data.showSpec });
+    }
   },
   chooseImage: function chooseImage(e) {
     if (this.data.single === 'single') return;
@@ -419,6 +423,8 @@ Page({
     }, 300);
   },
   outImageDouble: function outImageDouble() {
+    var _this6 = this;
+
     var that = this;
     wx.canvasToTempFilePath({
       x: 0,
@@ -430,24 +436,58 @@ Page({
       canvasId: 'outPic',
       success: function success(res) {
         if (res.errMsg === 'canvasToTempFilePath:ok') {
-          that.setData({
-            showImgSrc: res.tempFilePath
-          });
+          // that.setData({
+          //   showImgSrc: res.tempFilePath
+          // })
           wx.hideLoading();
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success: function success() {
-              wx.showToast({
-                title: '图片已存入相册'
-              });
-            },
-            fail: function fail() {
-              // app.setToast(that, {content: '请授权相册保存'})
-              // that.setData({
-              //   buttonShow: true
-              // })
+          // 发布拍品
+          if (_this6.data.sell_release) {
+            var pages = getCurrentPages();
+            // console.log(pages)
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
+
+            try {
+              for (var _iterator4 = pages.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                var _step4$value = _slicedToArray(_step4.value, 2),
+                    i = _step4$value[0],
+                    v = _step4$value[1];
+
+                if (v.route === 'commonPage/release/index') {
+                  v.uploadSingleImg(res.tempFilePath);
+                  wx.navigateBack({ delta: pages.length - 1 - i });
+                }
+              }
+            } catch (err) {
+              _didIteratorError4 = true;
+              _iteratorError4 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                  _iterator4.return();
+                }
+              } finally {
+                if (_didIteratorError4) {
+                  throw _iteratorError4;
+                }
+              }
             }
-          });
+          }
+          // wx.saveImageToPhotosAlbum({
+          //   filePath: res.tempFilePath,
+          //   success () {
+          //     wx.showToast({
+          //       title: '图片已存入相册'
+          //     })
+          //   },
+          //   fail () {
+          //     // app.setToast(that, {content: '请授权相册保存'})
+          //     // that.setData({
+          //     //   buttonShow: true
+          //     // })
+          //   }
+          // })
         }
       }
     });
@@ -458,7 +498,8 @@ Page({
    */
   onLoad: function onLoad(options) {
     this.setData({
-      single: options.single
+      single: options.single,
+      sell_release: app.data.sell_release
     });
     this.getBackImageInfo(this.data.backImageInfo.src);
   },

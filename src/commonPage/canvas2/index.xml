@@ -113,7 +113,7 @@
       <text class="f33 mt10 {{ operationArr.chooseIndex == index ? 'c323232' : 'caaa' }}">{{ item.t }}</text>
     </view>
   </view>
-  <view catchtap="_toggleSpec" class="f34 lh90 cfff fw7 bottomOpSend tac">直接分享</view>
+  <view catchtap="_toggleSpec" class="f34 lh90 cfff fw7 bottomOpSend tac">{{ sell_release ? '使用图片' : '直接分享' }}</view>
 </view>
 
 <!--分享选择 -s-->

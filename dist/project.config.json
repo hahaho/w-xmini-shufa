@@ -346,6 +346,14 @@
 					"id": -1,
 					"name": "售卖",
 					"pathName": "sell/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 43,
+					"name": "发布商品1",
+					"pathName": "commonPage/release/index",
+					"query": "",
 					"scene": null
 				}
 			]

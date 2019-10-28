@@ -95,9 +95,11 @@ Page({
     }
   },
   _toggleSpec () {
-    this.setData({
-      showSpec: !this.data.showSpec
-    })
+    if (this.data.sell_release) {
+      this.canvasDraw()
+    } else {
+      this.setData({showSpec: !this.data.showSpec})
+    }
   },
   chooseImage (e) {
     if (this.data.single === 'single') return
@@ -393,24 +395,35 @@ Page({
       canvasId: 'outPic',
       success: res => {
         if (res.errMsg === 'canvasToTempFilePath:ok') {
-          that.setData({
-            showImgSrc: res.tempFilePath
-          })
+          // that.setData({
+          //   showImgSrc: res.tempFilePath
+          // })
           wx.hideLoading()
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success () {
-              wx.showToast({
-                title: '图片已存入相册'
-              })
-            },
-            fail () {
-              // app.setToast(that, {content: '请授权相册保存'})
-              // that.setData({
-              //   buttonShow: true
-              // })
+          // 发布拍品
+          if (this.data.sell_release) {
+            let pages = getCurrentPages()
+            // console.log(pages)
+            for (let [i, v] of pages.entries()) {
+              if (v.route === 'commonPage/release/index') {
+                v.uploadSingleImg(res.tempFilePath)
+                wx.navigateBack({ delta: pages.length - 1 - i })
+              }
             }
-          })
+          }
+          // wx.saveImageToPhotosAlbum({
+          //   filePath: res.tempFilePath,
+          //   success () {
+          //     wx.showToast({
+          //       title: '图片已存入相册'
+          //     })
+          //   },
+          //   fail () {
+          //     // app.setToast(that, {content: '请授权相册保存'})
+          //     // that.setData({
+          //     //   buttonShow: true
+          //     // })
+          //   }
+          // })
         }
       }
     })
@@ -420,7 +433,8 @@ Page({
    */
   onLoad (options) {
     this.setData({
-      single: options.single
+      single: options.single,
+      sell_release: app.data.sell_release
     })
     this.getBackImageInfo(this.data.backImageInfo.src)
   },

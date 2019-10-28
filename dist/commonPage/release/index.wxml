@@ -1,0 +1,83 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">发布拍品</text>
+</jwqcapsule>
+<view style="height: {{ swiperImg.length >= 1 ? 540 : 300 }}rpx;" class="pr">
+  <swiper hidden="{{ swiperImg.length < 1 }}" class="swiperArea">
+    <swiper-item wx:for="{{ swiperImg }}" wx:key="*swiper">
+      <image mode="aspectFill" src="{{ item.temp }}"></image>
+    </swiper-item>
+  </swiper>
+  <view catchtap="chooseType" class="pa tr5 upLoadBtn c006bff jwqfont jwqzhaoxiangji {{ swiperImg.length < 1 ? 'big' : 'mini' }}"></view>
+</view>
+<textarea auto-height="1" style="min-height: 100rpx;" class="w100 f30 bgfff p10 bb" maxlength='60' placeholder="输入商品标贴"></textarea>
+<view class="bt1 p10 f25 c323232 bgfff">类目：墨宝真迹</view>
+
+
+<view class="money f25 c323232 p3010 df dfac bgfff bd1 mt20">
+  <text>价格：</text>
+  <input class="inputMoney" />
+  <text>元</text>
+</view>
+<view class="money f25 c323232 p3010 df dfac bgfff">
+  <text>运费设置：</text>
+  <input class="inputMoney" />
+  <text>元</text>
+</view>
+<view catchtap="_toggleSpec" class="arrow f25 c323232 bgfff mt20 p10">宝贝描述</view>
+<view class="arrow f25 df dfac dfb c323232 bgfff mt20 p10 warehouse">
+  <text>发货地</text>
+  <picker mode="region" bindchange="pickerChoose" data-type="wareHouse" class="flex1 tar">{{ wareHouse || '广州' }}</picker>
+</view>
+
+<view class="df p10 bgfff f25 c323232 mt20">
+  <view>开始时间：</view>
+  <view class="df dfc">
+    <view catchtap="toggleTime" class="jwqfont p10 {{ now ? 'jwqgouxuan cff362c' : 'jwqwxz' }}" style="padding-top: 0;">　立刻</view>
+    <view catchtap="toggleTime" class="jwqfont p10 {{ now ? 'jwqwxz' : 'jwqgouxuan cff362c' }} df dfac">　设定　<picker bindchange="pickerChoose" data-type="sellDate" mode="date">{{ sellDate || '选择日期'}}</picker>--<picker bindchange="pickerChoose" data-type="sellTime" mode="time">{{ sellTime || '选择时间' }}</picker></view>
+  </view>
+</view>
+
+<view class="money f25 c323232 p3010 df dfac bgfff">
+  <text>联系方式：</text>
+  <input type="number" class="inputMoney" />
+</view>
+
+<!--描述 -s-->
+<view class="mask"
+      wx:if="{{ showSpec }}">
+  <view class="specs bgfff w100 animated slideInUp am5 p30">
+    <scroll-view scroll-y="1" style="max-height: 1000rpx;">
+      <textarea auto-height="1" class="w100" placeholder="添加图片和文字让你的宝贝看起来更加诱人" style="min-height: 400rpx;"></textarea>
+      <image mode="widthFix" class="w100" wx:for="{{ derationImg }}" wx:key="*decoration" src="{{ item }}"></image>
+    </scroll-view>
+    <view class="df p200">
+      <view class="jwqfont flex1 jwqtupian">上传图片</view>
+      <view catchtap="_toggleSpec" class="tac flex1 ceee f33">取消</view>
+      <view catchtap="_toggleSpec" class="tac flex1 cff362c f33">完成</view>
+    </view>
+  </view>
+</view>
+<!--描述 -e-->
+<view style="height: 90rpx;"></view>
+<view class="f34 c646464 lh90 tac df dfac releaseBtn">
+  <view class="flex1">放入仓库</view>
+  <view catchtap="_toggleSpec" data-type='showSpec2' class="flex1 cfff">立即发布</view>
+</view>
+
+<view class="mask"
+      wx:if="{{ showSpec2 }}">
+  <view class="specs bgfff w100 animated slideInUp am5 p30">
+    <scroll-view class="p30 bb tac" scroll-y="1" style="max-height: 600rpx;">
+      简介介绍简介介绍简介介绍简介介绍
+      简介介绍简介介绍简介介绍简介介绍
+      简介介绍简介介绍简介介绍简介介绍
+      简介介绍简介介绍简介介绍简介介绍
+    </scroll-view>
+    <view catchtap="_toggleSpec" data-type='showSpec2' class="tac cfff f33 specConfirm p2030">知道了</view>
+  </view>
+</view>
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

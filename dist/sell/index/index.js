@@ -28,31 +28,31 @@ Page({
     uiOp: [{
       t: '我的提醒',
       n: 13,
-      url: '/user/collect/index?type=send'
+      url: '/sell/notice/index'
     }, {
       t: '发布的商品',
       n: 13,
-      url: '/user/comment/index?type=comment'
+      url: '/sell/goods/index?type=sell'
     }, {
       t: '仓库中的商品',
       n: 13,
-      url: '/user/comment/index?type=fans'
+      url: '/sell/goods/index?type=warehouse'
     }],
     tabArr: [{
       t: '待付款 ',
       n: 1,
       i: 'https://c.jiangwenqiang.com/lqsy/sell_tab_0.png',
-      url: '/user/team/index'
+      url: '/shop/order/index'
     }, {
       t: '待发货 ',
       i: 'https://c.jiangwenqiang.com/lqsy/sell_tab_0.png',
       n: 1,
-      url: '/share/carShare/carShare?type=user'
+      url: '/shop/order/index'
     }, {
       t: '待收货 ',
       i: 'https://c.jiangwenqiang.com/lqsy/sell_tab_0.png',
       n: 1,
-      url: ''
+      url: '/shop/order/index'
     }, {
       t: '已完成 ',
       i: 'https://c.jiangwenqiang.com/lqsy/sell_tab_0.png',
@@ -61,7 +61,7 @@ Page({
     }, {
       t: '退货中 ',
       i: 'https://c.jiangwenqiang.com/lqsy/sell_tab_0.png',
-      url: '/user/message/index?type=user'
+      url: '/shop/order/index'
     }]
   },
   upFormId: function upFormId(e) {

@@ -2,6 +2,7 @@
 
 // 获取全局应用程序实例对象
 var app = getApp();
+// const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({
   /**
@@ -12,27 +13,13 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     }
   },
-  typeChoose: function typeChoose() {
-    wx.chooseImage({
-      count: 1,
-      success: function success(res) {
-        app.data['chooseImage'] = res.tempFilePaths[0];
-        wx.navigateTo({
-          url: '/commonPage/canvas2/step_two/index?single=single'
-        });
-      }
-    });
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-    if (options.from === 'sell_release') {
-      app.data.sell_release = true;
-    } else {
-      app.data.sell_release = false;
-    }
+    this.setData({
+      op: options
+    });
   },
 
   /**
@@ -45,10 +32,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function onShow() {
-    // this.setKill()
-    // console.log(' ---------- onShow ----------')
-  },
+  onShow: function onShow() {},
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -64,6 +48,13 @@ Page({
   onUnload: function onUnload() {
     // clearInterval(timer)
     // console.log(' ---------- onUnload ----------')
+  },
+  onShareAppMessage: function onShareAppMessage() {
+    // return {
+    //   title: app.gs('shareText').t || '绣学问，真纹绣',
+    //   path: `/pages/index/index`,
+    //   imageUrl: app.gs('shareText').g
+    // }
   },
 
   /**

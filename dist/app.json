@@ -96,7 +96,9 @@
       "root": "sell",
       "name": "sell",
       "pages": [
-        "index/index"
+        "index/index",
+        "goods/index",
+        "notice/index"
       ]
     },
     {
@@ -111,6 +113,7 @@
         "canvas2/step_two/index",
         "canvas2/step_three/index",
         "literacy/index",
+        "release/index",
         "back/back"
       ]
     },

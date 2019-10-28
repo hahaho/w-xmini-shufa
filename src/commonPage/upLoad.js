@@ -18,6 +18,7 @@ const cos = new COS({
 class upLoad {
   constructor (param) {
     this.count = param['count'] || 999
+    this.sourceType = param['sourceType'] || ['album', 'camera']
     this._that = param['this'] || getCurrentPages()[getCurrentPages().length - 1]
     this.imgArr = param['imgArr'] || 'imgArr'
     this.fileIndex = param['index'] * 1 + 1 > 0 ? param['index'] : -1
@@ -50,12 +51,30 @@ class upLoad {
     if (!status) app.toast({toastType: 'ontop', content: `请等待所有图片上传完成后再继续操作`, bgc: 'rgba(255, 0, 0, 0.67)', color: '#fff'})
     return status
   }
+  upImgSingle (url) {
+    let that = this
+    wx.showLoading()
+    that.tempFilpaths = [url]
+    let temp = [{
+      temp: url,
+      real: '',
+      key: '',
+      progress: 0
+    }]
+    // console.log(that.imgArr)
+    that._that.setData({
+      [that.imgArr]: that._that.data[that.imgArr] ? that._that.data[that.imgArr].concat(temp) : temp
+    }, () => {
+      that.upLoad()
+    })
+  }
   chooseImage () {
     let that = this
     if (!this.checkAll()) return
     wx.showLoading()
     wx.chooseImage({
       count: that.fileIndex > -1 ? 1 : that.count - (that._that.data[that.imgArr].length || 0),
+      sourceType: that.sourceType,
       success (res) {
         wx.hideLoading()
         that.tempFilpaths = res.tempFilePaths
@@ -98,6 +117,8 @@ class upLoad {
     let that = this
     let FilePath = this.tempFilpaths[i]
     let Key = `image/${app.gs('userInfoAll').id || 10000}/${FilePath.substr(FilePath.lastIndexOf('/') + 1)}`
+    // console.log(Key)
+    // console.log(FilePath)
     cos.postObject({
       Bucket: config.Bucket,
       Region: config.Region,
