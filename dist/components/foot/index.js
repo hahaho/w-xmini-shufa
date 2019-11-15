@@ -61,12 +61,13 @@ Component({
     getNav: function getNav() {
       var that = this;
       app.wxrequest({
-        method: 'GET',
-        url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+        // url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+        url: app.getUrl().homeConfig
       }).then(function (res) {
+        // console.log(res)
         app.su('openTime', new Date().getTime());
-        app.su('main_nav', res.main_nav);
-        app.su('shop_nav', res.shop_nav);
+        app.su('main_nav', res.bottom_menu);
+        // app.su('shop_nav', res.shop_nav)
         that.setFootArr();
       });
     },
@@ -91,7 +92,7 @@ Component({
           var v = _step2.value;
 
           v['active'] = false;
-          v.url.indexOf(current) >= 0 ? v['active'] = true : '';
+          v.path_mini.indexOf(current) >= 0 ? v['active'] = true : '';
         }
       } catch (err) {
         _didIteratorError2 = true;

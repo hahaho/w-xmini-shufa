@@ -1,42 +1,42 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">书法心理学视角下的王锋书法</text>
+  <text class="cfff">{{info.title}}</text>
 </jwqcapsule>
 <!--列表 -s-->
 <view class="hundredListItem">
   <view class="hliTitle f30 mt20 c323232">
-    <image class="hlitImg" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/essence.png"></image>
-    <text>书法心理学视角下的王锋书法</text>
+    <image wx:if="{{ info.label.length }}" class="hlitImg" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/essence.png"></image>
+    <text>{{info.title}}</text>
   </view>
   <view class="hliTop mt20">
-    <jwqnav url="../userHomePage/index?id=1"><image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image></jwqnav>
+    <jwqnav url="../userHomePage/index?id={{item.uid}}"><image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{info.avatar_url}}"></image></jwqnav>
     <jwqnav url="../userHomePage/index?id=1" class="flex1">
       <view class="hliTopName f21 c323232">
-        <text>流谦书苑</text>
-        <text class="f18 c646464 mt10">2019-08-26  12:20  1万次阅读</text>
+        <text>{{info.username}}</text>
+        <text class="f18 c646464 mt10">{{info.create_at || '未知时间'}}　{{info.hits || 0}}次阅读</text>
       </view>
     </jwqnav>
-    <view catchtap="_follow" class="hliUnFollow {{ follow ? 'hliFollow' : '' }}">{{ follow ? '已关注' : '+关注' }}</view>
+    <view catchtap="_follow" class="hliUnFollow {{ info.is_follow > 0 ? 'hliFollow' : '' }}">{{ info.is_follow > 0 ? '已关注' : '+关注' }}</view>
   </view>
 
-  <view class="hliContent f28 c787878 mt20">
-    一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···
+  <view wx:if="{{ info.comment.length }}" class="hliContent f28 c787878 mt20 ws">
+    {{info.comment}}
   </view>
-  <view class="hliImg">
-    <image class="hliiItem mt10" wx:for="123123" wx:key="*4" src="https://c.jiangwenqiang.com/api/logo.jpg" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
+  <view wx:if="{{ info.imgs_url.imgs.length }}" class="hliImg">
+    <image class="hliiItem mt10" wx:for="{{info.imgs_url.imgs}}" wx:key="*4" src="{{item}}" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
   </view>
-  <video class="hliVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"></video>
+  <video wx:if="{{ info.video.length }}" class="hliVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"></video>
 </view>
 <!--列表 -e-->
 <!--评论列表 -s-->
 <view class="comment">
   <view class="commentTop left-pillar f24 c646464 p20">
-    <text>评论 208　　　赞 309</text>
+    <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
   </view>
-  <view wx:for="123" wx:key="*7" class="commentItem bd1">
-    <image class="br ciImg" mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+    <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{ item.uid_avatar_url }}"></image>
     <view class="ciRight flex1">
-      <text class="f22 c787878">默默茶</text>
-      <text class="f25 c000">不错！</text>
+      <text class="f22 c787878">{{item.uid_username}}</text>
+      <text class="f25 c000">{{item.comment}}</text>
       <view class="p20 ciReply mt20 f22 c646464">
         <view wx:for="123" wx:key="*6">
           <text>小哥哥：</text>
@@ -53,19 +53,31 @@
     </view>
   </view>
 </view>
+
+
+
+
+
+
+
+
+
+
 <!--评论列表 -e-->
 <view class="zw100"></view>
 <view wx:if="{{ fix }}" class="zw40"></view>
 <!--底部评论发表区域 -s-->
-<view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
-  <input focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput {{ options.from == 'main' ? 'setW' : '' }}" cursor-spacing="10" placeholder="请输入评论内容"/>
-  <view class="dbSend">发送</view>
-  <view class="dbRight">
-    <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
-    <view wx:if="{{ options.from != 'main' }}" catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ collection ? 'hasCollection':'' }}">{{ collection ? '已收藏' : '收藏' }}</view>
-    <view catchtap="_collection" class="jwqfont jwqdianzan {{ collection ? 'hasCollection':'' }}">10</view>
+<form bindsubmit="sendHundredDiscussSub">
+  <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
+    <input value="{{commentValue}}" name="comment" focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInp ut {{ options.from == 'main' ? 'setW' : '' }}" cursor-spacing="10" placeholder="请输入评论内容"/>
+    <button form-type="submit" class="dbSend">发送</button>
+    <view class="dbRight">
+      <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
+      <view wx:if="{{ options.from != 'main' }}" catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ collection ? 'hasCollection':'' }}">{{ collection ? '已收藏' : '收藏' }}</view>
+      <view catchtap="_collection" class="jwqfont jwqdianzan {{ collection ? 'hasCollection':'' }}">10</view>
+    </view>
   </view>
-</view>
+</form>
 <!--底部评论发表区域 -e-->
 
 <!--分享方式选择 -s-->

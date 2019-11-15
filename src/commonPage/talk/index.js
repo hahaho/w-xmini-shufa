@@ -47,6 +47,16 @@ Page({
   imgOp (e) {
     new UpLoad({imgArr: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index}).imgOp()
   },
+  hundredPostsSub () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().hundredPostsSub,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        title:
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

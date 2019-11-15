@@ -6,7 +6,7 @@
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+    <input disabled="1" style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
   </view>
 </view>
 <!--搜索 e-->
@@ -17,8 +17,8 @@
 <view>
   <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/4.png"></image>
   <view class="navTab">
-    <navigator class="ntItem" url="{{ item.url }}" wx:for="{{ nav }}" wx:key="*2">
-      <image mode="widthFix" src="{{ item.icon }}"></image>
+    <navigator class="ntItem" url="{{ item.path_mini }}" wx:for="{{ nav }}" wx:key="*2">
+      <image mode="widthFix" src="{{ item.img_url }}"></image>
     </navigator>
   </view>
 </view>
@@ -27,8 +27,8 @@
 <view class="eaves"></view>
 <!--屋檐 e-->
 <!--vip -s-->
-<navigator url="/openvip/index/index" class="bg-img-bling">
-  <image class="w100 " mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip.png"></image>
+<navigator hidden="{{ !openVipImg }}" url="/openvip/index/index" class="bg-img-bling">
+  <image class="w100 " mode="widthFix" src="{{ openVipImg }}"></image>
 </navigator>
 <!--vip -e-->
 <!--名师文字 -s-->
@@ -38,9 +38,9 @@
 <!--名师文字 -e-->
 <!--名师列表 -s-->
 <view class="teacherList">
-  <navigator url="/stele/index/index?id=123" class="listItem bd1 mt20" wx:for="123445" wx:key="*1">
-    <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
-    <text>硬笔{{index}}</text>
+  <navigator url="/stele/index/index?id={{ item.id }}&name={{ item.name }}" class="listItem bd1 mt20" wx:for="{{ wordsCategoryList }}" wx:key="{{ index }}">
+    <image lazy-load="1" src="{{ item.img_url }}"></image>
+    <text>{{ item.name }}</text>
   </navigator>
 </view>
 <!--名师列表 -e-->

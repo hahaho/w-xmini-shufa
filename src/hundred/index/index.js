@@ -10,10 +10,32 @@ Page({
       transparent: true,
       bgc: ''
     },
+    more: true,
     capsules: app.data.capsule,
     tabIndex: 0,
     tabId: 0,
-    tabArr: ['关注', '推荐', '热议', '视频']
+    tabArr: ['关注', '推荐', '热议', '视频'],
+    page: 0
+  },
+  getHundredList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().hundredList,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm')
+        v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits
+        v.imgs_url = JSON.parse(v.imgs_url)
+      }
+      that.setData({
+        list: that.data.list ? that.data.list.concat(res.lists) : [].concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    })
   },
   _follow () {
     this.setData({
@@ -42,7 +64,7 @@ Page({
   onLoad (options) {
     this.setData({
       options
-    })
+    }, this.getHundredList)
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()
@@ -104,5 +126,11 @@ Page({
    */
   onPullDownRefresh () {
     // this.getCourse()
+  },
+  onReachBottom () {
+    if (!this.data.more) {
+      return app.toast({content: '没有更多内容了'})
+    }
+    this.getHundredList()
   }
 })

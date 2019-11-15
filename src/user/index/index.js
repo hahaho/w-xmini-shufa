@@ -80,6 +80,20 @@ Page({
       sign: !this.data.sign
     })
   },
+  _sign (e) {
+    let that = this
+    if (!e.detail.value.sign.trim()) return app.toast({content: '请输入内容'})
+    app.wxrequest({
+      url: app.getUrl().userSign,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        sign: e.detail.value.sign.trim()
+      }
+    }).then(() => {
+      app.toast({content: '修改成功'})
+      that._toggleSign()
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

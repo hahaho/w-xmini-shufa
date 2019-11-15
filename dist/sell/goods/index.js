@@ -1,7 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-var app = getApp();
+// const app = getApp()
 // const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
 Page({

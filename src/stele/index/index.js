@@ -10,6 +10,9 @@ Page({
       transparent: true,
       bgc: ''
     },
+    more: true,
+    page: 0,
+    list: [],
     capsules: app.data.capsule
   },
   _showAll () {
@@ -21,31 +24,39 @@ Page({
       }
     })
   },
+  getWordsAll () {
+    let that = this
+    if (!this.data.more) {
+      return app.toast({
+        content: '没有更多内容了'
+      })
+    }
+    app.wxrequest({
+      url: app.getUrl().wordsAll,
+      data: {
+        cid: that.data.options.id,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits
+        v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD') : '时间不详'
+      }
+      that.setData({
+        list: that.data.list.concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    }, () => {
+      --that.data.page
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.setData({
+      options
+    }, this.getWordsAll)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -85,6 +96,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh () {
+    this.data.more = true
+    this.data.list = []
+    this.data.page = 0
+    this.getWordsAll()
     // this.getCourse()
+  },
+  onReachBottom () {
+    if (!this.data.more) {
+      return app.toast({content: '没有更多内容了'})
+    }
+    this.getWordsAll()
   }
 })

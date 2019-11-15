@@ -67,7 +67,7 @@ App({
         toastType: 'center',
         content: '服务器开小差啦~~',
         mask: false,
-        time: 999999999
+        time: 3000
       }, toast)
     })
   },
@@ -208,7 +208,7 @@ App({
         color: '#f00',
         bgc: '#fff'
       })
-      return
+      return Promise.reject()
     }
     if (obj.url !== lastUrl) {
       requireCount = 0
@@ -233,13 +233,18 @@ App({
         color: '#f00',
         bgc: '#fff'
       })
-      return
+      return Promise.reject()
     }
     return new Promise((resolve, reject) => {
       wx.showLoading({
         title: '请求数据中',
         mask: true
       })
+      if (obj.url) {
+        if (that.gs('access_token')) {
+          obj.url += `?access-token=${that.gs('access_token')}`
+        }
+      }
       wx.request({
         url: obj.url || '',
         method: obj.method || 'POST',

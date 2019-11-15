@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">硬笔0</text>
+  <text class="cfff">{{info.name}}</text>
 </jwqcapsule>
 <!--碑帖切换 -s-->
 <view class="df topNav bd1 f24">
@@ -8,20 +8,20 @@
 <!--碑帖切换 -e-->
 <view wx:if="{{ leftChoose == 0 }}">
   <!--碑帖内容 -s-->
-  <view class="f24 c323232 p20">
-    碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字碑帖简介介绍文字
+  <view class="f24 c323232 p20 ws">
+    {{ info.memo }}
   </view>
   <!--碑帖内容 -e-->
   <!--评论列表 -s-->
   <view class="comment">
     <view class="commentTop left-pillar f24 c646464 p20">
-      <text>评论 208　　　赞 309</text>
+      <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
     </view>
-    <view wx:for="123" wx:key="*7" class="commentItem bd1">
-      <image class="br ciImg" mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+      <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{ item.uid_avatar_url }}"></image>
       <view class="ciRight flex1">
-        <text class="f22 c787878">默默茶</text>
-        <text class="f25 c000">不错！</text>
+        <text class="f22 c787878">{{item.uid_username}}</text>
+        <text class="f25 c000">{{item.comment}}</text>
         <view class="p20 ciReply mt20 f22 c646464">
           <view wx:for="123" wx:key="*6">
             <text>小哥哥：</text>
@@ -29,10 +29,10 @@
           </view>
         </view>
         <view class="f22 mt10 ciBottom">
-          <text class="flex1">2019-07-17 12:55</text>
+          <text class="flex1">{{item.create_at}}</text>
           <view class="c787878">
-            <text catchtap="_writeComment" data-type="in" class="jwqfont jwqpinglun f28"></text>
-            <text class="jwqfont jwqdianzan f28"> 123</text>
+            <text catchtap="_writeComment" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></text>
+            <text catchtap="changeWordsDiscussStar" data-index="{{index}}" class="jwqfont jwqdianzan f28"> {{item.star}}</text>
           </view>
         </view>
       </view>
@@ -42,23 +42,25 @@
   <view class="zw100"></view>
   <view wx:if="{{ fix }}" class="zw40"></view>
   <!--底部评论发表区域 -s-->
-  <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
-    <input focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
-    <view class="dbSend">发送</view>
-    <view class="dbRight">
-      <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
-      <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ collection ? 'hasCollection':'' }}">{{ collection ? '已收藏' : '收藏' }}</view>
+  <form bindsubmit="sendWordsDiscussSub">
+    <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
+      <input value="{{commentValue}}" name="comment" focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
+      <button form-type="submit" class="dbSend">发送</button>
+      <view class="dbRight">
+        <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
+        <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ info.star > 1 ? 'hasCollection':'' }}">{{ info.star > 1 ? '已收藏' : '收藏' }}</view>
+      </view>
     </view>
-  </view>
+  </form>
   <!--底部评论发表区域 -e-->
 </view>
 <view wx:if="{{ leftChoose == 1 }}" class="opus p20">
-  <image wx:for="12312312" wx:key="*17" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <image wx:for="{{ section }}" wx:key="*17" lazy-load="1" src="{{item.img_name}}"></image>
 </view>
 <view wx:if="{{ leftChoose == 2 }}" class="opus p20">
-  <navigator url="/camera/detail/index?id=1" wx:for="12312312" wx:key="*19" class="tac">
-    <image mode="aspectFit" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-    <text>文字</text>
+  <navigator url="/camera/detail/index?id=1" wx:for="{{ piece }}" wx:key="*19" class="tac">
+    <image mode="aspectFit" lazy-load="1" src="{{ item.img_name }}"></image>
+    <text>{{item.word}}</text>
   </navigator>
 </view>
 <!--分享方式选择 -s-->

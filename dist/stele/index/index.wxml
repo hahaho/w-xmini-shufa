@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">硬笔0</text>
+  <text class="cfff fw7">{{options.name || '加载中...'}}</text>
 </jwqcapsule>
 <view wx:if="{{ !showAll }}">
   <!--搜索 s-->
@@ -15,11 +15,11 @@
   <view class="eaves"></view>
   <!--屋檐 e-->
   <!--轮播图 -s-->
-  <swiper autoplay="1" circular="1">
-    <swiper-item wx:for="1234" wx:key="*3">
-      <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-    </swiper-item>
-  </swiper>
+<!--  <swiper autoplay="1" circular="1">-->
+<!--    <swiper-item wx:for="1234" wx:key="*3">-->
+<!--      <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>-->
+<!--    </swiper-item>-->
+<!--  </swiper>-->
   <!--轮播图 -e-->
   <view class="p020">
     <view catchtap="_showAll" class="f25 p200 bd1 mt10 c323232 df dfb bgfff">
@@ -28,24 +28,24 @@
     </view>
   </view>
   <!--课程列表 -s-->
-  <navigator url="../detail/index" wx:for="1231324213421342" wx:key="*14" class="p30 steleList">
-    <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <navigator url="../detail/index?id={{ item.id }}" wx:for="{{ list }}" wx:key="*14" class="p30 steleList">
+    <image wx:if="{{ item.img_name }}" mode="aspectFill" lazy-load="1" src="{{ item.img_name }}"></image>
     <view class="f25 c787878 flex1">
-      <text class="c323232 ell1">田英章硬笔楷书7000字</text>
+      <text class="c323232 ell1">{{item.name}}</text>
       <text class="mt10">作品介绍</text>
-      <text class="ell2 mt10">文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍文文字介绍文字介绍文字介绍......</text>
-      <text class="f21 mt20">2019-07-17 35万次阅读</text>
+      <text class="ell2 mt10">{{item.memo}}</text>
+      <text class="f21 mt20">{{ item.create_at }} {{ item.hits }}次阅读</text>
     </view>
   </navigator>
   <!--课程列表 -e-->
 </view>
 <!--全部课程 -s-->
 <view wx:if="{{ showAll }}" class="steleAllList p30">
-  <navigator url="../detail/index" wx:for="123123123123" wx:key="*15" class="c787878 atlItem mt10">
-    <image mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-    <text class="ell1 c323232 mt20">田英章硬笔楷书7000字  </text>
-    <text class="ell1 mt10">文字介绍文字介绍文字介绍文字介绍文文字介绍文字文字.....</text>
-    <text class="mt10">2019-07-17 35万次阅读</text>
+  <navigator url="../detail/index?id={{ item.id }}" wx:for="{{list}}" wx:key="*15" class="c787878 atlItem mt10">
+    <image mode="aspectFill" lazy-load="1" src="{{item.img_name}}"></image>
+    <text class="ell1 c323232 mt20">{{item.name}}  </text>
+    <text class="ell1 mt10">{{item.memo}}</text>
+    <text class="mt10">{{ item.create_at }} {{ item.hits }}次阅读</text>
   </navigator>
 </view>
 <!--全部课程 -e-->

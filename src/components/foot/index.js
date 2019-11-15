@@ -36,13 +36,14 @@ Component({
     getNav () {
       let that = this
       app.wxrequest({
-        method: 'GET',
-        url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+        // url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
+        url: app.getUrl().homeConfig
       })
         .then(res => {
+          // console.log(res)
           app.su('openTime', new Date().getTime())
-          app.su('main_nav', res.main_nav)
-          app.su('shop_nav', res.shop_nav)
+          app.su('main_nav', res.bottom_menu)
+          // app.su('shop_nav', res.shop_nav)
           that.setFootArr()
         })
     },
@@ -59,7 +60,7 @@ Component({
        // ? arr = app.gs('shop_nav') : arr = app.gs('main_nav')
       for (let v of arr) {
         v['active'] = false
-        v.url.indexOf(current) >= 0 ? v['active'] = true : ''
+        v.path_mini.indexOf(current) >= 0 ? v['active'] = true : ''
       }
       return arr
     },

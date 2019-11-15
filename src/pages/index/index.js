@@ -200,11 +200,21 @@ Page({
   getTopNav () {
     let that = this
     app.wxrequest({
-      method: 'GET',
-      url: 'https://c.jiangwenqiang.com/lqsy/index_tab.json'
+      url: app.getUrl().homeConfig
     }).then(res => {
       that.setData({
-        nav: res.index_tab
+        nav: res.middle_menu,
+        openVipImg: res.page_img.home_page_img
+      })
+    })
+  },
+  getWordsCategory () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().wordsCategory
+    }).then(res => {
+      that.setData({
+        wordsCategoryList: res.lists
       })
     })
   },
@@ -213,27 +223,7 @@ Page({
    */
   onLoad (options) {
     this.getTopNav()
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.getWordsCategory()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

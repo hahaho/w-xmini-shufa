@@ -12,10 +12,54 @@ Page({
       transparent: true,
       bgc: ''
     },
+    more: true,
     capsules: app.data.capsule,
     tabIndex: 0,
     tabId: 0,
-    tabArr: ['关注', '推荐', '热议', '视频']
+    tabArr: ['关注', '推荐', '热议', '视频'],
+    page: 0
+  },
+  getHundredList: function getHundredList() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().hundredList,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++that.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm');
+          v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits;
+          v.imgs_url = JSON.parse(v.imgs_url);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      that.setData({
+        list: that.data.list ? that.data.list.concat(res.lists) : [].concat(res.lists)
+      });
+      that.data.more = res.lists.length >= res.pre_page;
+    });
   },
   _follow: function _follow() {
     this.setData({
@@ -45,7 +89,7 @@ Page({
   onLoad: function onLoad(options) {
     this.setData({
       options: options
-    });
+    }, this.getHundredList);
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()
@@ -112,5 +156,11 @@ Page({
    */
   onPullDownRefresh: function onPullDownRefresh() {
     // this.getCourse()
+  },
+  onReachBottom: function onReachBottom() {
+    if (!this.data.more) {
+      return app.toast({ content: '没有更多内容了' });
+    }
+    this.getHundredList();
   }
 });
