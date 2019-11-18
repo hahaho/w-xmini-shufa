@@ -156,6 +156,10 @@ Page({
    */
   onPullDownRefresh: function onPullDownRefresh() {
     // this.getCourse()
+    this.data.page = 0;
+    this.data.more = true;
+    this.data.list = null;
+    this.getHundredList();
   },
   onReachBottom: function onReachBottom() {
     if (!this.data.more) {

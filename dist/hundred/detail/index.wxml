@@ -37,21 +37,23 @@
     <view class="ciRight flex1">
       <text class="f22 c787878">{{item.uid_username}}</text>
       <text class="f25 c000">{{item.comment}}</text>
-      <view class="p20 ciReply mt20 f22 c646464">
-        <view wx:for="123" wx:key="*6">
-          <text>小哥哥：</text>
-          <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>
-        </view>
-      </view>
+<!--      <view class="p20 ciReply mt20 f22 c646464">-->
+<!--        <view wx:for="123" wx:key="*6">-->
+<!--          <text>小哥哥：</text>-->
+<!--          <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>-->
+<!--        </view>-->
+<!--      </view>-->
+      <text class="f22 mt10" wx:if="{{item.discuss > 0}}">共{{ item.discuss }}条回复</text>
       <view class="f22 mt10 ciBottom">
-        <text class="flex1">2019-07-17 12:55</text>
+        <text class="flex1">{{item.create_at}}</text>
         <view class="c787878">
-          <text catchtap="_writeComment" data-type="in" class="jwqfont jwqpinglun f28"></text>
-          <text class="jwqfont jwqdianzan f28"> 123</text>
+          <view data-url="/commonPage/reply/index?wid={{ item.pid }}&state=2&did={{ item.id }}&type=2" catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></view>
+          <text catchtap="commentStar" data-index="{{ index }}" class="jwqfont jwqdianzan f28 {{ item.is_star > 0 ? 'cff362c' : '' }}"> {{item.star}}</text>
         </view>
       </view>
     </view>
   </view>
+  <view class="tac p20 f22 c999" wx:if="{{ !comment }}">暂无相关内容</view>
 </view>
 
 
@@ -69,12 +71,12 @@
 <!--底部评论发表区域 -s-->
 <form bindsubmit="sendHundredDiscussSub">
   <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
-    <input value="{{commentValue}}" name="comment" focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInp ut {{ options.from == 'main' ? 'setW' : '' }}" cursor-spacing="10" placeholder="请输入评论内容"/>
+    <input value="{{commentValue}}" name="comment" focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput {{ options.from == 'main' ? 'setW' : '' }}" cursor-spacing="10" placeholder="请输入评论内容"/>
     <button form-type="submit" class="dbSend">发送</button>
     <view class="dbRight">
       <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
-      <view wx:if="{{ options.from != 'main' }}" catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ collection ? 'hasCollection':'' }}">{{ collection ? '已收藏' : '收藏' }}</view>
-      <view catchtap="_collection" class="jwqfont jwqdianzan {{ collection ? 'hasCollection':'' }}">10</view>
+      <view wx:if="{{ options.from != 'main' }}" catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ info.is_collect > 0 ? 'hasCollection' : '' }}">{{ info.is_collect > 0 ? '已收藏' : '收藏' }}</view>
+      <view catchtap="changeHundredPostsStar" class="jwqfont jwqdianzan {{ info.is_star > 0 ? 'hasCollection':'' }}">{{info.star}}</view>
     </view>
   </view>
 </form>

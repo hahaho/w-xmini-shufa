@@ -49,31 +49,36 @@ Page({
       url: '/share/carShare/carShare?type=2'
     })
   },
+  setInfo (id) {
+    for (let v of this.data.section) {
+      if (v.id === id) {
+        this.setData({
+          info: v
+        })
+      }
+    }
+  },
+  getSection () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().teachSectionList,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        vid: that.data.options.id
+      }
+    }).then(res => {
+      that.setData({
+        section: res
+      }, that.setInfo(that.data.options.id))
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.setData({
+      options
+    }, this.getSection)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

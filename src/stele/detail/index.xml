@@ -22,17 +22,18 @@
       <view class="ciRight flex1">
         <text class="f22 c787878">{{item.uid_username}}</text>
         <text class="f25 c000">{{item.comment}}</text>
-        <view class="p20 ciReply mt20 f22 c646464">
-          <view wx:for="123" wx:key="*6">
-            <text>小哥哥：</text>
-            <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>
-          </view>
-        </view>
+<!--        <view class="p20 ciReply mt20 f22 c646464">-->
+<!--          <view wx:for="123" wx:key="*6">-->
+<!--            <text>小哥哥：</text>-->
+<!--            <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>-->
+<!--          </view>-->
+<!--        </view>-->
+        <text class="f22 mt10" wx:if="{{item.discuss > 0}}">共{{ item.discuss }}条回复</text>
         <view class="f22 mt10 ciBottom">
           <text class="flex1">{{item.create_at}}</text>
           <view class="c787878">
-            <text catchtap="_writeComment" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></text>
-            <text catchtap="changeWordsDiscussStar" data-index="{{index}}" class="jwqfont jwqdianzan f28"> {{item.star}}</text>
+            <view data-url="/commonPage/reply/index?wid={{ item.wid }}&state=2&did={{ item.id }}&type=1" catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></view>
+            <text catchtap="changeWordsDiscussStar" data-index="{{index}}" class="jwqfont jwqdianzan f28 {{ item.is_star > 0 ? 'cff362c' : '' }}"> {{item.star}}</text>
           </view>
         </view>
       </view>
@@ -48,7 +49,7 @@
       <button form-type="submit" class="dbSend">发送</button>
       <view class="dbRight">
         <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
-        <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ info.star > 1 ? 'hasCollection':'' }}">{{ info.star > 1 ? '已收藏' : '收藏' }}</view>
+        <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ info.is_collect > 0 ? 'hasCollection':'' }}">{{ info.is_collect > 0 ? '已收藏' : '收藏' }}</view>
       </view>
     </view>
   </form>

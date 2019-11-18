@@ -14,15 +14,43 @@ Page({
     capsules: app.data.capsule,
     tabIndex: 0,
     tabId: 0,
-    tabArr: ['推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐', '推荐']
+    page: 0,
+    list: [],
+    more: true,
+    tabArr: ['推荐', '楷书', '行书', '草书', '隶书', '篆书', '魏碑', '综合']
   },
   upFormId (e) {
     app.upFormId(e)
   },
   chooseIndex (e) {
+    this.data.page = 0
+    this.data.list = []
     this.setData({
       tabIndex: e.currentTarget.dataset.index,
       tabId: e.currentTarget.dataset.index
+    }, this.getList)
+  },
+  getList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().teachVideoList,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.tabIndex < 1 ? 1 : that.data.tabIndex,
+        is_recommend: that.data.tabIndex < 1 ? 1 : 0,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + 'w' : v.hits
+        v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD') : '时间不详'
+      }
+      that.setData({
+        list: that.data.list.concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    }, () => {
+      --that.data.page
     })
   },
   /**
@@ -31,7 +59,7 @@ Page({
   onLoad (options) {
     this.setData({
       main: options.from === 'main'
-    })
+    }, this.getList)
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()

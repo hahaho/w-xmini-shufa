@@ -1,5 +1,7 @@
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // 获取全局应用程序实例对象
 var app = getApp();
 // 创建页面实例对象
@@ -25,11 +27,11 @@ Page({
       data: {
         fid: that.data.info.uid,
         uid: app.gs('userInfoAll').uid,
-        state: that.data.info.is_follow * 1 + 1
+        state: that.data.info.is_follow > 0 ? 2 : 1
       }
     }).then(function () {
       _this.setData({
-        'info.is_follow': Math.abs(that.data.info.is_follow - 1)
+        'info.is_follow': that.data.info.is_follow > 0 ? -1 : 1
       });
     });
   },
@@ -42,8 +44,18 @@ Page({
     }
   },
   _collection: function _collection() {
-    this.setData({
-      collection: !this.data.collection
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().hundredCollect,
+      data: {
+        pid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.info.is_collect > 0 ? 2 : 1
+      }
+    }).then(function () {
+      that.setData({
+        'info.is_collect': that.data.info.is_collect > 0 ? -1 : 1
+      });
     });
   },
   _shareType: function _shareType() {
@@ -125,16 +137,58 @@ Page({
       data: {
         pid: that.data.info.id,
         uid: app.gs('userInfoAll').uid || 10000,
-        bid: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].bid : '',
-        did: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].did : '',
+        bid: '',
+        did: '',
         comment: e.detail.value.comment,
-        state: that.data.replyIndex >= 0 ? 2 : 1
+        state: 1
       }
     }).then(function () {
       app.toast({ content: '评论成功' });
       that.setData({
         commentValue: ''
       });
+      that.data.page = 0;
+      that.data.more = true;
+      that.data.comment = null;
+      that.getHundredDiscuss();
+    });
+  },
+  goReply: function goReply(e) {
+    app.su('reply', this.data.comment[e.currentTarget.dataset.index]);
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url
+    });
+  },
+  changeHundredPostsStar: function changeHundredPostsStar() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().hundredPostsStar,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: that.data.info.id,
+        state: that.data.info.is_star > 0 ? 2 : 1
+      }
+    }).then(function (res) {
+      that.setData({
+        'info.is_star': that.data.info.is_star > 0 ? -1 : 1,
+        'info.star': that.data.info.is_star > 0 ? --that.data.info.star : ++that.data.info.star
+      });
+    });
+  },
+  commentStar: function commentStar(e) {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().hundredDiscussStar,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: that.data.info.id,
+        did: that.data.comment[e.currentTarget.dataset.index].id,
+        state: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(function () {
+      var _that$setData;
+
+      that.setData((_that$setData = {}, _defineProperty(_that$setData, 'comment[' + e.currentTarget.dataset.index + '][\'is_star\']', that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1), _defineProperty(_that$setData, 'comment[' + e.currentTarget.dataset.index + '][\'star\']', that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star), _that$setData));
     });
   },
 

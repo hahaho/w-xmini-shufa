@@ -165,6 +165,12 @@ var serviceUrl = {
   hundredDiscuss: lqsyBaseDomain + '/hundred/discuss', // 获取百家争鸣文章评论
   hundredDiscussSub: lqsyBaseDomain + '/hundred/discuss-sub', // 插入一条百家争鸣评论
   hundredPostsStar: lqsyBaseDomain + '/hundred/posts-star', // 文章|字帖的点赞与取消点赞
+  hundredDiscussStar: lqsyBaseDomain + '/hundred/discuss-star', // 对评论点赞|取消点赞
+  hundredPostsSub: lqsyBaseDomain + '/hundred/posts-sub', // 添加百家争鸣文章
+  hundredCollect: lqsyBaseDomain + '/hundred/collect', // 收藏与取消收藏帖子
+  teachVideoList: lqsyBaseDomain + '/teach/video-list', // 视频目录列表
+  teachSectionList: lqsyBaseDomain + '/teach/section-list', // 获取教程章节列表
+  videoVideoList: lqsyBaseDomain + '/video/video-list', // 视频主列表
   wordsAll: lqsyBaseDomain + '/words/all', // 碑帖分类下的全部作品
   wordsDes: lqsyBaseDomain + '/words/des', // 获取碑帖的介绍
   wordsSection: lqsyBaseDomain + '/words/section', // 获取具体作品的切割为一幅一幅的图片

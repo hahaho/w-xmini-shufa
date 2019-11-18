@@ -126,6 +126,10 @@ Page({
    */
   onPullDownRefresh () {
     // this.getCourse()
+    this.data.page = 0
+    this.data.more = true
+    this.data.list = null
+    this.getHundredList()
   },
   onReachBottom () {
     if (!this.data.more) {

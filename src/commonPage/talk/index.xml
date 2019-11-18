@@ -1,7 +1,7 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">{{ options.type === 'suggest' ? '意见反馈' : '发帖' }}</text>
 </jwqcapsule>
-<form>
+<form bindsubmit="hundredPostsSub">
   <view wx:if="{{ options.type == 'talk' || options.type == 'suggest' }}" class="p20 bgfff">
       <input name="title" wx:if="{{ options.type != 'suggest' }}" class="bd1" placeholder="添加标题"/>
       <textarea name="comment" class="mt20" placeholder="请输入内容..."></textarea>
@@ -72,9 +72,9 @@
     <!--上传图片 -e-->
   </view>
   <!--发布 -s-->
-  <view class="fabu f34 cfff" style="padding-bottom: {{ fix ? 40:0 }}rpx;">
+  <button form-type="submit" class="fabu f34 cfff" style="padding-bottom: {{ fix ? 40:0 }}rpx;">
     {{ options.type === 'camera' ? '提交分享' : options.type === 'suggest' ? '确定提交' : '发布' }}
-  </view>
+  </button>
 </form>
 <!--发布 -e-->
 

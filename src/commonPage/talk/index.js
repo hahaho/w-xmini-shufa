@@ -41,21 +41,45 @@ Page({
     new UpLoad({imgArr: 'imgArr'}).chooseImage()
   },
   checkAll () {
-    if (new UpLoad({imgArr: 'imgArr'}).checkAll()) {
-    }
+    return new UpLoad({imgArr: 'imgArr'}).checkAll()
+    // if (new UpLoad({imgArr: 'imgArr'}).checkAll()) {
+    // }
   },
   imgOp (e) {
     new UpLoad({imgArr: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index}).imgOp()
   },
-  hundredPostsSub () {
+  getRealUrl () {
+    let url = []
+    for (let v of this.data.imgArr) {
+      url.push(v.real)
+    }
+    return url
+  },
+  hundredPostsSub (e) {
     let that = this
-    app.wxrequest({
-      url: app.getUrl().hundredPostsSub,
-      data: {
-        uid: app.gs('userInfoAll').uid,
-        title:
-      }
-    })
+    switch (this.data.options.type) {
+      case 'talk':
+        if (!e.detail.value.title.trim()) return app.toast({content: '标题不能为空'})
+        else if (!e.detail.value.comment.trim()) return app.toast({content: '内容不能为空'})
+        if (!new UpLoad({imgArr: 'imgArr'}).checkAll()) return
+        app.wxrequest({
+          url: app.getUrl().hundredPostsSub,
+          data: {
+            uid: app.gs('userInfoAll').uid || 10000,
+            title: e.detail.value.title.trim(),
+            comment: e.detail.value.comment.trim(),
+            imgs_url: JSON.stringify({'imgs': that.getRealUrl()})
+          }
+        }).then(res => {
+          app.toast({content: '发布成功', mask: true})
+          setTimeout(() => {
+            wx.navigateBack()
+          }, 1000)
+        })
+        break
+      default:
+        return app.toast({content: '错误！！请返回上一页重新进入'})
+    }
   },
   /**
    * 生命周期函数--监听页面加载

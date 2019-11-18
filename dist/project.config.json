@@ -355,6 +355,13 @@
 					"pathName": "commonPage/release/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "回复",
+					"pathName": "commonPage/reply/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

@@ -51,32 +51,58 @@ Page({
       url: '/share/carShare/carShare?type=2'
     });
   },
+  setInfo: function setInfo(id) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = this.data.section[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var v = _step.value;
+
+        if (v.id === id) {
+          this.setData({
+            info: v
+          });
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  },
+  getSection: function getSection() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().teachSectionList,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        vid: that.data.options.id
+      }
+    }).then(function (res) {
+      that.setData({
+        section: res
+      }, that.setInfo(that.data.options.id));
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.setData({
+      options: options
+    }, this.getSection);
   },
 
   /**

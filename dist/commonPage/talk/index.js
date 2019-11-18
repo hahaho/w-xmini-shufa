@@ -38,10 +38,66 @@ Page({
     new UpLoad({ imgArr: 'imgArr' }).chooseImage();
   },
   checkAll: function checkAll() {
-    if (new UpLoad({ imgArr: 'imgArr' }).checkAll()) {}
+    return new UpLoad({ imgArr: 'imgArr' }).checkAll();
+    // if (new UpLoad({imgArr: 'imgArr'}).checkAll()) {
+    // }
   },
   imgOp: function imgOp(e) {
     new UpLoad({ imgArr: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index }).imgOp();
+  },
+  getRealUrl: function getRealUrl() {
+    var url = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = this.data.imgArr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var v = _step.value;
+
+        url.push(v.real);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    return url;
+  },
+  hundredPostsSub: function hundredPostsSub(e) {
+    var that = this;
+    switch (this.data.options.type) {
+      case 'talk':
+        if (!e.detail.value.title.trim()) return app.toast({ content: '标题不能为空' });else if (!e.detail.value.comment.trim()) return app.toast({ content: '内容不能为空' });
+        if (!new UpLoad({ imgArr: 'imgArr' }).checkAll()) return;
+        app.wxrequest({
+          url: app.getUrl().hundredPostsSub,
+          data: {
+            uid: app.gs('userInfoAll').uid || 10000,
+            title: e.detail.value.title.trim(),
+            comment: e.detail.value.comment.trim(),
+            imgs_url: JSON.stringify({ 'imgs': that.getRealUrl() })
+          }
+        }).then(function (res) {
+          app.toast({ content: '发布成功', mask: true });
+          setTimeout(function () {
+            wx.navigateBack();
+          }, 1000);
+        });
+        break;
+      default:
+        return app.toast({ content: '错误！！请返回上一页重新进入' });
+    }
   },
 
   /**

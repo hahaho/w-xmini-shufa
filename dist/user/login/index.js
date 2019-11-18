@@ -57,7 +57,7 @@ Page({
     });
   },
   _login: function _login(phone, code) {
-    var that = this;
+    // let that = this
     app.wxrequest({
       url: app.getUrl().userToken,
       data: {

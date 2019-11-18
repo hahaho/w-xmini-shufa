@@ -32,9 +32,9 @@
             catchtap="chooseIndex"
             data-index="{{ index }}"
             wx:key
-            wx:for="123123">
+            wx:for="{{section}}">
       <view>第{{ index + 1 }}集</view>
-      <view>书法是艺术吗(一)</view>
+      <view>{{item.title}}</view>
     </button>
   </view>
   </scroll-view>
