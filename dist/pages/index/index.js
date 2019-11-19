@@ -228,7 +228,7 @@ Page({
     }).then(function (res) {
       that.setData({
         nav: res.middle_menu,
-        openVipImg: res.page_img.home_page_img
+        openVipImg: res.page_img.home_page_img || 'https://c.jiangwenqiang.com/lqsy/vip.png'
       });
     });
   },

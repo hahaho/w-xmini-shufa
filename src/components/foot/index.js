@@ -29,7 +29,7 @@ Component({
       })
       app.su(this.data.shop ? 'shop_nav' : 'main_nav', this.data.footArr)
       wx.reLaunch({
-        url: this.data.footArr[e.currentTarget.dataset.index].url
+        url: this.data.footArr[e.currentTarget.dataset.index].path_mini
         // url: '/shop/index/index'
       })
     },

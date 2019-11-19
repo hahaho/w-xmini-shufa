@@ -12,6 +12,8 @@ Page({
     },
     capsules: app.data.capsule,
     height: app.data.height,
+    more: true,
+    page: 0,
     tabIndex: 0,
     tabId: 0
   },
@@ -19,6 +21,14 @@ Page({
     this.setData({
       tabIndex: e.currentTarget.dataset.index,
       tabId: e.currentTarget.dataset.index
+    }, () => {
+      this.setData({
+        info: this.data.sectionList[e.currentTarget.dataset.index]
+      }, () => {
+        this.data.page = 0
+        this.data.comment = []
+        this.getDiscuss()
+      })
     })
   },
   _showColumn (e) {
@@ -34,8 +44,18 @@ Page({
     })
   },
   _collection () {
-    this.setData({
-      collection: !this.data.collection
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoCollect' : 'teachCollect'],
+      data: {
+        vid: that.data.info.vid,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.info.is_collect > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        'info.is_collect': that.data.info.is_collect > 0 ? -1 : 1
+      })
     })
   },
   _shareType () {
@@ -49,35 +69,149 @@ Page({
       url: '/share/carShare/carShare?type=2'
     })
   },
-  setInfo (id) {
-    for (let v of this.data.section) {
+  setMainSection (id) {
+    for (let v of this.data.sectionList) {
       if (v.id === id) {
-        this.setData({
+        return this.setData({
           info: v
-        })
+        }, this.getDiscuss)
       }
     }
   },
   getSection () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().teachSectionList,
+      url: app.getUrl()[this.data.main ? 'videoSectionList' : 'teachSectionList'],
       data: {
         uid: app.gs('userInfoAll').uid,
         vid: that.data.options.id
       }
     }).then(res => {
       that.setData({
-        section: res
-      }, that.setInfo(that.data.options.id))
+        sectionList: res
+      }, () => {
+        that.setMainSection(that.data.options.id)
+      })
     })
+  },
+  getDiscuss () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoDiscuss' : 'teachDiscuss'],
+      data: {
+        vid: that.data.info.vid,
+        sid: that.data.info.id,
+        state: 1,
+        uid: app.gs('userInfoAll').uid,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      if (res.lists.length) {
+        for (let v of res.lists) {
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm')
+        }
+        that.setData({
+          commentTotal: res.total,
+          comment: that.data.comment ? that.data.comment.concat(res.lists) : [].concat(res.lists)
+        })
+        that.data.more = res.lists.length >= res.pre_page
+      }
+    }, () => {
+      --that.data.page
+    })
+  },
+  play (e) {
+    this.addCount()
+  },
+  addCount () {
+    if (this.data.playAddCount) return
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoPlay' : 'teachPlay'],
+      data: {
+        vid: this.data.info.vid,
+        sid: this.data.info.id
+      }
+    }).then(() => {
+      this.data.playAddCount = true
+    })
+  },
+  sendWordsDiscussSub (e) {
+    if (!e.detail.value.comment.trim()) return app.toast({content: '评论内容不能为空'})
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoDiscussSub' : 'teachDiscussSub'],
+      data: {
+        vid: that.data.info.vid,
+        sid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        bid: '',
+        did: '',
+        comment: e.detail.value.comment,
+        state: 1
+      }
+    }).then(() => {
+      app.toast({content: '评论成功'})
+      that.setData({
+        commentValue: ''
+      }, () => {
+        that.data.page = 0
+        that.data.comment = null
+        that.getDiscuss()
+      })
+    })
+  },
+  changeWordsDiscussStar (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoPlay' : 'teachDiscussStar'],
+      data: {
+        vid: that.data.info.vid,
+        sid: that.data.info.id,
+        did: that.data.comment[e.currentTarget.dataset.index].id,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        [`comment[${e.currentTarget.dataset.index}].is_star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
+        [`comment[${e.currentTarget.dataset.index}].star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star
+      })
+    })
+  },
+  _videoStar () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.main ? 'videoVideoStar' : 'teachVideoStar'],
+      data: {
+        vid: that.data.info.vid,
+        sid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        state: that.data.info.is_star > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        'info.star': that.data.info.is_star > 0 ? --that.data.info.star : ++that.data.info.star,
+        'info.is_star': that.data.info.is_star > 0 ? -1 : 1
+      })
+    })
+  },
+  goReply (e) {
+    app.su('reply', this.data.comment[e.currentTarget.dataset.index])
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url
+    })
+  },
+  onReachBottom () {
+    if (!this.data.more) return app.toast({content: '没有更多评论了'})
+    this.getDiscuss()
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
     this.setData({
-      options
+      options,
+      main: options.from === 'main'
     }, this.getSection)
   },
   /**

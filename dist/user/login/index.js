@@ -65,6 +65,7 @@ Page({
         code: code
       }
     }).then(function (res) {
+      res.phone = phone;
       if (app.gs('userInfoAll')) {
         app.su('userInfoAll', Object.assign(app.gs('userInfoAll'), res));
       } else {

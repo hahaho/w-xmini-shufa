@@ -20,8 +20,12 @@ Page({
   getHundredList () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredList,
-      data: {
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityList' : 'hundredList'],
+      data: this.data.options.from === 'main' ? {
+        uid: app.gs('userInfoAll').uid,
+        page: ++that.data.page,
+        state: this.data.tabIndex * 1 + 1
+      } : {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page
       }
@@ -46,6 +50,10 @@ Page({
     this.setData({
       tabIndex: e.currentTarget.dataset.index,
       tabId: e.currentTarget.dataset.index
+    }, () => {
+      this.data.page = 0
+      this.data.list = []
+      this.getHundredList()
     })
   },
   _collection () {

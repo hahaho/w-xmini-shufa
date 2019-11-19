@@ -1,7 +1,7 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">书法心理学视角下的王锋书法</text>
+  <text class="cfff">{{info.title}}</text>
 </jwqcapsule>
-<video class="detailVideo" style="top: {{ height }}px;" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"></video>
+<video bindplay="play" class="detailVideo" poster="{{item.cover_url}}" style="top: {{ height }}px;" src="{{info.video_url}}"></video>
 <view style="height: 437rpx;"></view>
 <view wx:if="{{ !showColumn }}">
   <!--屋檐 s-->
@@ -9,10 +9,10 @@
   <!--屋檐 e-->
   <!--标题 -s-->
   <view catchtap="_showColumn" id="openColumn" class="title p2030 cfff">
-    <view class="f40">书法是艺术吗（一）</view>
-    <view class="titleB">
+    <view class="f40">{{info.title}}</view>
+    <view class="titleB mt10">
       <view class="playIcon"></view>
-      <text class="f22 ml10">75030</text>
+      <text class="f22 ml10">{{info.hits}}</text>
       <view class="f24 flex1 tar">简介 ></view>
     </view>
   </view>
@@ -32,7 +32,7 @@
             catchtap="chooseIndex"
             data-index="{{ index }}"
             wx:key
-            wx:for="{{section}}">
+            wx:for="{{sectionList}}">
       <view>第{{ index + 1 }}集</view>
       <view>{{item.title}}</view>
     </button>
@@ -42,24 +42,25 @@
   <!--评论列表 -s-->
   <view class="comment">
   <view class="commentTop f25 c323232 p20">
-    <text>精彩评论(15) </text>
+    <text>精彩评论({{commentTotal}}) </text>
   </view>
-  <view wx:for="123" wx:key="*7" class="commentItem bd1">
-    <image class="br ciImg" mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+    <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{item.uid_avatar_url}}"></image>
     <view class="ciRight flex1">
-      <text class="f22 c787878">默默茶</text>
-      <text class="f25 c000">不错！</text>
-      <view class="p20 ciReply mt20 f22 c646464">
-        <view wx:for="123" wx:key="*6">
-          <text>小哥哥：</text>
-          <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>
-        </view>
-      </view>
+      <text class="f22 c787878">{{item.uid_username}}</text>
+      <text class="f25 c000">{{item.comment}}</text>
+<!--      <view class="p20 ciReply mt20 f22 c646464">-->
+<!--        <view wx:for="123" wx:key="*6">-->
+<!--          <text>小哥哥：</text>-->
+<!--          <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>-->
+<!--        </view>-->
+<!--      </view>-->
+      <text class="f22 mt10" wx:if="{{item.discuss > 0}}">共{{ item.discuss }}条回复</text>
       <view class="f22 mt10 ciBottom">
-        <text class="flex1">2019-07-17 12:55</text>
+        <text class="flex1">{{item.create_at}}</text>
         <view class="c787878">
-          <text catchtap="_writeComment" data-type="in" class="jwqfont jwqpinglun f28"></text>
-          <text class="jwqfont jwqdianzan f28"> 123</text>
+          <view data-url="/commonPage/reply/index?vid={{ info.vid }}&sid={{ info.id }}&state=2&did={{ item.id }}&type={{ main?4:3 }}" catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></view>
+          <text catchtap="changeWordsDiscussStar" data-index="{{index}}" class="jwqfont jwqdianzan f28 {{ item.is_star > 0 ? 'cff362c' : '' }}"> {{item.star || 0}}</text>
         </view>
       </view>
     </view>
@@ -69,30 +70,32 @@
   <view class="zw100"></view>
   <view wx:if="{{ fix }}" class="zw40"></view>
   <!--底部评论发表区域 -s-->
-  <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
-    <input focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
-    <view class="dbSend">发送</view>
-    <view class="dbRight">
-      <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
-      <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ collection ? 'hasCollection':'' }}">{{ collection ? '已收藏' : '收藏' }}</view>
-      <view catchtap="_collection" class="jwqfont jwqdianzan {{ collection ? 'hasCollection':'' }}">10</view>
+  <form bindsubmit="sendWordsDiscussSub">
+    <view class="detailBottom" style="padding-bottom: {{ fix ? 55:15 }}rpx;">
+      <input name="comment" value="{{commentValue}}" focus="{{ focus }}" bindblur="_writeComment" data-type="out" class="dbInput" cursor-spacing="10" placeholder="请输入评论内容"/>
+      <button form-type="submit" class="dbSend">发送</button>
+      <view class="dbRight">
+        <view catchtap="_shareType" class="jwqfont jwqfenxiang">分享</view>
+        <view catchtap="_collection" class="jwqfont jwqwujiaoxingkong {{ info.is_collect > 0 ? 'hasCollection':'' }}">{{ info.is_collect > 0 ? '已收藏' : '收藏' }}</view>
+        <view catchtap="_videoStar" class="jwqfont jwqdianzan {{ info.is_star > 0 ? 'hasCollection':'' }}">{{info.star || 0}}</view>
+      </view>
     </view>
-  </view>
+  </form>
   <!--底部评论发表区域 -e-->
 </view>
 <!--栏目详情 -s-->
 <view wx:if="{{ showColumn }}" class="p20 columnDetail f28 c3e3a39">
   <view catchtap="_showColumn" id="close" class="tac pr bd1 p200">{{ showColumnType ? '选集' : '栏目详情' }}<text class="pa cdClose">X</text></view>
-  <view wx:if="{{ !showColumnType }}" class="p200">栏目详情栏目详情栏目详情栏目详情栏目详情栏目详情</view>
+  <view wx:if="{{ !showColumnType }}" class="p200 ws">{{ info.des || '暂无详情简介' }}</view>
   <view class="videoList" wx:if="{{ showColumnType }}">
     <button hover-class="none" class="tab-item mt10 f25 p200 tr5 cfff {{ tabIndex == index ? 'active' : '' }}"
             id="tab{{ index }}"
             catchtap="chooseIndex"
             data-index="{{ index }}"
             wx:key="*13"
-            wx:for="123123">
+            wx:for="{{sectionList}}">
       <view>第{{ index + 1 }}集</view>
-      <view>书法是艺术吗(一)</view>
+      <view>{{item.title}}</view>
     </button>
   </view>
 </view>

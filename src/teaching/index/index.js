@@ -17,7 +17,8 @@ Page({
     page: 0,
     list: [],
     more: true,
-    tabArr: ['推荐', '楷书', '行书', '草书', '隶书', '篆书', '魏碑', '综合']
+    tabArr: ['推荐', '楷书', '行书', '草书', '隶书', '篆书', '魏碑', '综合'],
+    tabArr2: ['楷书', '行书', '草书', '隶书', '篆书', '魏碑', '综合']
   },
   upFormId (e) {
     app.upFormId(e)
@@ -33,8 +34,12 @@ Page({
   getList () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().teachVideoList,
-      data: {
+      url: app.getUrl()[this.data.mian ? 'videoVideoList' : 'teachVideoList'],
+      data: this.data.mian ? {
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.tabIndex * 1 + 1,
+        page: ++that.data.page
+      } : {
         uid: app.gs('userInfoAll').uid,
         state: that.data.tabIndex < 1 ? 1 : that.data.tabIndex,
         is_recommend: that.data.tabIndex < 1 ? 1 : 0,
@@ -60,27 +65,6 @@ Page({
     this.setData({
       main: options.from === 'main'
     }, this.getList)
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

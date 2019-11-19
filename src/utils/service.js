@@ -154,9 +154,12 @@ const serviceUrl = {
   // scDetail: shopBaseDomain + '/material/detail',
   // 书法api
   homeConfig: lqsyBaseDomain + '/home/config', // 获取全局变量+首页广告
+  wechatOpenid: lqsyBaseDomain + '/wechat/openid', // 小程序授权|获取用户小程序openid
+  rankCard: lqsyBaseDomain + '/rank/card', // rank
   userToken: lqsyBaseDomain + '/user/token', // 点击登录获取token
   userCode: lqsyBaseDomain + '/user/code', // 发送验证码
   userSign: lqsyBaseDomain + '/user/sign', // 修改签名
+  communityList: lqsyBaseDomain + '/community/list', // 社区帖子获取
   hundredList: lqsyBaseDomain + '/hundred/list', // 百家争鸣文章列表
   hundredDetail: lqsyBaseDomain + '/hundred/detail', // 获取百家争鸣文章详情
   hundredFollow: lqsyBaseDomain + '/hundred/follow', // 关注|取消百家争鸣用户
@@ -168,7 +171,20 @@ const serviceUrl = {
   hundredCollect: lqsyBaseDomain + '/hundred/collect', // 收藏与取消收藏帖子
   teachVideoList: lqsyBaseDomain + '/teach/video-list', // 视频目录列表
   teachSectionList: lqsyBaseDomain + '/teach/section-list', // 获取教程章节列表
+  teachDiscussSub: lqsyBaseDomain + '/teach/discuss-sub', // 提交评论
+  teachDiscussStar: lqsyBaseDomain + '/teach/discuss-star', // 评论点赞
+  teachVideoStar: lqsyBaseDomain + '/teach/video-star', // 对章节视频点赞
+  teachCollect: lqsyBaseDomain + '/teach/collect', // 收藏教程
+  teachDiscuss: lqsyBaseDomain + '/teach/discuss', // 获取章节评论
+  teachPlay: lqsyBaseDomain + '/teach/play', // 播放数量+1
   videoVideoList: lqsyBaseDomain + '/video/video-list', // 视频主列表
+  videoSectionList: lqsyBaseDomain + '/video/section-list', // 视频章节列表
+  videoDiscuss: lqsyBaseDomain + '/video/discuss', // 视频章节下的讨论
+  videoVideoStar: lqsyBaseDomain + '/video/video-star', // 对视频点赞
+  videoDiscussStar: lqsyBaseDomain + '/video/discuss-star', // 对视频评论点赞
+  videoDiscussSub: lqsyBaseDomain + '/video/discuss-sub', // 提交视频章节的评论
+  videoPlay: lqsyBaseDomain + '/video/play', // 视频播放量+1
+  videoCollect: lqsyBaseDomain + '/video/collect', // 视频的收藏或者取消收藏
   wordsAll: lqsyBaseDomain + '/words/all', // 碑帖分类下的全部作品
   wordsDes: lqsyBaseDomain + '/words/des', // 获取碑帖的介绍
   wordsSection: lqsyBaseDomain + '/words/section', // 获取具体作品的切割为一幅一幅的图片

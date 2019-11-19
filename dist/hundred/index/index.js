@@ -22,8 +22,12 @@ Page({
   getHundredList: function getHundredList() {
     var that = this;
     app.wxrequest({
-      url: app.getUrl().hundredList,
-      data: {
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityList' : 'hundredList'],
+      data: this.data.options.from === 'main' ? {
+        uid: app.gs('userInfoAll').uid,
+        page: ++that.data.page,
+        state: this.data.tabIndex * 1 + 1
+      } : {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page
       }
@@ -67,9 +71,15 @@ Page({
     });
   },
   chooseIndex: function chooseIndex(e) {
+    var _this = this;
+
     this.setData({
       tabIndex: e.currentTarget.dataset.index,
       tabId: e.currentTarget.dataset.index
+    }, function () {
+      _this.data.page = 0;
+      _this.data.list = [];
+      _this.getHundredList();
     });
   },
   _collection: function _collection() {

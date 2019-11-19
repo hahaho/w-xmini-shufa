@@ -15,12 +15,27 @@ Page({
     },
     system: app.data.system.system.indexOf('iOS') >= 0
   },
+  getInfo: function getInfo() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().rankCard,
+      data: {
+        rank: 1
+      }
+    }).then(function (res) {
+      that.setData({
+        info: res
+      });
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad() {
     var pages = getCurrentPages();
     pages[pages.length - 2].route === 'pages/index/index' && this.setData({ openType: 'navigateBack' });
+    this.getInfo();
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()

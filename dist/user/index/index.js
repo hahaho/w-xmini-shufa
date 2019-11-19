@@ -83,6 +83,28 @@ Page({
       that._toggleSign();
     });
   },
+  _getUserInfo: function _getUserInfo(e) {
+    console.log('用户信息', e);
+    var that = this;
+    if (!app.gs('access_token')) return app.toast({ content: '请先登录再进行此操作' });
+    wx.login({
+      success: function success(loginRes) {
+        app.wxrequest({
+          url: app.getUrl().wechatOpenid,
+          data: {
+            uid: app.gs('userInfoAll').uid,
+            code: loginRes.code,
+            avatar_url: e.detail.userInfo.avatarUrl,
+            nickname: e.detail.userInfo.nickName,
+            phone: app.gs('userInfoAll').phone || ''
+          }
+        }).then(function (res) {
+          console.log('登录结果', res);
+          app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, res));
+        });
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载

@@ -9,10 +9,10 @@
 <!--开通会员图片 -e-->
 <!--会员权益 -s-->
 <view class="tac vipEnjoy">
-  <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_open.png"></image>
+  <image mode="widthFix" src="{{ info.img_url || 'https://c.jiangwenqiang.com/lqsy/vip_open.png' }}"></image>
   <view class="vipBtn f25">
-    <button wx:if="{{ system }}" open-type="contact" class="vbItem cfff f22">苹果端请点击联系官方通过人工进行开通</button>
-    <navigator wx:else url="../buy/index" open-type="redirect" class="vbItem cfff">立即开通</navigator>
+<!--    <button wx:if="{{ system }}" open-type="contact" class="vbItem cfff f22">苹果端请点击联系官方通过人工进行开通</button>-->
+    <navigator url="../buy/index" open-type="redirect" class="vbItem cfff">立即开通</navigator>
   </view>
 </view>
 <!--会员权益 -e-->
@@ -23,8 +23,8 @@
 <text>会员权益</text>
 <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_text_left.png"></image>
 </view>
-<view style="transform: translateY(-130rpx);" class="p20 f22 c323232">
-asdfasfsadfasfdsdfasfd
+<view style="transform: translateY(-130rpx);" class="p20 f22 c323232 ws">
+{{info.detail_text || '暂无权益'}}
 </view>
 <!--权益信息 -e-->
 

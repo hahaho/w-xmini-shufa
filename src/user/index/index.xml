@@ -3,11 +3,13 @@
 <view class="userInfo">
 <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
 <view class="userTop p2030">
-  <image mode="aspectFill" class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  <view class="utName">
-    <view class="f28 cfff">cm厘米</view>
-    <view class="f22 cece696 mt10">终身会员</view>
-  </view>
+  <button class="loginBtn" open-type="getUserInfo" bindgetuserinfo="_getUserInfo">
+    <image mode="aspectFill" class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <view class="utName">
+      <view class="f28 cfff">cm厘米</view>
+      <view class="f22 cece696 mt10">终身会员</view>
+    </view>
+  </button>
   <view catchtap="_toggleSign" class="f21 cfff jwqfont jwqic_pen flex1 tar">个性签名</view>
 </view>
 <view class='uiOperation cfff tac'>

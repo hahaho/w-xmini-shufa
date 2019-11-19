@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">百家争鸣</text>
+  <text class="cfff fw7">{{options.from == 'main'? tabArr[tabIndex] : '百家争鸣'}}</text>
 </jwqcapsule>
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
@@ -73,6 +73,7 @@
     <view catchtap="_shareType" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>
   </view>
 </view>
+<view class='tac f22 p20 c999'>暂无相关内容</view>
 <!--列表 -e-->
 <jwqnav url="/commonPage/talk/index?type=talk">
   <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk{{ options.from == 'main' ? 2 : '' }}.png"></image>

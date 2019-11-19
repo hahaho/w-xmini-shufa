@@ -31,10 +31,11 @@
 <!--          <text class="c323232">回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语回复评语</text>-->
 <!--        </view>-->
 <!--      </view>-->
+      <text class="f22 mt10" wx:if="{{item.discuss > 0}}">共{{ item.discuss }}条回复</text>
       <view class="f22 mt10 ciBottom">
         <text class="flex1">{{item.create_at}}</text>
         <view class="c787878">
-          <text catchtap="_writeComment" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></text>
+          <text catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></text>
           <text catchtap="changeStar" data-index="{{index}}" class="jwqfont jwqdianzan f28 {{ item.is_star > 0 ? 'cff362c' : '' }}"> {{item.star}}</text>
         </view>
       </view>

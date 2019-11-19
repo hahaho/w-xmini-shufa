@@ -23,8 +23,8 @@
             id="tab{{ index }}"
             catchtap="chooseIndex"
             data-index="{{ index }}"
-            wx:key
-            wx:for="{{ tabArr }}">{{ item }}</button>
+            wx:key="*index"
+            wx:for="{{ main ? tabArr2 : tabArr }}">{{ item }}</button>
   </view>
 </scroll-view>
 <!--分类 -e-->
@@ -51,7 +51,7 @@
 </view>
 <!--课程列表 -e-->
 <!--课程列表 -s-->
-<navigator wx:if="{{ main }}" url="../detail/index?id={{item.id}}" class="tlItem tlItem2" wx:for="12312312" wx:key="*11">
+<navigator wx:if="{{ main }}" url="../detail/index?id={{item.id}}{{ main ? '&from=main' : '' }}" class="tlItem tlItem2" wx:for="{{list}}" wx:key="*11">
   <view class="tliTop pr">
     <image mode="aspectFill" lazy-load="1" class="tlitImg" src="{{item.cover_url}}"></image>
     <view class="playIcon pa cfff"></view>
