@@ -17,15 +17,16 @@
 <scroll-view class="tab-scroll bb"
              scroll-with-animation="1"
              scroll-x="1"
+             bindscrolltolower="getTabOneScroll"
              scroll-into-view="tab{{ tabId - 2 }}">
 <view class="tab-inside">
   <button hover-class="none" class="tab-item f25 cfff {{ tabIndex == index ? 'active' : '' }} tr5"
-          id="tab{{ index }}"
+          id="tab{{index}}"
           catchtap="chooseIndex"
           data-index="{{ index }}"
           wx:key
-          wx:for="{{ tabArr }}">
-    <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
+          wx:for="{{ oneList }}">
+    <image lazy-load="1" src="{{item.img_url}}"></image>
   </button>
 </view>
 </scroll-view>
@@ -34,16 +35,16 @@
 <view class="bgfff secondNav">
   <view catchtap="_secondChoose"
         data-index="{{ index }}"
-        wx:for="123123"
+        wx:for="{{twoList}}"
         wx:key
-        class="snItem tr5 f21 ell1 {{ secondIndex == index ? 'active' : '' }}">田英章硬笔楷书7000</view>
+        class="snItem tr5 f21 ell1 {{ secondIndex == index ? 'active' : '' }}">{{item.name}}</view>
 </view>
 <!--二级类别 -e-->
 <!--名师列表 -s-->
 <view class="teacherList">
-  <navigator url="/camera/detail/index?id=123" class="listItem bd1 mt20" wx:for="123445" wx:key="*1">
-    <image src="https://c.jiangwenqiang.com/lqsy/list1.png"></image>
-    <text>一{{index}}</text>
+  <navigator url="/camera/detail/index?wid={{item.wid}}&oid={{item.id}}" class="listItem bd1 mt20" wx:for="{{threeList}}" wx:key="*1">
+    <image src="{{item.img_name}}"></image>
+    <text>{{item.word}}</text>
   </navigator>
 </view>
 <!--名师列表 -e-->

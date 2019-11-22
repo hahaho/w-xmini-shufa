@@ -8,7 +8,7 @@
     <text>{{info.title}}</text>
   </view>
   <view class="hliTop mt20">
-    <jwqnav url="../userHomePage/index?id={{item.uid}}"><image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{info.avatar_url}}"></image></jwqnav>
+    <jwqnav url="../userHomePage/index?id={{info.uid}}{{ options.from === 'main' ? '&from=main' : '' }}"><image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{info.avatar_url}}"></image></jwqnav>
     <jwqnav url="../userHomePage/index?id=1" class="flex1">
       <view class="hliTopName f21 c323232">
         <text>{{info.username}}</text>
@@ -47,7 +47,7 @@
       <view class="f22 mt10 ciBottom">
         <text class="flex1">{{item.create_at}}</text>
         <view class="c787878">
-          <view data-url="/commonPage/reply/index?wid={{ item.pid }}&state=2&did={{ item.id }}&type=2" catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></view>
+          <view data-url="/commonPage/reply/index?wid={{ item.pid }}&state=2&did={{ item.id }}&type={{options.from === 'main' ? 5 : 2}}" catchtap="goReply" data-index="{{ index }}" data-type="in" class="jwqfont jwqpinglun f28"></view>
           <text catchtap="commentStar" data-index="{{ index }}" class="jwqfont jwqdianzan f28 {{ item.is_star > 0 ? 'cff362c' : '' }}"> {{item.star}}</text>
         </view>
       </view>

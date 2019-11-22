@@ -19,7 +19,8 @@ Page({
     selectAll: -1, // -2 全选中
     totalMoney: 0,
     totalCount: 0,
-    list: [123]
+    list: [],
+    touchIndex: -1
   },
   getCar: function getCar() {
     var that = this;
@@ -263,7 +264,7 @@ Page({
         var v = _step6.value;
 
         if (v['choose']) {
-          totalMoney += v.price * v.count;
+          totalMoney += v.product.price * v.count;
           totalCount += v.count * 1;
         }
       }
@@ -288,11 +289,33 @@ Page({
     });
   },
   submit: function submit() {
-    // let temp = []
-    // for (let v of this.data.list) {
-    //   if (v['choose']) temp.push(v)
-    // }
-    // app.su('buyInfo', temp)
+    var temp = [];
+    var _iteratorNormalCompletion7 = true;
+    var _didIteratorError7 = false;
+    var _iteratorError7 = undefined;
+
+    try {
+      for (var _iterator7 = this.data.list[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        var v = _step7.value;
+
+        if (v['choose']) temp.push(v);
+      }
+    } catch (err) {
+      _didIteratorError7 = true;
+      _iteratorError7 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion7 && _iterator7.return) {
+          _iterator7.return();
+        }
+      } finally {
+        if (_didIteratorError7) {
+          throw _iteratorError7;
+        }
+      }
+    }
+
+    app.su('buyInfo', temp);
     wx.navigateTo({
       url: '/shop/submit/index'
     });
@@ -304,18 +327,95 @@ Page({
       url: app.getUrl().shopCartChange,
       data: {
         cid: that.data.list[e.currentTarget.dataset.index].id,
-        uid: app.gs('userInfoAll').id,
+        uid: app.gs('userInfoAll').uid,
         count: that.data.list[e.currentTarget.dataset.index].count
-      },
-      success: function success(res) {
-        wx.hideLoading();
-        if (res.data.status === 200) {
-          that.setData(_defineProperty({}, str, that.data.list[e.currentTarget.dataset.index].count), that.calculate);
-        } else {
-          that.data.list[e.currentTarget.dataset.index].count = before;
-          app.setToast(that, { content: res.data.desc });
+      }
+    }).then(function (res) {
+      that.setData(_defineProperty({}, str, that.data.list[e.currentTarget.dataset.index].count), that.calculate);
+    }, function () {
+      that.data.list[e.currentTarget.dataset.index].count = before;
+    });
+  },
+  shopCarList: function shopCarList() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopCarList,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      _this.setData({
+        list: res
+      }, function () {
+        _this.calculate();
+        _this.getMaxFreight();
+      });
+    });
+  },
+  getMaxFreight: function getMaxFreight() {
+    var maxFreight = 0;
+    var _iteratorNormalCompletion8 = true;
+    var _didIteratorError8 = false;
+    var _iteratorError8 = undefined;
+
+    try {
+      for (var _iterator8 = this.data.list[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+        var v = _step8.value;
+
+        maxFreight = maxFreight > v.product.freight ? maxFreight : v.product.freight;
+      }
+    } catch (err) {
+      _didIteratorError8 = true;
+      _iteratorError8 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion8 && _iterator8.return) {
+          _iterator8.return();
+        }
+      } finally {
+        if (_didIteratorError8) {
+          throw _iteratorError8;
         }
       }
+    }
+  },
+  touchStart: function touchStart(e) {
+    this.setData({
+      touchIndex: e.currentTarget.dataset.index,
+      showDel: false
+    });
+    this.data.x = e.changedTouches[0].clientX;
+  },
+  touchMove: function touchMove(e) {
+    if (this.data.touchIndex >= 0) {
+      if (e.changedTouches[0].clientX - this.data.x < -50) {
+        this.setData({
+          showDel: true
+        });
+      } else if (e.changedTouches[0].clientX - this.data.x > 50) {
+        this.setData({
+          showDel: false
+        });
+      }
+    }
+  },
+  shopCartDelete: function shopCartDelete(e) {
+    var _this2 = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopCartDelete,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        cart_ids: JSON.stringify([{
+          id: e.currentTarget.dataset.id
+        }])
+      }
+    }).then(function () {
+      _this2.data.list.splice(e.currentTarget.dataset.index, 1);
+      _this2.setData({
+        list: _this2.data.list
+      });
     });
   },
 
@@ -325,7 +425,7 @@ Page({
   onLoad: function onLoad(options) {
     this.setData({
       options: options
-    });
+    }, this.shopCarList);
   },
 
   /**

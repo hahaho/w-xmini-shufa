@@ -4,9 +4,9 @@
 <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
 <view class="userTop p2030">
   <button class="loginBtn" open-type="getUserInfo" bindgetuserinfo="_getUserInfo">
-    <image mode="aspectFill" class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <image mode="aspectFill" class="br" src="{{ userInfoAll.avatar_url || 'https://c.jiangwenqiang.com/lqsy/login1.png'}}"></image>
     <view class="utName">
-      <view class="f28 cfff">cm厘米</view>
+      <view class="f28 cfff">{{ userInfoAll.nickname || '点击授权个人信息' }}</view>
       <view class="f22 cece696 mt10">终身会员</view>
     </view>
   </button>
@@ -36,7 +36,7 @@
   <view class="arrow p2030 f25 bgfff jwqfont df jwqqunfengkefujingli" style="color: #31cf2d;"><text class="c323232 ml10">　联系客服</text></view>
 </button>
 <!--操作 -e-->
-<navigator open-type="redirect" url="../login/index" class="f29 fw7 tac br10 bgfff login">退出登陆</navigator>
+<navigator catchtap="clean" url="../login/index" class="f29 fw7 tac br10 bgfff login">{{ userInfoAll.access_token ? '退出登陆' : '现在登陆'  }}</navigator>
 
 <!--个性签名 -s-->
 <view class="mask masktr1" wx:if="{{ sign }}">

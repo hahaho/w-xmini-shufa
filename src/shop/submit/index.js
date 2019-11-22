@@ -65,7 +65,8 @@ Page({
    */
   onLoad (options) {
     this.setData({
-      options
+      options,
+      info: app.gs('buyInfo')
     })
   },
   /**

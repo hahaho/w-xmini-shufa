@@ -1,5 +1,5 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff fw7">商品分类</text>
+  <text class="cfff fw7">{{name}}</text>
 </jwqcapsule>
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
@@ -14,16 +14,16 @@
 <view class="eaves"></view>
 <!--屋檐 e-->
 <view class="p20 goods">
-  <navigator url="/shop/detail/index?id=1" wx:for="123asdfasfasdfasd" wx:key="*35" class="goodsItem bgfff">
-    <image lazy-load="1" class="w100" mode="aspectFill" src="https://c.jiangwenqiang.com/lqsy/{{ index }}.png"></image>
-    <view class="ell2 f22 mt10 c646464">iD明眸浓黑膏膏体色乳膏体色iD明眸浓黑膏膏体色乳膏体色iD明眸浓黑膏膏体色乳膏体色</view>
+  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{list}}" wx:key="*35" class="goodsItem bgfff">
+    <image lazy-load="1" class="w100" mode="aspectFill" src="{{item.img_url}}"></image>
+    <view class="ell2 f22 mt10 c646464">{{ item.title }}</view>
     <view class="p10 mt10 df dfac">
       <view>
         <text class="f22 cff362c">￥</text>
-        <text class="f29 cff362c">109</text>
-        <text class="f26 cff362c">.9</text>
+        <text class="f29 cff362c">{{item.new_price[0]}}</text>
+        <text class="f26 cff362c">{{'.' + item.new_price[1] || '00'}}</text>
       </view>
-      <text class="f19 c787878 ml20 ">已售1000件</text>
+      <text class="f19 c787878 ml20 ">已售{{item.sale_count}}件</text>
     </view>
   </navigator>
 </view>

@@ -37,7 +37,10 @@ Page({
     }, {
       i: 'jwqmn_shangchuantupian',
       t: '拍照对比'
-    }]
+    }],
+    page: 0,
+    more: true,
+    comment: []
   },
   openSetting: function openSetting(res) {
     if (res.detail.authSetting['scope.camera']) {
@@ -55,6 +58,8 @@ Page({
       scope: 'scope.camera',
       success: function success() {
         that._toggleMask(e);
+        app.su('alphaImg', that.data.info.alpha_img_name);
+        app.su('alphaImg2', that.data.info.img_name);
       },
       fail: function fail() {
         that.setData({
@@ -95,8 +100,19 @@ Page({
     });
   },
   _collection: function _collection() {
-    this.setData({
-      collection: !this.data.collection
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().stackingCollect,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.info.is_collect > 0 ? 2 : 1
+      }
+    }).then(function () {
+      that.setData({
+        'info.is_collect': that.data.info.is_collect > 0 ? -1 : 1
+      });
     });
   },
   _shareType: function _shareType() {
@@ -110,11 +126,124 @@ Page({
       url: '/share/carShare/carShare?type=2'
     });
   },
+  getDetail: function getDetail() {
+    var that = this;
+    this.data.page = 0;
+    this.data.comment = [];
+    app.wxrequest({
+      url: app.getUrl().stackingDetail,
+      data: {
+        wid: that.data.options.wid,
+        oid: that.data.options.oid,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      that.setData({
+        info: res
+      }, that.getHundredDiscuss);
+    });
+  },
+  getHundredDiscuss: function getHundredDiscuss() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().stackingDiscuss,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        state: 1,
+        page: ++that.data.page,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      if (res.lists) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var v = _step.value;
+
+            v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm');
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        that.setData({
+          comment: that.data.comment.concat(res.lists)
+        });
+      }
+    });
+  },
+  sendHundredDiscussSub: function sendHundredDiscussSub(e) {
+    if (!e.detail.value.comment.trim()) return app.toast({ content: '评论内容不能为空' });
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().stackingDiscussSub,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        bid: '',
+        did: '',
+        comment: e.detail.value.comment,
+        state: 1
+      }
+    }).then(function () {
+      app.toast({ content: '评论成功' });
+      that.setData({
+        commentValue: ''
+      });
+      that.data.page = 0;
+      that.data.more = true;
+      that.data.comment = [];
+      that.getHundredDiscuss();
+    });
+  },
+  goReply: function goReply(e) {
+    app.su('reply', this.data.comment[e.currentTarget.dataset.index]);
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url
+    });
+  },
+  commentStar: function commentStar(e) {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().stackingDiscussStar,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        did: that.data.comment[e.currentTarget.dataset.index].id,
+        state: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(function () {
+      var _that$setData;
+
+      that.setData((_that$setData = {}, _defineProperty(_that$setData, 'comment[' + e.currentTarget.dataset.index + '].is_star', that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1), _defineProperty(_that$setData, 'comment[' + e.currentTarget.dataset.index + '].star', that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star), _that$setData));
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad(options) {},
+  onLoad: function onLoad(options) {
+    this.setData({
+      options: options
+    }, this.getDetail);
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

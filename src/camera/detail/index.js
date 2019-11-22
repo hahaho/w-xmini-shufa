@@ -42,7 +42,10 @@ Page({
         i: 'jwqmn_shangchuantupian',
         t: '拍照对比'
       }
-    ]
+    ],
+    page: 0,
+    more: true,
+    comment: []
   },
   openSetting (res) {
     if (res.detail.authSetting['scope.camera']) {
@@ -60,6 +63,8 @@ Page({
       scope: 'scope.camera',
       success () {
         that._toggleMask(e)
+        app.su('alphaImg', that.data.info.alpha_img_name)
+        app.su('alphaImg2', that.data.info.img_name)
       },
       fail () {
         that.setData({
@@ -104,8 +109,19 @@ Page({
     })
   },
   _collection () {
-    this.setData({
-      collection: !this.data.collection
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().stackingCollect,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.info.is_collect > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        'info.is_collect': that.data.info.is_collect > 0 ? -1 : 1
+      })
     })
   },
   _shareType () {
@@ -119,10 +135,101 @@ Page({
       url: '/share/carShare/carShare?type=2'
     })
   },
+  getDetail () {
+    let that = this
+    this.data.page = 0
+    this.data.comment = []
+    app.wxrequest({
+      url: app.getUrl().stackingDetail,
+      data: {
+        wid: that.data.options.wid,
+        oid: that.data.options.oid,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      that.setData({
+        info: res
+      }, that.getHundredDiscuss)
+    })
+  },
+  getHundredDiscuss () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().stackingDiscuss,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        state: 1,
+        page: ++that.data.page,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      if (res.lists) {
+        for (let v of res.lists) {
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm')
+        }
+        that.setData({
+          comment: that.data.comment.concat(res.lists)
+        })
+      }
+    })
+  },
+  sendHundredDiscussSub (e) {
+    if (!e.detail.value.comment.trim()) return app.toast({content: '评论内容不能为空'})
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().stackingDiscussSub,
+      data: {
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        bid: '',
+        did: '',
+        comment: e.detail.value.comment,
+        state: 1
+      }
+    }).then(() => {
+      app.toast({content: '评论成功'})
+      that.setData({
+        commentValue: ''
+      })
+      that.data.page = 0
+      that.data.more = true
+      that.data.comment = []
+      that.getHundredDiscuss()
+    })
+  },
+  goReply (e) {
+    app.su('reply', this.data.comment[e.currentTarget.dataset.index])
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url
+    })
+  },
+  commentStar (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().stackingDiscussStar,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        wid: that.data.info.wid,
+        oid: that.data.info.id,
+        did: that.data.comment[e.currentTarget.dataset.index].id,
+        state: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        [`comment[${e.currentTarget.dataset.index}].is_star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
+        [`comment[${e.currentTarget.dataset.index}].star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    this.setData({
+      options
+    }, this.getDetail)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

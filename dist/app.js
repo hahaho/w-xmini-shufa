@@ -259,39 +259,39 @@ App({
   // 请求数据
   wxrequest: function wxrequest(obj) {
     var that = this;
-    if (that.data.requireDisable < 10) {
-      that.toast({
-        content: '\u64CD\u4F5C\u8FC7\u4E8E\u9891\u7E41,\u8BF7\u7B49\u5F85' + that.data.requireDisable + '\u79D2\u540E\u8FDB\u884C\u64CD\u4F5C',
-        color: '#f00',
-        bgc: '#fff'
-      });
-      return Promise.reject();
-    }
-    if (obj.url !== lastUrl) {
-      requireCount = 0;
-      lastUrl = obj.url;
-    } else {
-      ++requireCount;
-    }
-    if (requireCount >= 10) {
-      setTimeout(function () {
-        requireCount = 0;
-      }, 9000);
-      --that.data.requireDisable;
-      timer = setInterval(function () {
-        --that.data.requireDisable;
-        if (that.data.requireDisable <= 0) {
-          that.data.requireDisable = 10;
-          clearInterval(timer);
-        }
-      }, 1000);
-      that.toast({
-        content: '\u64CD\u4F5C\u8FC7\u4E8E\u9891\u7E41,\u8BF7\u7B49\u5F85' + that.data.requireDisable + '\u79D2\u540E\u8FDB\u884C\u64CD\u4F5C',
-        color: '#f00',
-        bgc: '#fff'
-      });
-      return Promise.reject();
-    }
+    // if (that.data.requireDisable < 10) {
+    //   that.toast({
+    //     content: `操作过于频繁,请等待${that.data.requireDisable}秒后进行操作`,
+    //     color: '#f00',
+    //     bgc: '#fff'
+    //   })
+    //   return Promise.reject()
+    // }
+    // if (obj.url !== lastUrl) {
+    //   requireCount = 0
+    //   lastUrl = obj.url
+    // } else {
+    //   ++requireCount
+    // }
+    // if (requireCount >= 10) {
+    //   setTimeout(() => {
+    //     requireCount = 0
+    //   }, 9000)
+    //   --that.data.requireDisable
+    //   timer = setInterval(() => {
+    //     --that.data.requireDisable
+    //     if (that.data.requireDisable <= 0) {
+    //       that.data.requireDisable = 10
+    //       clearInterval(timer)
+    //     }
+    //   }, 1000)
+    //   that.toast({
+    //     content: `操作过于频繁,请等待${that.data.requireDisable}秒后进行操作`,
+    //     color: '#f00',
+    //     bgc: '#fff'
+    //   })
+    //   return Promise.reject()
+    // }
     return new Promise(function (resolve, reject) {
       wx.showLoading({
         title: '请求数据中',
@@ -315,7 +315,7 @@ App({
             resolve(res.data.data);
           } else {
             reject(res);
-            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, { content: res.data.desc }) : { content: res.data.desc } : { content: res.data.desc });
+            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, { content: res.data.desc || '啊哦~服务器出错了' }) : { content: res.data.desc || '啊哦~服务器出错了' } : { content: res.data.desc || '啊哦~服务器出错了' });
           }
         },
         fail: function fail(err) {

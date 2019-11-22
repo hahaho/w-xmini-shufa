@@ -1,5 +1,18 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
+// const config = require('../config')
+// const COS = require('../cos-js-sdk-v5.min')
+// const cos = new COS({
+//   getAuthorization (params, callback) {
+//     let authorization = COS.getAuthorization({
+//       SecretId: config.SecretId,
+//       SecretKey: config.SecretKey,
+//       Method: params.Method,
+//       Key: params.Key
+//     })
+//     callback(authorization)
+//   }
+// })
 // 创建页面实例对象
 Page({
   /**
@@ -19,11 +32,97 @@ Page({
         t: '照片'
       }
     ],
+    page: 0,
+    more: true,
+    outList: [],
     itemIndex: 0
   },
-  _literacy () {
+  _literacy (e) {
+    let that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      sourceType: [e.currentTarget.dataset.index > 0 ? 'album' : 'camera'],
+      success (res1) {
+        wx.showLoading({
+          title: '图片上传中'
+        })
+        let FilePath = res1.tempFilePaths[0]
+        that.setData({
+          imgUrl: FilePath
+        })
+        wx.uploadFile({
+          url: app.getUrl().distinguishKnow,
+          filePath: FilePath,
+          name: 'file',
+          formData: {
+            uid: app.gs('userInfoAll').uid,
+            file: FilePath
+          },
+          success (res) {
+            wx.hideLoading()
+            that.data.page = 0
+            that.data.outList = []
+            let list = JSON.parse(res.data).data.words_result
+            for (let v of list) {
+              v.probability.average = Math.floor(v.probability.average * 100)
+              v.words = v.words.slice(0, 1)
+            }
+            list.sort((a, b) => {
+              return b.probability.average - a.probability.average
+            })
+            that.setData({
+              list
+            }, () => {
+              that._toggleShow()
+              that.getWordOut(list[0].words)
+            })
+          },
+          fail () {
+            wx.hideLoading()
+            app.toast({
+              content: '上传失败'
+            })
+          }
+        })
+      }
+    })
+  },
+  _toggleShow () {
     this.setData({
       literacy: !this.data.literacy
+    })
+  },
+  getWordOut (word) {
+    let words = word.slice(0, 1)
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().stackingSearch,
+      data: {
+        word: words,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      that.setData({
+        outList: that.data.outList.concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    })
+  },
+  getShiYi (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().distinguishWord,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        word: that.data.list[e.currentTarget.dataset.index].words
+      }
+    }).then(res => {
+      that.setData({
+        shiYiInfo: res
+      }, () => {
+        that._toggleMask(e)
+      })
     })
   },
   _toggleMask (e) {
@@ -44,6 +143,12 @@ Page({
       [animate]: !this.data[animate],
       [type]: !this.data[type]
     })
+  },
+  onReachBottom () {
+    if (!this.data.more) {
+      return app.toast({content: '没有更多内容了'})
+    }
+    this.getWordOut(this.data.list[0].words)
   },
   /**
    * 生命周期函数--监听页面加载

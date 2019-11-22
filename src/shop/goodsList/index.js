@@ -10,15 +10,47 @@ Page({
       transparent: true,
       bgc: ''
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    page: 0,
+    more: true,
+    list: []
   },
   upFormId (e) {
     app.upFormId(e)
   },
+  shopProducts () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().shopProducts,
+      data: {
+        cid: that.data.options.id,
+        page: ++that.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.new_price = v.new_price.split('.')
+      }
+      that.setData({
+        list: that.data.list.concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    })
+  },
+  onReachBottom () {
+    if (!this.data.more) {
+      return app.toast({content: '没有更多内容了'})
+    }
+    this.shopProducts()
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {},
+  onLoad (options) {
+    this.data.options = options
+    this.setData({
+      name: options.name
+    }, this.shopProducts)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

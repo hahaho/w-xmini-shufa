@@ -38,7 +38,7 @@
 <!--列表 -s-->
 <view class="hundredListItem" wx:for="{{list}}" wx:key="*5">
   <view class="df dfb">
-    <jwqnav url="../userHomePage/index?id={{ item.uid }}">
+    <jwqnav url="../userHomePage/index?id={{ item.uid }}{{ options.from === 'main' ? '&from=main' : '' }}">
       <view class="hliTop">
         <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{item.avatar_url}}"></image>
         <view class="hliTopName f21 c323232">
@@ -47,7 +47,7 @@
         </view>
       </view>
     </jwqnav>
-    <view wx:if="{{ tabIndex > 0 }}" catchtap="_follow" class="hliUnFollow {{ follow ? 'hliFollow' : '' }}">{{ follow ? '已关注' : '+关注' }}</view>
+    <view wx:if="{{ tabIndex > 0 }}" catchtap="_follow" data-index="{{index}}" class="hliUnFollow {{ item.is_follow > 0 ? 'hliFollow' : '' }}">{{ item.is_follow > 0 ? '已关注' : '+关注' }}</view>
   </view>
   <jwqnav url="../detail/index?id={{ item.id }}&from={{ options.from }}" >
     <view wx:if="{{ tabIndex < 3 }}">
@@ -63,19 +63,19 @@
       </view>
     </view>
     <view class="mt20 pr" wx:else>
-      <image class="videoImg" mode="widthFix" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+      <image class="videoImg" mode="widthFix" lazy-load="1" src="{{item.cover_url}}"></image>
       <view class="playIcon pa cfff"></view>
     </view>
   </jwqnav>
   <view wx:if="{{ options.from == 'main' }}" class="c323232 hliShare">
-    <view class="jwqfont f16 jwqpinglun">25</view>
-    <view catchtap="_collection" class="jwqfont f16 jwqdianzan tr5 {{ collection ? 'cff362c' : '' }}">16</view>
-    <view catchtap="_shareType" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>
+    <view class="jwqfont f16 jwqpinglun">{{item.discuss}}</view>
+    <view catchtap="changePostsStar" data-index="{{index}}" class="jwqfont f16 jwqdianzan tr5 {{ item.is_star > 0 ? 'cff362c' : '' }}">{{item.star}}</view>
+    <view catchtap="_shareType" data-index="{{index}}" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>
   </view>
 </view>
-<view class='tac f22 p20 c999'>暂无相关内容</view>
+<view wx:if="{{!list}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--列表 -e-->
-<jwqnav url="/commonPage/talk/index?type=talk">
+<jwqnav url="/commonPage/talk/index?type={{ options.from == 'main' ? 'community' : 'hundred' }}">
   <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk{{ options.from == 'main' ? 2 : '' }}.png"></image>
 </jwqnav>
 <!--分享方式选择 -s-->

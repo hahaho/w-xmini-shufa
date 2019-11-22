@@ -10,6 +10,8 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
+    commentPage: 0,
+    commentMore: true,
     capsules: app.data.capsule
   },
   _writeComment (e) {
@@ -28,10 +30,89 @@ Page({
       url: '/share/carShare/carShare?type=3'
     })
   },
+  getHundredDiscuss () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().dayDiscuss,
+      data: {
+        wid: that.data.options.id,
+        state: 1,
+        page: ++that.data.commentPage,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      if (res.lists.length) {
+        for (let v of res.lists) {
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm')
+        }
+        that.setData({
+          comment: that.data.comment ? that.data.comment.concat(res.lists) : [].concat(res.lists)
+        })
+        that.data.commentMore = res.lists.length >= res.pre_page
+      }
+      that.data.replyIndex = -1
+    }, () => {
+      --that.data.commentPage
+    })
+  },
+  goReply (e) {
+    app.su('reply', this.data.comment[e.currentTarget.dataset.index])
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url
+    })
+  },
+  commentStar (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().dayDiscussStar,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        // wid: that.data.info.id,
+        wid: that.data.options.id,
+        did: that.data.comment[e.currentTarget.dataset.index].id,
+        state: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(() => {
+      that.setData({
+        [`comment[${e.currentTarget.dataset.index}].is_star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
+        [`comment[${e.currentTarget.dataset.index}].star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star
+      })
+    })
+  },
+  sendHundredDiscussSub (e) {
+    if (!e.detail.value.comment.trim()) return app.toast({content: '评论内容不能为空'})
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().dayDiscussSub,
+      data: {
+        // wid: that.data.info.id,
+        wid: that.data.options.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        bid: '',
+        did: '',
+        comment: e.detail.value.comment,
+        state: 1
+      }
+    }).then(() => {
+      app.toast({content: '评论成功'})
+      that.setData({
+        commentValue: ''
+      })
+      that.data.page = 0
+      that.data.more = true
+      that.data.comment = null
+      that.getHundredDiscuss()
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    this.setData({
+      options
+    }, () => {
+      this.getHundredDiscuss()
+    })
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
     // this.getUser()

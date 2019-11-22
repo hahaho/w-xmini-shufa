@@ -86,39 +86,44 @@
 <!--购物车 -s-->
 <form>
 <view class="f26 c666 edit bgfff bt1" style="top: {{ height }}px;">
-<text>共123件宝贝</text>
-<text catchtap="edit" class="{{ del ? 'cff5975' : '' }}">管理</text>
+<text>共{{totalCount || 0}}件宝贝</text>
+<!--<text catchtap="edit" class="{{ del ? 'cff5975' : '' }}">管理</text>-->
 </view>
 <view class="p20 mt90 bgfff">
-  <view class="car-list bgfff p30 bt1"
-  wx:for="12313"
+  <view class="car-list bgfff p30 bt1 pr"
+        bindtouchstart="touchStart"
+        catchtouchmove="touchMove"
+        data-index="{{index}}"
+  wx:for="{{list}}"
   wx:key="*07">
-  <view catchtap="choose"
-  data-index="{{ index }}"
-  class="jwqfont {{ item.choose ? 'jwqgouxuan' : 'jwqwxz' }}"></view>
-  <image src="https://c.jiangwenqiang.com/api/logo.jpg"
-   class="br8 mr20"
-   mode="aspectFill"></image>
-  <view class="f28 c444 c-l-r flex1">
-  <text>标题标题标题标题</text>
-  <view wx:if="{{ item.label != -1 }}">颜色:黄色</view>
-    <view class="f38 c444 clr-b mt20">
-    <text class="fw7 cff362c">¥123</text>
-      <view class="gmc-num">
-        <view catchtap="numOperation"
-              data-index="{{ index }}"
-              data-type="del"
-              class="gmcn-del br8">-</view>
-        <view class="br8 gmcn-in">123</view>
-        <view catchtap="numOperation"
-              data-index="{{ index }}"
-              data-type="add"
-              class="gmcn-add br8">+</view>
+    <view catchtap="choose"
+    data-index="{{ index }}"
+    class="jwqfont {{ item.choose ? 'jwqgouxuan' : 'jwqwxz' }}"></view>
+    <image src="{{item.product.img_url}}"
+     class="br8 mr20"
+     mode="aspectFill"></image>
+    <view class="f28 c444 c-l-r flex1">
+    <text>{{item.product.title}}</text>
+    <view wx:if="{{ item.product.label }}">{{item.product.label}}:{{item.product.value}}</view>
+      <view class="f38 c444 clr-b mt20">
+      <text class="fw7 cff362c">¥{{item.product.price}}</text>
+        <view class="gmc-num">
+          <view catchtap="numOperation"
+                data-index="{{ index }}"
+                data-type="del"
+                style="transition: all .3s; {{ item.count == 1 ? 'background: #eee;' : '' }}"
+                class="gmcn-del br8">-</view>
+          <view class="br8 gmcn-in">{{item.count}}</view>
+          <view catchtap="numOperation"
+                data-index="{{ index }}"
+                data-type="add"
+                class="gmcn-add br8">+</view>
+          </view>
         </view>
       </view>
-    </view>
+    <view catchtap="shopCartDelete" class="delBtn {{ (touchIndex == index && showDel) ? 'showDel' : '' }}" data-id="{{item.id}}" data-index="{{index}}">删除</view>
   </view>
-  <view class="car-list bgfff p30 has-change"
+  <view class="car-list bgfff p30 has-change pr"
   catchtap="delOne"
   data-index="{{ index }}"
   wx:for="{{ noMean }}"
@@ -138,6 +143,7 @@
         </view>
       </view>
     </view>
+    <view class="delBtn" data-index="{{index}}">删除</view>
   </view>
 </view>
 <view class="zw"></view>
@@ -148,7 +154,7 @@
     <view wx:if="{{ !del }}" class="s-r">
       <text>不含运费，</text>
       <text class="f28 fw7">合计：¥{{ totalMoney }}</text>
-      <button catchtap="{{ totalCount > 0 ? 'submit' : 'submit' }}" class="f28 cfff {{ totalCount == 0 ? 'bgceee' : '' }}">结算({{ totalCount }})</button>
+      <button catchtap="{{ totalCount > 0 ? 'submit' : '' }}" class="f28 cfff {{ totalCount == 0 ? 'bgceee' : '' }}">结算({{ totalCount }})</button>
     </view>
   <button catchtap="del" wx:else class="f28 del">删除</button>
 </view>

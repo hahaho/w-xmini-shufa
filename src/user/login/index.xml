@@ -20,13 +20,13 @@
 <view wx:else class="p30 f25 phoneArea animated bounceInUp">
   <form bindsubmit="phoneLogin">
     <view class="bd1 pb20">
-      <input name="phone" maxlength="11" type="number" placeholder="请输入手机号"/>
+      <input id="phone" bindinput="inputValue" name="phone" maxlength="11" type="number" placeholder="请输入手机号"/>
     </view>
     <view class="codeArea bd1 mt20 pb20">
-      <input name="code" class="flex1" maxlength="6" type="number" placeholder="请输入手机验证码"/>
+      <input id="code" bindinput="inputValue" name="code" class="flex1" maxlength="6" type="number" placeholder="请输入手机验证码"/>
       <button id="code" form-type="submit" class="time tac">{{ codeText }}</button>
     </view>
-    <button id="login" form-type="submit" class="loginConfirm">确定</button>
+    <button id="login" open-type="getUserInfo" bindgetuserinfo="_getUserInfo" class="loginConfirm">确定</button>
 <!--    <view catchtap="_phoneLogin" class="loginConfirm">取消</view>-->
   </form>
 </view>

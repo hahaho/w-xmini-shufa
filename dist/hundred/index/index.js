@@ -1,5 +1,9 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // 获取全局应用程序实例对象
 var app = getApp();
 // 创建页面实例对象
@@ -26,7 +30,8 @@ Page({
       data: this.data.options.from === 'main' ? {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page,
-        state: this.data.tabIndex * 1 + 1
+        // state: this.data.tabIndex * 1 + 1
+        state: -1
       } : {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page
@@ -42,7 +47,11 @@ Page({
 
           v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm');
           v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits;
-          v.imgs_url = JSON.parse(v.imgs_url);
+          try {
+            v.imgs_url = JSON.parse(v.imgs_url ? v.imgs_url : '{"imgs":[]}');
+          } catch (e) {
+            v.imgs_url = { imgs: [] };
+          }
         }
       } catch (err) {
         _didIteratorError = true;
@@ -65,9 +74,45 @@ Page({
       that.data.more = res.lists.length >= res.pre_page;
     });
   },
-  _follow: function _follow() {
-    this.setData({
-      follow: !this.data.follow
+  _follow: function _follow(e) {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityFollow' : 'hundredFollow'],
+      data: {
+        fid: that.data.list[e.currentTarget.dataset.index].uid,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.list[e.currentTarget.dataset.index].is_follow > 0 ? 2 : 1
+      }
+    }).then(function () {
+      var uid = that.data.list[e.currentTarget.dataset.index].uid * 1;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = that.data.list.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _step2$value = _slicedToArray(_step2.value, 2),
+              i = _step2$value[0],
+              v = _step2$value[1];
+
+          if (v.uid * 1 === uid) {
+            that.setData(_defineProperty({}, 'list[' + i + '].is_follow', that.data.list[i].is_follow > 0 ? -1 : 1));
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
     });
   },
   chooseIndex: function chooseIndex(e) {
@@ -90,6 +135,21 @@ Page({
   _shareType: function _shareType() {
     this.setData({
       showShare: !this.data.showShare
+    });
+  },
+  changePostsStar: function changePostsStar(e) {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityPostStar' : 'hundredPostsStar'],
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: that.data.list[e.currentTarget.dataset.index].id,
+        state: that.data.list[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(function (res) {
+      var _that$setData2;
+
+      that.setData((_that$setData2 = {}, _defineProperty(_that$setData2, 'list[' + e.currentTarget.dataset.index + '].is_star', that.data.list[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1), _defineProperty(_that$setData2, 'list[' + e.currentTarget.dataset.index + '].star', that.data.info.is_star > 0 ? --that.data.list[e.currentTarget.dataset.index].star : ++that.data.list[e.currentTarget.dataset.index].star), _that$setData2));
     });
   },
 

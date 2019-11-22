@@ -15,7 +15,8 @@ Page({
     selectAll: -1, // -2 全选中
     totalMoney: 0,
     totalCount: 0,
-    list: [123]
+    list: [],
+    touchIndex: -1
   },
   getCar () {
     let that = this
@@ -146,7 +147,7 @@ Page({
     let totalCount = 0
     for (let v of this.data.list) {
       if (v['choose']) {
-        totalMoney += v.price * v.count
+        totalMoney += v.product.price * v.count
         totalCount += v.count * 1
       }
     }
@@ -156,11 +157,11 @@ Page({
     })
   },
   submit () {
-    // let temp = []
-    // for (let v of this.data.list) {
-    //   if (v['choose']) temp.push(v)
-    // }
-    // app.su('buyInfo', temp)
+    let temp = []
+    for (let v of this.data.list) {
+      if (v['choose']) temp.push(v)
+    }
+    app.su('buyInfo', temp)
     wx.navigateTo({
       url: '/shop/submit/index'
     })
@@ -172,20 +173,72 @@ Page({
       url: app.getUrl().shopCartChange,
       data: {
         cid: that.data.list[e.currentTarget.dataset.index].id,
-        uid: app.gs('userInfoAll').id,
+        uid: app.gs('userInfoAll').uid,
         count: that.data.list[e.currentTarget.dataset.index].count
-      },
-      success (res) {
-        wx.hideLoading()
-        if (res.data.status === 200) {
-          that.setData({
-            [str]: that.data.list[e.currentTarget.dataset.index].count
-          }, that.calculate)
-        } else {
-          that.data.list[e.currentTarget.dataset.index].count = before
-          app.setToast(that, {content: res.data.desc})
-        }
       }
+    }).then(res => {
+      that.setData({
+        [str]: that.data.list[e.currentTarget.dataset.index].count
+      }, that.calculate)
+    }, () => {
+      that.data.list[e.currentTarget.dataset.index].count = before
+    })
+  },
+  shopCarList () {
+    app.wxrequest({
+      url: app.getUrl().shopCarList,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        list: res
+      }, () => {
+        this.calculate()
+        this.getMaxFreight()
+      })
+    })
+  },
+  getMaxFreight () {
+    let maxFreight = 0
+    for (let v of this.data.list) {
+      maxFreight = maxFreight > v.product.freight ? maxFreight : v.product.freight
+    }
+  },
+  touchStart (e) {
+    this.setData({
+      touchIndex: e.currentTarget.dataset.index,
+      showDel: false
+    })
+    this.data.x = e.changedTouches[0].clientX
+  },
+  touchMove (e) {
+    if (this.data.touchIndex >= 0) {
+      if (e.changedTouches[0].clientX - this.data.x < -50) {
+        this.setData({
+          showDel: true
+        })
+      } else if (e.changedTouches[0].clientX - this.data.x > 50) {
+        this.setData({
+          showDel: false
+        })
+      }
+    }
+  },
+  shopCartDelete (e) {
+    app.wxrequest({
+      url: app.getUrl().shopCartDelete,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        cart_ids: JSON.stringify([{
+          id: e.currentTarget.dataset.id
+        }])
+      }
+    }).then(() => {
+      this.data.list.splice(e.currentTarget.dataset.index, 1)
+      this.setData({
+        list: this.data.list
+      })
     })
   },
   /**
@@ -194,7 +247,7 @@ Page({
   onLoad (options) {
     this.setData({
       options
-    })
+    }, this.shopCarList)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

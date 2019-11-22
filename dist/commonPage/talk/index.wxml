@@ -2,7 +2,7 @@
   <text class="cfff">{{ options.type === 'suggest' ? '意见反馈' : '发帖' }}</text>
 </jwqcapsule>
 <form bindsubmit="hundredPostsSub">
-  <view wx:if="{{ options.type == 'talk' || options.type == 'suggest' }}" class="p20 bgfff">
+  <view wx:if="{{ options.type == 'community' || options.type == 'hundred' || options.type == 'suggest' }}" class="p20 bgfff">
       <input name="title" wx:if="{{ options.type != 'suggest' }}" class="bd1" placeholder="添加标题"/>
       <textarea name="comment" class="mt20" placeholder="请输入内容..."></textarea>
       <!--上传图片 -s-->

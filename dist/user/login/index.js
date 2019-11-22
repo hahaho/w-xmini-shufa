@@ -56,16 +56,16 @@ Page({
       phoneLogin: !this.data.phoneLogin
     });
   },
-  _login: function _login(phone, code) {
+  _login: function _login(e) {
     // let that = this
     app.wxrequest({
       url: app.getUrl().userToken,
       data: {
-        phone: phone,
-        code: code
+        phone: e.detail.value.phone,
+        code: e.detail.value.code
       }
     }).then(function (res) {
-      res.phone = phone;
+      res.phone = e.detail.value.phone;
       if (app.gs('userInfoAll')) {
         app.su('userInfoAll', Object.assign(app.gs('userInfoAll'), res));
       } else {
@@ -73,10 +73,25 @@ Page({
       }
       app.su('access_token', res.access_token);
       app.toast({
-        content: '登录成功'
+        content: '登录成功',
+        mask: true
       });
-      wx.redirectTo({
-        url: '/pages/index/index'
+      wx.login({
+        success: function success(loginRes) {
+          app.wxrequest({
+            url: app.getUrl().wechatOpenid,
+            data: {
+              uid: app.gs('userInfoAll').uid,
+              code: loginRes.code,
+              avatar_url: e.detail.userInfo.avatarUrl,
+              nickname: e.detail.userInfo.nickName,
+              phone: e.detail.value.phone
+            }
+          }).then(function (res) {
+            app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, res, { avatar_url: e.detail.userInfo.avatarUrl, nickname: e.detail.userInfo.nickName }));
+            wx.navigateBack();
+          });
+        }
       });
     });
   },
@@ -86,8 +101,20 @@ Page({
       this._getCode(e.detail.value.phone);
     } else {
       if (!e.detail.value.code) return app.toast({ content: '请输入验证码' });
-      this._login(e.detail.value.phone, e.detail.value.code);
+      this._login(e);
     }
+  },
+  inputValue: function inputValue(e) {
+    if (e.target.id === 'phone') this.data.phone = e.detail.value;else if (e.target.id === 'code') this.data.code = e.detail.value;
+  },
+  _getUserInfo: function _getUserInfo(e) {
+    if (!e.detail.signature) return app.toast({ content: '请授权后再操作' });
+    e.detail['value'] = {};
+    e.detail['target'] = {};
+    e.detail['target']['id'] = 'login';
+    e.detail['value']['phone'] = this.data.phone || 0;
+    e.detail['value']['code'] = this.data.code || 0;
+    this.phoneLogin(e);
   },
 
   /**

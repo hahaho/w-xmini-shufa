@@ -6,7 +6,8 @@
 // const webBaseDomain = 'https://teach.idwenshi.com/teach/api/web/index.php'
 // const baseDomain2 = 'https://mask.idwenshi.com/masks/frontend/web/index.php'
 // let baseDomain = 'https://www.1688rm.com'
-const lqsyBaseDomain = 'http://120.24.75.4/books/api/web/index.php'
+// const lqsyBaseDomain = 'http://120.24.75.4/books/api/web/index.php'
+const lqsyBaseDomain = 'https://lq.yifengshuyuan.com/books/api/web/index.php'
 const serviceUrl = {
   // style: baseDomain + '/home/page', // 不填默认为1, 1表示中间菜单,2表示底部菜单,3表示广告图
   // enum: baseDomain + '/home/enum', // 获取标签
@@ -156,10 +157,43 @@ const serviceUrl = {
   homeConfig: lqsyBaseDomain + '/home/config', // 获取全局变量+首页广告
   wechatOpenid: lqsyBaseDomain + '/wechat/openid', // 小程序授权|获取用户小程序openid
   rankCard: lqsyBaseDomain + '/rank/card', // rank
+  payRank: lqsyBaseDomain + '/pay/rank', // 购买会员
+  shopCategory: lqsyBaseDomain + '/shop/category', // 获取商城菜单分类
+  shopShow: lqsyBaseDomain + '/shop/show', // 获取热销and人气产品
+  shopAd: lqsyBaseDomain + '/shop/ad', // 获取商城头部广告
+  shopCartDelete: lqsyBaseDomain + '/shop/cart-delete', // 购物车删除商品
+  shopCartChange: lqsyBaseDomain + '/shop/cart-change', // 修改购物车的数量
+  shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车
+  shopCartAdd: lqsyBaseDomain + '/shop/cart-add', // 产品添加到购物车
+  shopDiscuss: lqsyBaseDomain + '/shop/discuss', // 分页获取评论
+  shopProductDetail: lqsyBaseDomain + '/shop/product-detail', // 产品详情
+  shopSearch: lqsyBaseDomain + '/shop/search', // 搜索商品
+  shopProducts: lqsyBaseDomain + '/shop/products', // 分页获取产品
+  distinguishKnow: lqsyBaseDomain + '/distinguish/know', // 拍照后上传图片进行识别
+  distinguishWord: lqsyBaseDomain + '/distinguish/word', // 文字释义
+  stackingSearch: lqsyBaseDomain + '/stacking/search', // 文字搜索
+  stackingDetail: lqsyBaseDomain + '/stacking/detail', // 查看其中一张字帖(完全一张字体的)
+  stackingDiscuss: lqsyBaseDomain + '/stacking/discuss', // 获取用户评论
+  stackingDiscussSub: lqsyBaseDomain + '/stacking/discuss-sub', // 提交用户评论
+  stackingCollect: lqsyBaseDomain + '/stacking/collect', // 收藏字体
+  stackingDiscussStar: lqsyBaseDomain + '/stacking/discuss-star', // 对评论点赞|取消点赞
+  stackingImg: lqsyBaseDomain + '/stacking/img', // 上传图片返回透明处理后的图片
+  dayList: lqsyBaseDomain + '/day/list', // 每日一字列表
+  dayDesc: lqsyBaseDomain + '/day/desc', // 每日一字介绍
+  dayDiscuss: lqsyBaseDomain + '/day/discuss', // 获取评论列表
+  dayDiscussStar: lqsyBaseDomain + '/day/discuss-star', // 对评论点赞
+  dayDiscussSub: lqsyBaseDomain + '/day/discuss-sub', // 提交每日一字的字帖评论
   userToken: lqsyBaseDomain + '/user/token', // 点击登录获取token
   userCode: lqsyBaseDomain + '/user/code', // 发送验证码
   userSign: lqsyBaseDomain + '/user/sign', // 修改签名
   communityList: lqsyBaseDomain + '/community/list', // 社区帖子获取
+  communityPostsSub: lqsyBaseDomain + '/community/posts-sub', // 插入一条社区帖子
+  communityDetail: lqsyBaseDomain + '/community/detail', // 帖子详情
+  communityDiscuss: lqsyBaseDomain + '/community/discuss', // 获取社区帖子评论
+  communityDiscussSub: lqsyBaseDomain + '/community/discuss-sub', // 插入一条社区评论
+  communityPostStar: lqsyBaseDomain + '/community/post-star', // 对帖子点赞
+  communityDiscussStar: lqsyBaseDomain + '/community/discuss-star', // 对帖子评论点赞
+  communityFollow: lqsyBaseDomain + '/community/follow', // 社区用户关注与取消关注
   hundredList: lqsyBaseDomain + '/hundred/list', // 百家争鸣文章列表
   hundredDetail: lqsyBaseDomain + '/hundred/detail', // 获取百家争鸣文章详情
   hundredFollow: lqsyBaseDomain + '/hundred/follow', // 关注|取消百家争鸣用户

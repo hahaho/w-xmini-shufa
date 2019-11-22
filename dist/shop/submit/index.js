@@ -70,7 +70,8 @@ Page({
    */
   onLoad: function onLoad(options) {
     this.setData({
-      options: options
+      options: options,
+      info: app.gs('buyInfo')
     });
   },
 

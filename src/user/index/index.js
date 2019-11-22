@@ -11,6 +11,7 @@ Page({
       transparent: true,
       bgc: ''
     },
+    userInfoAll: {},
     capsules: app.data.capsule,
     op: [
       {
@@ -95,9 +96,14 @@ Page({
     })
   },
   _getUserInfo (e) {
-    console.log('用户信息', e)
     let that = this
-    if (!app.gs('access_token')) return app.toast({content: '请先登录再进行此操作'})
+    if (!app.gs('access_token')) {
+      app.toast({content: '请先登录再进行此操作'})
+      wx.navigateTo({
+        url: '/user/login/index'
+      })
+      return
+    }
     wx.login({
       success (loginRes) {
         app.wxrequest({
@@ -110,16 +116,27 @@ Page({
             phone: app.gs('userInfoAll').phone || ''
           }
         }).then(res => {
-          console.log('登录结果', res)
-          app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, res))
+          app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, res, {avatar_url: e.detail.userInfo.avatarUrl, nickname: e.detail.userInfo.nickName}))
+          that.setData({
+            userInfoAll: app.gs('userInfoAll')
+          })
         })
       }
     })
+  },
+  clean () {
+    wx.removeStorageSync('userInfoAll')
+    setTimeout(() => {
+      this.setData({
+        userInfoAll: {}
+      })
+    }, 10)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -131,6 +148,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.setData({
+      userInfoAll: app.gs('userInfoAll')
+    })
   },
   /**
    * 生命周期函数--监听页面隐藏

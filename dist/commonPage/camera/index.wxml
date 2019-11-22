@@ -12,7 +12,7 @@
 
 <!--比较区域 -s-->
 <view bindtouchstart="touchStart" bindtouchmove="touchMove" wx:if="{{ options.type != 1 }}"  class="comparison pr bgfff">
-  <image class="pa bgPic" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+  <image class="pa bgPic" src="{{bgImg}}"></image>
   <image style="transform: scale({{ scale }}) rotate({{ rotate }}deg); top: {{ moveY }}rpx; left: {{ moveX }}rpx;"  class="pa mainPic" mode="widthFix" src="{{ main }}"></image>
   <image class="pa bgPic" src="{{ bottomImg[bottomIndex].i }}"></image>
 </view>
@@ -37,7 +37,7 @@
 </view>
 <!--底格 -e-->
 
-<view class="cameraSe df p20">
+<view class="cameraSe df p20 pr">
   <image catchtap="_toggleMask" data-type="cameraMask" src="https://c.jiangwenqiang.com/lqsy/camera_share.png"></image>
   <navigator open-type="navigateBack"><image src="https://c.jiangwenqiang.com/lqsy/camera_back.png"></image></navigator>
 </view>

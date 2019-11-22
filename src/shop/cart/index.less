@@ -20,6 +20,9 @@
   display: flex;
   align-items: center;
   padding-left: 0;
+  &.showDel {
+    transform: translate(-100rpx, 0);
+  }
   &.has-change {
     position: relative;
     background-color: #eee;
@@ -126,4 +129,23 @@
   text-align: center;
   padding: 200rpx 40rpx;
   font-size: 30rpx;
+}
+
+.delBtn {
+  position: absolute;
+  top: 0;
+  right: -160rpx;
+  height: 100%;
+  width: 140rpx;
+  font-size: 32rpx;
+  background: linear-gradient(90deg, #ff362c, #ff786e);
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  &.showDel {
+    right: -20rpx;
+  }
 }

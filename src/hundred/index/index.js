@@ -24,7 +24,8 @@ Page({
       data: this.data.options.from === 'main' ? {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page,
-        state: this.data.tabIndex * 1 + 1
+        // state: this.data.tabIndex * 1 + 1
+        state: -1
       } : {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page
@@ -33,7 +34,11 @@ Page({
       for (let v of res.lists) {
         v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm')
         v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits
-        v.imgs_url = JSON.parse(v.imgs_url)
+        try {
+          v.imgs_url = JSON.parse(v.imgs_url ? v.imgs_url : '{"imgs":[]}')
+        } catch (e) {
+          v.imgs_url = {imgs: []}
+        }
       }
       that.setData({
         list: that.data.list ? that.data.list.concat(res.lists) : [].concat(res.lists)
@@ -41,9 +46,24 @@ Page({
       that.data.more = res.lists.length >= res.pre_page
     })
   },
-  _follow () {
-    this.setData({
-      follow: !this.data.follow
+  _follow (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityFollow' : 'hundredFollow'],
+      data: {
+        fid: that.data.list[e.currentTarget.dataset.index].uid,
+        uid: app.gs('userInfoAll').uid,
+        state: that.data.list[e.currentTarget.dataset.index].is_follow > 0 ? 2 : 1
+      }
+    }).then(() => {
+      let uid = that.data.list[e.currentTarget.dataset.index].uid * 1
+      for (let [i, v] of that.data.list.entries()) {
+        if (v.uid * 1 === uid) {
+          that.setData({
+            [`list[${i}].is_follow`]: that.data.list[i].is_follow > 0 ? -1 : 1
+          })
+        }
+      }
     })
   },
   chooseIndex (e) {
@@ -64,6 +84,22 @@ Page({
   _shareType () {
     this.setData({
       showShare: !this.data.showShare
+    })
+  },
+  changePostsStar (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityPostStar' : 'hundredPostsStar'],
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: that.data.list[e.currentTarget.dataset.index].id,
+        state: that.data.list[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+      }
+    }).then(res => {
+      that.setData({
+        [`list[${e.currentTarget.dataset.index}].is_star`]: that.data.list[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
+        [`list[${e.currentTarget.dataset.index}].star`]: that.data.info.is_star > 0 ? --that.data.list[e.currentTarget.dataset.index].star : ++that.data.list[e.currentTarget.dataset.index].star
+      })
     })
   },
   /**

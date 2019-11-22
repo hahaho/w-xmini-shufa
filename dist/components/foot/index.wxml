@@ -6,7 +6,7 @@
             hover-class="none"
             data-index="{{ index }}"
             class="foot-item {{ fix ? 'fix' : '' }}">
-      <image class="footImg" src="{{ item.active ? item.img_url_active : item.img_url }}"></image>
+      <image mode="widthFix" class="footImg" src="{{ item.active ? item.img_url_active : item.img_url }}"></image>
       <view class="foot-title {{ item.active ? 'active' : '' }}">{{ item.title }}</view>
     </button>
   </view>

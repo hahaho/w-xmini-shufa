@@ -42,7 +42,8 @@ Page({
     moveX: 166,
     moveY: 166,
     height: app.data.height,
-    main: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+    main: app.gs('alphaImg'),
+    bgImg: app.gs('alphaImg2'),
     cameraType: [
       {
         i: 'jwqshequ',
@@ -132,9 +133,25 @@ Page({
         wx.chooseImage({
           count: 1,
           sourceType: [that.data.options.type < 3 ? 'album' : 'camera'],
-          success (res) {
-            that.setData({
-              main: res.tempFilePaths[0]
+          success (res1) {
+            wx.showLoading({
+              title: '图片上传处理中'
+            })
+            wx.uploadFile({
+              url: app.getUrl().stackingImg,
+              filePath: res1.tempFilePaths[0],
+              name: 'file',
+              formData: {
+                uid: app.gs('userInfoAll').uid,
+                file: res1.tempFilePaths[0]
+              },
+              success (res) {
+                wx.hideLoading()
+                // let data = JSON.parse(res.data).data
+                that.setData({
+                  main: JSON.parse(res.data).data
+                })
+              }
             })
           },
           fail () {

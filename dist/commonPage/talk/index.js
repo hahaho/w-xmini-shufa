@@ -39,8 +39,6 @@ Page({
   },
   checkAll: function checkAll() {
     return new UpLoad({ imgArr: 'imgArr' }).checkAll();
-    // if (new UpLoad({imgArr: 'imgArr'}).checkAll()) {
-    // }
   },
   imgOp: function imgOp(e) {
     new UpLoad({ imgArr: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index }).imgOp();
@@ -77,13 +75,32 @@ Page({
   hundredPostsSub: function hundredPostsSub(e) {
     var that = this;
     switch (this.data.options.type) {
-      case 'talk':
+      case 'hundred':
         if (!e.detail.value.title.trim()) return app.toast({ content: '标题不能为空' });else if (!e.detail.value.comment.trim()) return app.toast({ content: '内容不能为空' });
         if (!new UpLoad({ imgArr: 'imgArr' }).checkAll()) return;
         app.wxrequest({
           url: app.getUrl().hundredPostsSub,
           data: {
             uid: app.gs('userInfoAll').uid || 10000,
+            title: e.detail.value.title.trim(),
+            comment: e.detail.value.comment.trim(),
+            imgs_url: JSON.stringify({ 'imgs': that.getRealUrl() })
+          }
+        }).then(function (res) {
+          app.toast({ content: '发布成功', mask: true });
+          setTimeout(function () {
+            wx.navigateBack();
+          }, 1000);
+        });
+        break;
+      case 'community':
+        if (!e.detail.value.title.trim()) return app.toast({ content: '标题不能为空' });else if (!e.detail.value.comment.trim()) return app.toast({ content: '内容不能为空' });
+        if (!new UpLoad({ imgArr: 'imgArr' }).checkAll()) return;
+        app.wxrequest({
+          url: app.getUrl().communityPostsSub,
+          data: {
+            uid: app.gs('userInfoAll').uid || 10000,
+            is_video: -1,
             title: e.detail.value.title.trim(),
             comment: e.detail.value.comment.trim(),
             imgs_url: JSON.stringify({ 'imgs': that.getRealUrl() })

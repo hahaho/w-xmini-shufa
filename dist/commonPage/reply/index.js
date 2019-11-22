@@ -41,6 +41,25 @@ Page({
         };
         url = app.getUrl().wordsDiscuss;
         break;
+      case 7:
+        data = {
+          wid: that.data.options.wid,
+          oid: that.data.options.oid,
+          state: 2,
+          did: that.data.options.did,
+          page: ++that.data.page
+        };
+        url = app.getUrl().stackingDiscuss;
+        break;
+      case 6:
+        data = {
+          wid: that.data.options.wid,
+          state: 2,
+          did: that.data.options.did,
+          page: ++that.data.page
+        };
+        url = app.getUrl().dayDiscuss;
+        break;
       case 2:
         data = {
           pid: that.data.options.wid,
@@ -49,6 +68,15 @@ Page({
           page: ++that.data.page
         };
         url = app.getUrl().hundredDiscuss;
+        break;
+      case 5:
+        data = {
+          pid: that.data.options.wid,
+          state: 2,
+          did: that.data.options.did,
+          page: ++that.data.page
+        };
+        url = app.getUrl().communityDiscuss;
         break;
       case 3:
         url = app.getUrl().teachDiscuss;
@@ -132,8 +160,42 @@ Page({
           state: 2
         };
         break;
+      case 7:
+        url = app.getUrl().stackingDiscussSub;
+        data = {
+          wid: that.data.info.wid,
+          oid: that.data.info.oid,
+          uid: app.gs('userInfoAll').uid || 10000,
+          bid: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].uid : that.data.info.uid,
+          did: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].id : that.data.info.id,
+          comment: e.detail.value.comment,
+          state: 2
+        };
+        break;
+      case 6:
+        url = app.getUrl().dayDiscussSub;
+        data = {
+          wid: that.data.info.wid,
+          uid: app.gs('userInfoAll').uid || 10000,
+          bid: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].uid : that.data.info.uid,
+          did: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].id : that.data.info.id,
+          comment: e.detail.value.comment,
+          state: 2
+        };
+        break;
       case 2:
         url = app.getUrl().hundredDiscussSub;
+        data = {
+          pid: that.data.info.pid,
+          uid: app.gs('userInfoAll').uid || 10000,
+          bid: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].uid : that.data.info.uid,
+          did: that.data.replyIndex >= 0 ? that.data.comment[that.data.replyIndex].id : that.data.info.id,
+          comment: e.detail.value.comment,
+          state: 2
+        };
+        break;
+      case 5:
+        url = app.getUrl().communityDiscussSub;
         data = {
           pid: that.data.info.pid,
           uid: app.gs('userInfoAll').uid || 10000,
@@ -198,8 +260,36 @@ Page({
           state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
         };
         break;
+      case 7:
+        url = app.getUrl().stackingDiscussStar;
+        data = {
+          did: e.currentTarget.dataset.index > -1 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          uid: app.gs('userInfoAll').uid,
+          wid: that.data.info.wid,
+          oid: that.data.info.oid,
+          state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+        };
+        break;
+      case 6:
+        url = app.getUrl().dayDiscussStar;
+        data = {
+          did: e.currentTarget.dataset.index > -1 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          uid: app.gs('userInfoAll').uid,
+          wid: that.data.info.wid,
+          state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+        };
+        break;
       case 2:
         url = app.getUrl().hundredDiscussStar;
+        data = {
+          did: e.currentTarget.dataset.index < 0 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          uid: app.gs('userInfoAll').uid,
+          pid: that.data.info.pid,
+          state: e.currentTarget.dataset.index < 0 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+        };
+        break;
+      case 5:
+        url = app.getUrl().communityDiscussStar;
         data = {
           did: e.currentTarget.dataset.index < 0 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
           uid: app.gs('userInfoAll').uid,
@@ -252,8 +342,17 @@ Page({
       case 1:
         options = 'wid=' + this.data.options.wid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=1';
         break;
+      case 6:
+        options = 'wid=' + this.data.options.wid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=6';
+        break;
+      case 7:
+        options = 'wid=' + this.data.options.wid + '&oid=' + this.data.options.oid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=7';
+        break;
       case 2:
         options = 'wid=' + this.data.options.wid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=2';
+        break;
+      case 5:
+        options = 'wid=' + this.data.options.wid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=5';
         break;
       case 3:
         options = 'vid=' + this.data.options.vid + '&state=2&did=' + this.data.comment[e.currentTarget.dataset.index].id + '&type=3&sid=' + this.data.options.sid;
@@ -277,6 +376,9 @@ Page({
     // type = 2 百家
     // type = 3 书法教学
     // type = 4 视屏
+    // type = 5 社区
+    // type = 6 每日一字
+    // type = 7 叠影纠错
     this.setData({
       options: options,
       info: app.gs('reply')

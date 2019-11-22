@@ -13,9 +13,29 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     capsules: app.data.capsule,
-    num: 1
+    num: 1,
+    more: true,
+    page: 0,
+    comment: [],
+    skuIndex: -1
   },
   _submit: function _submit() {
+    if (this.data.skuIndex < 0) return app.toast({ content: '\u8BF7\u9009\u62E9' + this.data.info.label + '\u5206\u7C7B' });
+    if (this.data.buyType === 'car') return this.shopCartAdd();
+    var temp = [{
+      pid: this.data.info.sku[this.data.skuIndex].pid,
+      sku_id: this.data.info.sku[this.data.skuIndex].id,
+      count: this.data.num,
+      product: {
+        title: this.data.info.title,
+        price: this.data.info.sku[this.data.skuIndex].price,
+        img_url: this.data.info.sku[this.data.skuIndex].img_url,
+        freight: this.data.info.freight,
+        value: this.data.info.sku[this.data.skuIndex].value,
+        label: this.data.info.label
+      }
+    }];
+    app.su('buyInfo', temp);
     wx.navigateTo({
       url: '/shop/submit/index'
     });
@@ -55,7 +75,8 @@ Page({
       showComment: !this.data.showComment
     });
   },
-  _toggleSpec: function _toggleSpec() {
+  _toggleSpec: function _toggleSpec(e) {
+    this.data.buyType = e ? e.currentTarget.dataset.type : '';
     this.setData({
       showSpec: !this.data.showSpec
     });
@@ -66,35 +87,103 @@ Page({
       url: '/share/carShare/carShare?type=2'
     });
   },
+  shopProductDetail: function shopProductDetail() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopProductDetail,
+      data: {
+        pid: this.data.options.id
+      }
+    }).then(function (res) {
+      res.imgs_url = JSON.parse(res.imgs_url);
+      res.new_price = res.new_price.split('.');
+      res.detail_url = res.detail_url.split(',');
+      if (!res.imgs_url.imgs.length) res.imgs_url.imgs[0] = res.img_url;
+      _this.setData({
+        info: res
+      });
+    });
+  },
+  shopDiscuss: function shopDiscuss() {
+    var _this2 = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopDiscuss,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: this.data.options.id,
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.imgs_url = JSON.parse(v.imgs_url);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      _this2.setData({
+        comment: _this2.data.comment.concat(res.lists),
+        commentTotal: res.total
+      });
+      _this2.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+  moreComments: function moreComments() {
+    if (!this.data.more) return app.toast({ content: '没有更多内容了' });
+    this.shopDiscuss();
+  },
+  showImg: function showImg(e) {
+    app.showImg(e.currentTarget.dataset.url, this.data.comment[e.currentTarget.dataset.index].imgs_url.imgs);
+  },
+  chooseSku: function chooseSku(e) {
+    this.setData({
+      skuIndex: e.currentTarget.dataset.index
+    });
+  },
+  shopCartAdd: function shopCartAdd() {
+    var _this3 = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopCartAdd,
+      data: {
+        pid: this.data.info.id,
+        uid: app.gs('userInfoAll').uid,
+        sku_id: this.data.info.sku[this.data.skuIndex].id,
+        count: this.data.num
+      }
+    }).then(function () {
+      app.toast({ content: '添加入购物车成功' });
+      _this3._toggleSpec();
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-    this.setData({
-      options: options
-    });
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.data.options = options;
+    this.shopProductDetail();
+    this.shopDiscuss();
   },
 
   /**

@@ -43,8 +43,13 @@ Component({
           // console.log(res)
           app.su('openTime', new Date().getTime())
           app.su('main_nav', res.bottom_menu)
-          // app.su('shop_nav', res.shop_nav)
-          that.setFootArr()
+          app.wxrequest({
+            method: 'GET',
+            url: 'https://c.jiangwenqiang.com/lqsy/shop_nav.json'
+          }).then(res2 => {
+            app.su('shop_nav', res2.shop_nav)
+            that.setFootArr()
+          })
         })
     },
     checkIndex () {
@@ -57,7 +62,7 @@ Component({
         arr = app.gs('main_nav')
         this.data.shop = false
       }
-       // ? arr = app.gs('shop_nav') : arr = app.gs('main_nav')
+      // ? arr = app.gs('shop_nav') : arr = app.gs('main_nav')
       for (let v of arr) {
         v['active'] = false
         v.path_mini.indexOf(current) >= 0 ? v['active'] = true : ''

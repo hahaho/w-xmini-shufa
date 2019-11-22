@@ -26,6 +26,21 @@ Page({
       })
     })
   },
+  checkUser () {
+    let info = app.gs('userInfoAll')
+    if (!info) {
+      app.toast({
+        content: '请您登陆后再进行此操作',
+        mask: true,
+        time: 2100
+      })
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/user/login/index'
+        })
+      }, 2000)
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -65,6 +80,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.checkUser()
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

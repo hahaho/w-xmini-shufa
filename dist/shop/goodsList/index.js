@@ -12,16 +12,70 @@ Page({
       transparent: true,
       bgc: ''
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    page: 0,
+    more: true,
+    list: []
   },
   upFormId: function upFormId(e) {
     app.upFormId(e);
+  },
+  shopProducts: function shopProducts() {
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().shopProducts,
+      data: {
+        cid: that.data.options.id,
+        page: ++that.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.new_price = v.new_price.split('.');
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      that.setData({
+        list: that.data.list.concat(res.lists)
+      });
+      that.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+  onReachBottom: function onReachBottom() {
+    if (!this.data.more) {
+      return app.toast({ content: '没有更多内容了' });
+    }
+    this.shopProducts();
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {},
+  onLoad: function onLoad(options) {
+    this.data.options = options;
+    this.setData({
+      name: options.name
+    }, this.shopProducts);
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

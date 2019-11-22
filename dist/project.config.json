@@ -29,8 +29,6 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -48,7 +46,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 6,
+			"current": 27,
 			"list": [
 				{
 					"id": 0,
@@ -86,9 +84,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "每日一字详情",
-					"pathName": "dayword/detail/index",
+					"id": 5,
+					"name": "每日一字",
+					"pathName": "dayword/index/index",
 					"query": "",
 					"scene": null
 				},
@@ -219,10 +217,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 24,
 					"name": "商品详情",
 					"pathName": "shop/detail/index",
-					"query": "",
+					"query": "id=1",
 					"scene": null
 				},
 				{
@@ -363,6 +361,13 @@
 					"name": "回复",
 					"pathName": "commonPage/reply/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": 45,
+					"name": "叠影纠错详情",
+					"pathName": "camera/detail/index",
+					"query": "wid=1&oid=40983",
 					"scene": null
 				}
 			]

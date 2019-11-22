@@ -16,8 +16,25 @@ Page({
     }
   },
   buy: function buy() {
-    this.setData({
-      success: true
+    var that = this;
+    app.wxrequest({
+      url: app.getUrl().payRank,
+      data: {
+        pid: that.data.info.sku[0].pid,
+        uid: app.gs('userInfoAll').uid,
+        sku_id: that.data.info.sku[0].id,
+        count: 1,
+        openid: app.gs('userInfoAll').openid,
+        value: that.data.info.sku[0].value
+      }
+    }).then(function (res) {
+      app.wxpay2(res.msg).then(function () {
+        that.setData({
+          success: true
+        });
+      }, function () {
+        app.toast({ content: '支付未完成,如有支付疑问,请联系管理员' });
+      });
     });
   },
   getInfo: function getInfo() {

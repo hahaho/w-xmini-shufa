@@ -11,9 +11,29 @@ Page({
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
     capsules: app.data.capsule,
-    num: 1
+    num: 1,
+    more: true,
+    page: 0,
+    comment: [],
+    skuIndex: -1
   },
   _submit () {
+    if (this.data.skuIndex < 0) return app.toast({content: `请选择${this.data.info.label}分类`})
+    if (this.data.buyType === 'car') return this.shopCartAdd()
+    let temp = [{
+      pid: this.data.info.sku[this.data.skuIndex].pid,
+      sku_id: this.data.info.sku[this.data.skuIndex].id,
+      count: this.data.num,
+      product: {
+        title: this.data.info.title,
+        price: this.data.info.sku[this.data.skuIndex].price,
+        img_url: this.data.info.sku[this.data.skuIndex].img_url,
+        freight: this.data.info.freight,
+        value: this.data.info.sku[this.data.skuIndex].value,
+        label: this.data.info.label
+      }
+    }]
+    app.su('buyInfo', temp)
     wx.navigateTo({
       url: '/shop/submit/index'
     })
@@ -53,7 +73,8 @@ Page({
       showComment: !this.data.showComment
     })
   },
-  _toggleSpec () {
+  _toggleSpec (e) {
+    this.data.buyType = e ? e.currentTarget.dataset.type : ''
     this.setData({
       showSpec: !this.data.showSpec
     })
@@ -64,34 +85,74 @@ Page({
       url: '/share/carShare/carShare?type=2'
     })
   },
+  shopProductDetail () {
+    app.wxrequest({
+      url: app.getUrl().shopProductDetail,
+      data: {
+        pid: this.data.options.id
+      }
+    }).then(res => {
+      res.imgs_url = JSON.parse(res.imgs_url)
+      res.new_price = res.new_price.split('.')
+      res.detail_url = res.detail_url.split(',')
+      if (!res.imgs_url.imgs.length) res.imgs_url.imgs[0] = res.img_url
+      this.setData({
+        info: res
+      })
+    })
+  },
+  shopDiscuss () {
+    app.wxrequest({
+      url: app.getUrl().shopDiscuss,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        pid: this.data.options.id,
+        page: ++this.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.imgs_url = JSON.parse(v.imgs_url)
+      }
+      this.setData({
+        comment: this.data.comment.concat(res.lists),
+        commentTotal: res.total
+      })
+      this.data.more = res.lists.length >= res.pre_page
+    })
+  },
+  moreComments () {
+    if (!this.data.more) return app.toast({content: '没有更多内容了'})
+    this.shopDiscuss()
+  },
+  showImg (e) {
+    app.showImg(e.currentTarget.dataset.url, this.data.comment[e.currentTarget.dataset.index].imgs_url.imgs)
+  },
+  chooseSku (e) {
+    this.setData({
+      skuIndex: e.currentTarget.dataset.index
+    })
+  },
+  shopCartAdd () {
+    app.wxrequest({
+      url: app.getUrl().shopCartAdd,
+      data: {
+        pid: this.data.info.id,
+        uid: app.gs('userInfoAll').uid,
+        sku_id: this.data.info.sku[this.data.skuIndex].id,
+        count: this.data.num
+      }
+    }).then(() => {
+      app.toast({content: '添加入购物车成功'})
+      this._toggleSpec()
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    this.setData({
-      options
-    })
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
+    this.data.options = options
+    this.shopProductDetail()
+    this.shopDiscuss()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

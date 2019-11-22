@@ -17,7 +17,7 @@ Page({
   _follow () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredFollow,
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityFollow' : 'hundredFollow'],
       data: {
         fid: that.data.info.uid,
         uid: app.gs('userInfoAll').uid,
@@ -66,15 +66,19 @@ Page({
   getDetail () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredDetail,
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityDetail' : 'hundredDetail'],
       data: {
         pid: that.data.options.id,
         uid: app.gs('userInfoAll').uid
       }
     }).then(res => {
-      res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm')
-      res.hits = res.hits > 10000 ? Math.floor(res.hits / 10000) + '万' : res.hits
-      res.imgs_url = JSON.parse(res.imgs_url)
+      try {
+        res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm')
+        res.hits = res.hits > 10000 ? Math.floor(res.hits / 10000) + '万' : res.hits
+        res.imgs_url = JSON.parse(res.imgs_url)
+      } catch (e) {
+        console.log(e)
+      }
       that.setData({
         info: res
       })
@@ -83,11 +87,12 @@ Page({
   getHundredDiscuss () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredDiscuss,
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityDiscuss' : 'hundredDiscuss'],
       data: {
         pid: that.data.options.id,
         state: 1,
-        page: ++that.data.page
+        page: ++that.data.page,
+        uid: app.gs('userInfoAll').uid
       }
     }).then(res => {
       if (res.lists.length) {
@@ -105,8 +110,15 @@ Page({
     if (!e.detail.value.comment.trim()) return app.toast({content: '评论内容不能为空'})
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredDiscussSub,
-      data: {
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityDiscussSub' : 'hundredDiscussSub'],
+      data: this.data.options.from === 'main' ? {
+        pid: that.data.info.id,
+        uid: app.gs('userInfoAll').uid || 10000,
+        bid: '',
+        did: '',
+        comment: e.detail.value.comment,
+        state: 1
+      } : {
         pid: that.data.info.id,
         uid: app.gs('userInfoAll').uid || 10000,
         bid: '',
@@ -134,7 +146,7 @@ Page({
   changeHundredPostsStar () {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredPostsStar,
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityPostStar' : 'hundredPostsStar'],
       data: {
         uid: app.gs('userInfoAll').uid,
         pid: that.data.info.id,
@@ -150,7 +162,7 @@ Page({
   commentStar (e) {
     let that = this
     app.wxrequest({
-      url: app.getUrl().hundredDiscussStar,
+      url: app.getUrl()[this.data.options.from === 'main' ? 'communityDiscussStar' : 'hundredDiscussStar'],
       data: {
         uid: app.gs('userInfoAll').uid,
         pid: that.data.info.id,
@@ -159,8 +171,8 @@ Page({
       }
     }).then(() => {
       that.setData({
-        [`comment[${e.currentTarget.dataset.index}]['is_star']`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
-        [`comment[${e.currentTarget.dataset.index}]['star']`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star
+        [`comment[${e.currentTarget.dataset.index}].is_star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? -1 : 1,
+        [`comment[${e.currentTarget.dataset.index}].star`]: that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? --that.data.comment[e.currentTarget.dataset.index].star : ++that.data.comment[e.currentTarget.dataset.index].star
       })
     })
   },
