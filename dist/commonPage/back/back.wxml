@@ -1,4 +1,4 @@
-<view wx:if="{{ apply }}">
+<view wx:if="{{ !apply }}">
   <picker bindchange="pickerChange" data-type="backTypeIndex" range="{{ backType }}" range-key="t" class="arrow f34 bgfff mt20">
     <text class="c595757">申请类型</text>
     <text>{{ backType[backTypeIndex].t }}</text>
@@ -11,7 +11,7 @@
 
   <view class="back-money bgfff mt20 f34">
     <text class="c595757">退款金额</text>
-    <text>￥{{ options.amount || '0.00' }}</text>
+    <text>￥{{ info.total_fee || '0.00' }}</text>
   </view>
 
   <view class="bgfff mt20 back-money f34 c3e3a39">
@@ -39,10 +39,10 @@
     <!--<image src=""></image>-->
   </view>
 
-  <view style="padding-bottom:{{fix?40:0}}rpx;" catchtap="refund" class="apply f34 cfff tac lh80">提交申请</view>
+  <view style="padding-bottom:{{fix?40:0}}rpx;" catchtap="shopUserRefund" class="apply f34 cfff tac lh80">提交申请</view>
 </view>
 
-<view wx:if="{{ !apply }}" class="tac bgfff mt20 p30">
+<view wx:if="{{ apply }}" class="tac bgfff mt20 p30">
   <icon type="success" size="100"></icon>
   <view class="f34 fw7 c3e3a39 mt20">商家审核申请中，请注意微信通知</view>
   <view class="f24 c595757 tal p30">系统会在1-2天内提交微信支付处理，微信审核完成后1-3
@@ -51,7 +51,7 @@
 </view>
 
 
-
+<toast toast="{{ toast }}"></toast>
 <!--错误弹窗-->
-<import src="/template/template"></import>
-<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<!--<import src="/template/template"></import>-->
+<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

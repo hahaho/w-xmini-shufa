@@ -56,8 +56,53 @@ Page({
     })
   },
   pay () {
+    let carts = []
+    let that = this
+    for (let v of this.data.info) {
+      carts.push({
+        pid: v.pid,
+        count: v.count,
+        sku_id: v.sku_id,
+        value: v.product.value
+      })
+    }
+    app.wxrequest({
+      url: app.getUrl().payShop,
+      data: {
+        name: this.data.addressInfo.userName,
+        phone: this.data.addressInfo.telNumber,
+        uid: app.gs('userInfoAll').uid,
+        openid: app.gs('userInfoAll').openid,
+        address: `${this.data.addressInfo.provinceName}${this.data.addressInfo.cityName}${this.data.addressInfo.countyName}${this.data.addressInfo.detailInfo}`,
+        carts: JSON.stringify(carts)
+      }
+    }).then(res => {
+      app.wxpay2(res.msg).then(() => {
+        that.setData({
+          paySuccess: true
+        })
+      }, () => {
+        app.toast({content: '未完成支付,如有支付遇到问题,请联系客服处理'})
+      })
+    })
+  },
+  getMaxFreight () {
+    let maxFreight = 0
+    for (let v of this.data.info) {
+      maxFreight = maxFreight > v.product.freight ? maxFreight : v.product.freight
+    }
     this.setData({
-      paySuccess: true
+      maxFreight: maxFreight * 1
+    }, this.getGoodsMoney)
+  },
+  getGoodsMoney () {
+    let goodsMoney = 0
+    for (let v of this.data.info) {
+      goodsMoney += v.count * v.product.price
+    }
+    this.setData({
+      goodsMoney,
+      totalMoney: goodsMoney + this.data.maxFreight
     })
   },
   /**
@@ -66,8 +111,9 @@ Page({
   onLoad (options) {
     this.setData({
       options,
-      info: app.gs('buyInfo')
-    })
+      info: app.gs('buyInfo'),
+      addressInfo: app.gs('addressInfo')
+    }, this.getMaxFreight)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

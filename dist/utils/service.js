@@ -160,9 +160,18 @@ var serviceUrl = {
   wechatOpenid: lqsyBaseDomain + '/wechat/openid', // 小程序授权|获取用户小程序openid
   rankCard: lqsyBaseDomain + '/rank/card', // rank
   payRank: lqsyBaseDomain + '/pay/rank', // 购买会员
+  payShop: lqsyBaseDomain + '/pay/shop', // 商城购买产品
   shopCategory: lqsyBaseDomain + '/shop/category', // 获取商城菜单分类
   shopShow: lqsyBaseDomain + '/shop/show', // 获取热销and人气产品
   shopAd: lqsyBaseDomain + '/shop/ad', // 获取商城头部广告
+  shopScoreList: lqsyBaseDomain + '/shop/score-list', // 积分记录列表
+  shopUser: lqsyBaseDomain + '/shop/user', // 商城用户中心获取用户信息
+  shopUserRefund: lqsyBaseDomain + '/shop/user-refund', // 用户申请退款
+  shopOrderOperate: lqsyBaseDomain + '/shop/order-operate', // 用户对订单收货|取消| 删除操作
+  shopOrderUpdate: lqsyBaseDomain + '/shop/order-update', // 修改一次订单收货地址
+  shopRemind: lqsyBaseDomain + '/shop/remind', // 提醒发货( 当订单status = 1时)
+  shopOrderList: lqsyBaseDomain + '/shop/order-list', // 分页获取用户订单
+  shopUserDiscuss: lqsyBaseDomain + '/shop/user-discuss', // 用户的评论
   shopCartDelete: lqsyBaseDomain + '/shop/cart-delete', // 购物车删除商品
   shopCartChange: lqsyBaseDomain + '/shop/cart-change', // 修改购物车的数量
   shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车

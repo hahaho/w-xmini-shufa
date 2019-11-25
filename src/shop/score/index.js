@@ -9,7 +9,24 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    list: [],
+    page: 0,
+    more: true
+  },
+  shopScoreList () {
+    app.wxrequest({
+      url: app.getUrl().shopScoreList,
+      data: {
+        page: ++this.data.page,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        list: this.data.list.concat(res.lists)
+      })
+      that.data.more = res.lists.length >= res.pre_page
+    })
   },
   /**
    * 生命周期函数--监听页面加载

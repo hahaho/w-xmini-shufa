@@ -222,14 +222,33 @@ Page({
       }
     });
   },
+  shopUserRefund: function shopUserRefund() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopUserRefund,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        oid: this.data.info.id,
+        amount: this.data.info.total_fee,
+        out_trade_no: this.data.info.out_trade_no,
+        types: this.data.backType[this.data.backTypeIndex].t,
+        reason: this.data.backReason[this.data.backReasonIndex].t,
+        explain: this.data.content
+      }
+    }).then(function () {
+      _this.setData({
+        apply: true
+      });
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad(options) {
+  onLoad: function onLoad() {
     this.setData({
-      options: options,
-      apply: options.apply * 1 === 1
+      info: app.gs('backInfo')
     });
     // TODO: onLoad
   },

@@ -26,15 +26,15 @@
 
 <!--商品 -s-->
 <scroll-view scroll-y="1" style="max-height: 500rpx;" class="bd1 bgfff mt10 bb">
-  <view wx:for="11231231231" wx:key="*51" class="goodsItem df p20">
-    <image mode="aspectFill" lazy-load="1" src='https://c.jiangwenqiang.com/api/logo.jpg'></image>
+  <view wx:for="{{info}}" wx:key="*51" class="goodsItem df p20">
+    <image mode="aspectFill" lazy-load="1" src='{{ item.product.img_url }}'></image>
     <view class="ml20 flex1">
-      <view class="ell2 f25 c323232">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
-      <view class="f22 c646464 mt10">颜色分类</view>
+      <view class="ell2 f25 c323232">{{item.product.title}}</view>
+      <view class="f22 c646464 mt10">{{item.product.label}}分类: {{ item.product.value }}</view>
     </view>
     <view class="f22 c323232 tar ">
-      <view>￥ 109</view>
-      <view>x1</view>
+      <view>￥ {{item.product.price}}</view>
+      <view>x{{item.count}}</view>
     </view>
   </view>
 </scroll-view>
@@ -43,7 +43,7 @@
 <!--金额相关 -s-->
 <view class="df dfb p20 bt1 bgfff f22 c323232">
   <text>运费</text>
-  <text>￥13.00</text>
+  <text>￥{{maxFreight}}</text>
 </view>
 <view class="df dfb p20 bt1 bgfff f22 c323232">
   <text>优惠券</text>
@@ -51,12 +51,12 @@
 </view>
 <view class="df dfb p20 mt20 bgfff f22 c323232">
   <text>商品金额 </text>
-  <text>¥109.9</text>
+  <text>¥{{goodsMoney}}</text>
 </view>
 <view class="df dfb bt1 p20 bgfff f22 c323232">
   <text></text>
   <view>
-    <text>合计: <text class="cff362c">￥109.9</text></text>
+    <text>合计: <text class="cff362c">￥{{ totalMoney }}</text></text>
   </view>
 </view>
 <!--金额相关 -e-->
@@ -65,7 +65,7 @@
 <view class="pay w100 f29 bgfff tac lh90">
   <view>
     <text class="c323232">合计:</text>
-    <text class="cff362c">￥122.9</text>
+    <text class="cff362c">￥{{totalMoney}}</text>
   </view>
   <view catchtap="pay" class="cfff">
     微信支付

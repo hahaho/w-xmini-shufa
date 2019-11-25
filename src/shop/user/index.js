@@ -92,7 +92,8 @@ Page({
         i: '',
         url: '/user/message/index'
       }
-    ]
+    ],
+    userInfo: app.gs('userInfoAll')
   },
   upFormId (e) {
     app.upFormId(e)
@@ -100,6 +101,25 @@ Page({
   _toggleSign () {
     this.setData({
       sign: !this.data.sign
+    })
+  },
+  shopUser () {
+    app.wxrequest({
+      url: app.getUrl().shopUser,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        userInfo: res
+      })
+    }, () => {
+      app.toast({content: '您尚未登陆，请先登陆系统', mask: true})
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/user/login/index'
+        })
+      }, 1000)
     })
   },
   /**
@@ -117,6 +137,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.shopUser()
   },
   /**
    * 生命周期函数--监听页面隐藏

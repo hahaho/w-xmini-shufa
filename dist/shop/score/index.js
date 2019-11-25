@@ -11,8 +11,28 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    list: [],
+    page: 0,
+    more: true
   },
+  shopScoreList: function shopScoreList() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopScoreList,
+      data: {
+        page: ++this.data.page,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      _this.setData({
+        list: _this.data.list.concat(res.lists)
+      });
+      that.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
