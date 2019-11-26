@@ -38,7 +38,7 @@
     </navigator>
     <view class="f25 c323232 tar p020 bd1 lh50">共{{ item.all_count }}件商品实付：¥{{item.total_fee}}</view>
     <view class="df goodsOp p20">
-      <navigator wx:if="{{ item.statuss == 3 }}" url="/commonPage/talk/index?type=comment&id={{ item.id }}" class="f25 c787878 goI">评价</navigator>
+      <view catchtap="goPJ" data-index="{{index}}" wx:if="{{ item.statuss == 3 }}" class="f25 c787878 goI">评价</view>
       <view wx:if="{{ item.statuss == 1 && item.is_change != 1 }}" catchtap="_toggleMask" data-index="{{ index }}" data-type="changeAdd" class="f25 c787878 goI">修改地址</view>
       <view wx:if="{{ item.statuss == -1 }}" catchtap="_toggleMask" data-op="cancel" data-index="{{index}}" data-type="cancelOrder" class="f25 c787878 goI">取消订单</view>
       <view wx:if="{{ item.statuss == 2 || item.statuss == 3 }}" class="f25 c787878 goI">查看物流</view>

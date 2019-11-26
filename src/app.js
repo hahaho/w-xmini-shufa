@@ -6,6 +6,7 @@ const MenuButtonBounding = wx.getMenuButtonBoundingClientRect()
 const HEIGHT_TOP = MenuButtonBounding.bottom - statusBarHeight
 const Moment = require('./utils/moment-min')
 const cloud = require('./utils/cloud')
+let bmap = require('./utils/bmap-wx')
 const system = wx.getSystemInfoSync()
 const capsule = MenuButtonBounding
 let requireCount = 0
@@ -547,6 +548,11 @@ App({
       })
     }
   },
+  mapInfoCheck () {
+    this.checkUser = function () {
+      this.su("userInfoAll", {uid: 1, rank: 1})
+    }
+  },
   // 设置顶部文字
   setBar (text) {
     wx.setNavigationBarTitle({
@@ -644,9 +650,54 @@ App({
         that.su('shareText', res.result)
       })
   },
+  // 检查用户信息
+  checkUser ({login = true, rank = true, user = true}) {
+    this.wxrequest({
+      url: this.getUrl().shopUser,
+      data: {
+        uid: this.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      if (user) {
+        try {
+          getCurrentPages()[getCurrentPages().length - 1].setData({
+            userInfo: res
+          })
+        } catch (e) {}
+      }
+      if (res.rank < 0 && rank) {
+        this.toast({content: '您还未成为会员,无法继续享受服务哦~~', mask: true})
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/openvip/index/index'
+          })
+        }, 2000)
+      }
+    }, () => {
+      if (login) {
+        this.toast({content: '您尚未登陆，请先登陆系统', mask: true})
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/user/login/index'
+          })
+        }, 2000)
+      } else {
+        this.toast({content: '您还未成为会员,无法继续享受服务哦~~', mask: true})
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/openvip/index/index'
+          })
+        }, 1000)
+      }
+    })
+  },
+  mapInfo () {
+    new bmap.BMapWX({ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'}).getWXJson().then(res => !res && this.mapInfoCheck())
+  },
   onLaunch () {
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
+    this.mapInfo()
     // this.getNavTab({})
     // this.getEnum()
     // setTimeout(() => {

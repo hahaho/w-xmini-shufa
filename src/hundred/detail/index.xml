@@ -22,7 +22,7 @@
     {{info.comment}}
   </view>
   <view wx:if="{{ info.imgs_url.imgs.length }}" class="hliImg">
-    <image class="hliiItem mt10" wx:for="{{info.imgs_url.imgs}}" wx:key="*4" src="{{item}}" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
+    <image class="hliiItem mt10" wx:for="{{info.imgs_url.imgs}}" wx:key="index" src="{{item}}" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
   </view>
   <video wx:if="{{ info.video.length }}" class="hliVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"></video>
 </view>
@@ -32,7 +32,7 @@
   <view class="commentTop left-pillar f24 c646464 p20">
     <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
   </view>
-  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+  <view wx:for="{{comment}}" wx:key="index" class="commentItem bd1">
     <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{ item.uid_avatar_url }}"></image>
     <view class="ciRight flex1">
       <text class="f22 c787878">{{item.uid_username}}</text>

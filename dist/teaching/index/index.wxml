@@ -23,14 +23,14 @@
             id="tab{{ index }}"
             catchtap="chooseIndex"
             data-index="{{ index }}"
-            wx:key="*index"
+            wx:key="index"
             wx:for="{{ main ? tabArr2 : tabArr }}">{{ item }}</button>
   </view>
 </scroll-view>
 <!--分类 -e-->
 <!--轮播图 -s-->
 <swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="*3">
+  <swiper-item wx:for="1234" wx:key="index">
     <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
   </swiper-item>
 </swiper>
@@ -39,7 +39,7 @@
 
 <!--课程列表 -s-->
 <view wx:if="{{ !main }}" class="teachingList">
-  <navigator url="../detail/index?id={{item.id}}" class="tlItem bd1" wx:for="{{list}}" wx:key="*11">
+  <navigator url="../detail/index?id={{item.id}}" class="tlItem bd1" wx:for="{{list}}" wx:key="index">
     <view class="tliTop pr tac">
       <image mode="aspectFill" lazy-load="1" class="tlitImg" src="{{item.cover_url}}"></image>
       <view class="playIcon pa cfff"></view>
@@ -51,7 +51,7 @@
 </view>
 <!--课程列表 -e-->
 <!--课程列表 -s-->
-<navigator wx:if="{{ main }}" url="../detail/index?id={{item.id}}{{ main ? '&from=main' : '' }}" class="tlItem tlItem2" wx:for="{{list}}" wx:key="*11">
+<navigator wx:if="{{ main }}" url="../detail/index?id={{item.id}}{{ main ? '&from=main' : '' }}" class="tlItem tlItem2" wx:for="{{list}}" wx:key="index">
   <view class="tliTop pr">
     <image mode="aspectFill" lazy-load="1" class="tlitImg" src="{{item.cover_url}}"></image>
     <view class="playIcon pa cfff"></view>
@@ -65,6 +65,7 @@
     </view>
   </view>
 </navigator>
+<view wx:if="{{!list}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--课程列表 -e-->
 <jwqfoot wx:if="{{ main }}"></jwqfoot>
 <!--错误弹窗-->

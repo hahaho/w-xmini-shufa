@@ -135,6 +135,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
+    app.checkUser({ login: false });
     // app.toast()
     // this.setKill()
     // console.log(' ---------- onShow ----------')

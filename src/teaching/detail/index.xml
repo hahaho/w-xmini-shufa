@@ -44,7 +44,7 @@
   <view class="commentTop f25 c323232 p20">
     <text>精彩评论({{commentTotal}}) </text>
   </view>
-  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+  <view wx:for="{{comment}}" wx:key="index" class="commentItem bd1">
     <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{item.uid_avatar_url}}"></image>
     <view class="ciRight flex1">
       <text class="f22 c787878">{{item.uid_username}}</text>
@@ -92,7 +92,7 @@
             id="tab{{ index }}"
             catchtap="chooseIndex"
             data-index="{{ index }}"
-            wx:key="*13"
+            wx:key="index"
             wx:for="{{sectionList}}">
       <view>第{{ index + 1 }}集</view>
       <view>{{item.title}}</view>

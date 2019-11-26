@@ -1,27 +1,28 @@
 <jwqcapsule capsule="{{ capsule }}">
-  <text class="cfff">查看三星</text>
+  <text class="cfff">{{ options.type === 'shop' ? '查看下级' : '查看三星' }}</text>
 </jwqcapsule>
 
 <!--成员 -s-->
 <view class="df dfb bd1 p30">
   <view class="hliTop flex1">
-    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{info.avatar_url}}"></image>
     <view class="hliTopName f21 c323232">
-      <text>流谦书苑</text>
-      <text class="f18 c646464 mt10">2019-08-26  12:20</text>
+      <text>{{info.username || info.nickname}}</text>
+      <text class="f18 c646464 mt10">{{info.create_at}}</text>
     </view>
   </view>
 </view>
-<text class="f22 c787878 p20">以下为TA的三星</text>
-<view wx:for="123" wx:key="*27" class="df dfb bgfff bd1 p30">
+<text class="f22 c787878 p20">{{ options.type === 'shop' ? '以下为TA的一级' : '以下为TA的三星' }}</text>
+<view wx:for="{{list}}" wx:key="index" class="df dfb bgfff bd1 p30">
   <view class="hliTop flex1">
-    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{item.avatar_url}}"></image>
     <view class="hliTopName f21 c323232">
-      <text>流谦书苑</text>
-      <text class="f18 c646464 mt10">2019-08-26  12:20</text>
+      <text>{{item.username || item.nickname}}</text>
+      <text class="f18 c646464 mt10">{{item.create_at}}</text>
     </view>
   </view>
 </view>
+<view class='tac p20 f30 c999' wx:if="{{ !list.length }}">暂无相关数据</view>
 <!--成员 -e-->
 
 <!--奖励 -s-->

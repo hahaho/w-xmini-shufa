@@ -12,7 +12,7 @@
   <view class="tac vipEnjoy">
     <text class="vipText f23">现在开通仅需￥298终身享受</text>
     <view class="vipContent">
-      <view class="vipItem f21 c81511c" wx:for="123" wx:key="*2">
+      <view class="vipItem f21 c81511c" wx:for="123" wx:key="index">
         <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/vip_{{ index }}.png"></image>
         <view class="mt20">{{ index == 0 ? '自用省钱' : index == 1 ? '分享赚钱' : '终身享受' }}</view>
       </view>

@@ -26,11 +26,41 @@ Page({
         uid: app.gs('userInfoAll').uid
       }
     }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm:ss') : '时间不详';
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       _this.setData({
-        list: _this.data.list.concat(res.lists)
+        list: _this.data.list.concat(res.lists),
+        total_score: res.total_score
       });
-      that.data.more = res.lists.length >= res.pre_page;
+      _this.data.more = res.lists.length >= res.pre_page;
     });
+  },
+  onReachBottom: function onReachBottom() {
+    if (!this.data.more) return app.toast({ content: '没有更多内容了' });
+    this.shopScoreList();
   },
 
   /**
@@ -39,7 +69,7 @@ Page({
   onLoad: function onLoad(options) {
     this.setData({
       options: options
-    });
+    }, this.shopScoreList);
   },
 
   /**

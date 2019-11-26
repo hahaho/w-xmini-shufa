@@ -6,7 +6,7 @@
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+    <input bindconfirm="getList" confirm-type="search" style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
   </view>
 </view>
 <!--搜索 e-->
@@ -15,7 +15,7 @@
 <!--屋檐 e-->
 <!--轮播图 -s-->
 <swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="*11">
+  <swiper-item wx:for="1234" wx:key="index">
     <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
   </swiper-item>
 </swiper>
@@ -29,7 +29,7 @@
 <!--栏目详情 -e-->
 <!--名师列表 -s-->
 <view wx:if="{{ !showColumn }}" class="teacherList">
-  <navigator url="../detail/index?id={{item.id}}" class="listItem mt20 f19 c787878" wx:for="{{list}}" wx:key="*10">
+  <navigator url="../detail/index?id={{item.id}}" class="listItem mt20 f19 c787878" wx:for="{{list}}" wx:key="index">
     <image lazy-load="1" src="{{item.img_url}}"></image>
     <view class="f29 c323232 tal w100 fw7">{{item.title}}</view>
     <view class="tal w100">{{item.des}}</view>
@@ -39,5 +39,3 @@
 <!--名师列表 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

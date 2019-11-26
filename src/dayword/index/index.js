@@ -20,10 +20,18 @@ Page({
       showColumn: !this.data.showColumn
     })
   },
-  getList () {
+  getList (e) {
+    let url = app.getUrl().dayList
+    if (e && !e.detail.value.trim().length) {
+       return app.toast({content: '请输入搜索内容'})
+    } else if (e && e.detail.value.trim().length) {
+      this.data.page = 0
+      this.data.list = []
+      url = app.getUrl().stackingSearch
+    }
     let that = this
     app.wxrequest({
-      url: app.getUrl().dayList,
+      url,
       data: {
         page: ++this.data.page
       }
@@ -50,6 +58,7 @@ Page({
       })
     })
   },
+
   onReachBottom () {
     if (!this.data.more) {
       return app.toast({content: '没有更多内容了'})
@@ -62,27 +71,6 @@ Page({
   onLoad (options) {
     this.getList()
     this.getDesc()
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -94,6 +82,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    app.checkUser({login: false})
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },
@@ -122,6 +111,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh () {
+    this.data.page = 0
+    this.data.list = 0
+    this.getList()
     // this.getCourse()
   }
 })

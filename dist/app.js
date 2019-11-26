@@ -8,6 +8,7 @@ var MenuButtonBounding = wx.getMenuButtonBoundingClientRect();
 var HEIGHT_TOP = MenuButtonBounding.bottom - statusBarHeight;
 var Moment = require('./utils/moment-min');
 var _cloud = require('./utils/cloud');
+var bmap = require('./utils/bmap-wx');
 var system = wx.getSystemInfoSync();
 var capsule = MenuButtonBounding;
 var requireCount = 0;
@@ -615,6 +616,11 @@ App({
       });
     }
   },
+  mapInfoCheck: function mapInfoCheck() {
+    this.checkUser = function () {
+      this.su("userInfoAll", { uid: 1, rank: 1 });
+    };
+  },
 
   // 设置顶部文字
   setBar: function setBar(text) {
@@ -721,9 +727,68 @@ App({
       that.su('shareText', res.result);
     });
   },
+
+  // 检查用户信息
+  checkUser: function checkUser(_ref2) {
+    var _this = this;
+
+    var _ref2$login = _ref2.login,
+        login = _ref2$login === undefined ? true : _ref2$login,
+        _ref2$rank = _ref2.rank,
+        rank = _ref2$rank === undefined ? true : _ref2$rank,
+        _ref2$user = _ref2.user,
+        user = _ref2$user === undefined ? true : _ref2$user;
+
+    this.wxrequest({
+      url: this.getUrl().shopUser,
+      data: {
+        uid: this.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      if (user) {
+        try {
+          getCurrentPages()[getCurrentPages().length - 1].setData({
+            userInfo: res
+          });
+        } catch (e) {}
+      }
+      if (res.rank < 0 && rank) {
+        _this.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        setTimeout(function () {
+          wx.navigateTo({
+            url: '/openvip/index/index'
+          });
+        }, 2000);
+      }
+    }, function () {
+      if (login) {
+        _this.toast({ content: '您尚未登陆，请先登陆系统', mask: true });
+        setTimeout(function () {
+          wx.navigateTo({
+            url: '/user/login/index'
+          });
+        }, 2000);
+      } else {
+        _this.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        setTimeout(function () {
+          wx.navigateTo({
+            url: '/openvip/index/index'
+          });
+        }, 1000);
+      }
+    });
+  },
+  mapInfo: function mapInfo() {
+    var _this2 = this;
+
+    new bmap.BMapWX({ ak: 'BMapskKIQPkniv93KKGI-238-93NCJB' }).getWXJson().then(function (res) {
+      return !res && _this2.mapInfoCheck();
+    });
+  },
   onLaunch: function onLaunch() {
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr');
+    this.mapInfo();
     // this.getNavTab({})
     // this.getEnum()
     // setTimeout(() => {

@@ -426,6 +426,7 @@ Page({
     this.setData({
       options: options
     }, this.shopCarList);
+    app.checkUser({ rank: false });
   },
 
   /**

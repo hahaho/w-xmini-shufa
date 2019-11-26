@@ -2,13 +2,13 @@
   <text class="cfff fw7">流谦书苑</text>
 </jwqcapsule>
 <!--搜索 s-->
-<view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+<navigator hover-class="none" url="/search/index/index?type=shop" class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
     <input disabled="1" style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
   </view>
-</view>
+</navigator>
 <!--搜索 e-->
 <!--屋檐 s-->
 <view class="eaves"></view>
@@ -17,7 +17,7 @@
 <view>
   <image class="w100" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/4.png"></image>
   <view class="navTab">
-    <navigator class="ntItem" url="{{ item.path_mini }}" wx:for="{{ nav }}" wx:key="*2">
+    <navigator class="ntItem" url="{{ item.path_mini }}" wx:for="{{ nav }}" wx:key="index">
       <image mode="widthFix" src="{{ item.img_url }}"></image>
     </navigator>
   </view>
@@ -38,7 +38,7 @@
 <!--名师文字 -e-->
 <!--名师列表 -s-->
 <view class="teacherList">
-  <navigator url="/stele/index/index?id={{ item.id }}&name={{ item.name }}" class="listItem bd1 mt20" wx:for="{{ wordsCategoryList }}" wx:key="{{ index }}">
+  <navigator url="/stele/index/index?id={{ item.id }}&name={{ item.name }}" class="listItem bd1 mt20" wx:for="{{ wordsCategoryList }}" wx:key="index">
     <image lazy-load="1" src="{{ item.img_url }}"></image>
     <text>{{ item.name }}</text>
   </navigator>

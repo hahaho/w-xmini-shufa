@@ -7,7 +7,7 @@
          class="pa bgPic peN"
          src="{{ backImageInfo.path }}"></image>
   <view wx:for="{{ imgArr }}"
-        wx:key="*90"
+        wx:key="index"
         data-index="{{ index }}"
         bindtouchstart="itemStart"
         class="pa {{ reload ? 'tr5' : '' }}"
@@ -48,7 +48,7 @@
           catchtap="chooseIndex"
           data-type="bgc"
           data-index="{{ index }}"
-          wx:key
+          wx:key="index"
           wx:for="{{ tabArr }}">
     <view class="borderChoose pa animated {{ tabIndex == index ? 'zoomIn' : 'opa0' }}">
       <view catchtap="_toggleMask" data-type="border">挑选边框</view>
@@ -78,7 +78,7 @@ scroll-into-view="tab{{ tabBorderIndex - 1 }}">
       catchtap="chooseIndex"
       data-type="border"
       data-index="{{ index }}"
-      wx:key
+      wx:key="index"
       wx:for="{{ tabBorderArr }}">
       <image mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/canvas_border_{{ index }}.jpg"></image>
     </button>

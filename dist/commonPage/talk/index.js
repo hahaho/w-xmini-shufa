@@ -16,7 +16,8 @@ Page({
     textArr: ['非常差', '差', '一般', '好', '非常好'],
     imgArr: [],
     sos: ['笔画求教', '单字求救', '作品求救', '无'],
-    sosIndex: 0
+    sosIndex: 0,
+    commentLV: 4
   },
   chooseSoS: function chooseSoS() {
     var that = this;
@@ -112,6 +113,28 @@ Page({
           }, 1000);
         });
         break;
+      case 'comment':
+        if (!e.detail.value.comment.trim()) return app.toast({ content: '评价内容不能为空' });
+        if (!new UpLoad({ imgArr: 'imgArr' }).checkAll()) return app.toast({ content: '请等待图片上传完成后继续操作' });
+        app.wxrequest({
+          url: app.getUrl().shopDiscussSub,
+          data: {
+            uid: app.gs('userInfoAll').uid || 10000,
+            pid: this.data.info.id,
+            sku_id: this.data.info.list[0].id,
+            value: this.data.info.list[0].value || -1,
+            out_trade_no: this.data.info.out_trade_no,
+            star: this.data.commentLV * 1 + 1,
+            comment: e.detail.value.comment.trim(),
+            imgs_url: JSON.stringify({ 'imgs': that.getRealUrl() })
+          }
+        }).then(function (res) {
+          app.toast({ content: '评价成功', mask: true });
+          setTimeout(function () {
+            wx.navigateBack();
+          }, 1000);
+        });
+        break;
       default:
         return app.toast({ content: '错误！！请返回上一页重新进入' });
     }
@@ -124,6 +147,11 @@ Page({
     this.setData({
       options: options
     });
+    if (options.type === 'comment') {
+      this.setData({
+        info: app.gs('pjInfo')
+      });
+    }
   },
 
   /**

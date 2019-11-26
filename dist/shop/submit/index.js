@@ -60,6 +60,7 @@ Page({
     });
   },
   pay: function pay() {
+    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) return app.toast({ content: '请填写收货地址信息' });
     var carts = [];
     var that = this;
     var _iteratorNormalCompletion = true;
@@ -198,6 +199,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
+    app.checkUser({ rank: false });
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

@@ -12,7 +12,7 @@
   </view>
   <view class='uiBottom p20 df dfb f25 cfff'>
     <view>
-      <text>余额￥{{userInfo.appear_nomey}}</text>
+      <text>余额￥{{userInfo.appear_money}}</text>
       <navigator style="display: inline-block;" url="/user/detail/index?type=shop" class="cff362c">明细</navigator>
     </view>
     <navigator url="/user/cashdraw/index?type=shop" class="arrow">立即提现</navigator>
@@ -42,7 +42,7 @@
 <view class="p20 bgfff mt20">
   <view class="f25 c646464 left-pillar">我的流谦书苑</view>
   <view class="df dfac dfb c323232 shopTab">
-    <navigator url="{{ item.u }}" wx:for="{{ userNav }}" wx:key="*53" class="df mt20 dfc dfac f24 stItem">
+    <navigator url="{{ item.u }}" wx:for="{{ userNav }}" wx:key="index" class="df mt20 dfc dfac f24 stItem">
       <image mode="widthFix" class="tabImg" src="{{ item.i }}"></image>
       <text class="mt10">{{ item.t }}</text>
     </navigator>
@@ -53,6 +53,7 @@
 <!--操作 -s-->
 <navigator url="/user/message/index?type=shopcomment" class="arrow p2030 f25 bgfff bd1 jwqfont jwqpinglun1 mt20">　<text class="c323232 ml10">我的评价</text></navigator>
 <navigator url="/user/message/index?type=shopcomment" class="arrow p2030 f25 bgfff bd1 jwqfont jwqshangcheng">　<text class="c323232 ml10">我的墨宝真迹</text></navigator>
+<!--<navigator url="/sell/index/index?type=shopcomment" class="arrow p2030 f25 bgfff bd1 jwqfont jwqshangcheng">　<text class="c323232 ml10">我的墨宝真迹</text></navigator>-->
 <button open-type="contact">
   <view class="arrow p2030 f25 bgfff jwqfont df jwqiconset0270">　<text class="c323232 ml10">联系客服</text></view>
 </button>

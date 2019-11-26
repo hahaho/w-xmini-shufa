@@ -28,7 +28,7 @@
 <view catchtap="chooseType"
       data-index="{{ index }}"
       wx:for="{{ bottomImg }}"
-      wx:key
+      wx:key="index"
       class="df dfc dfac p20 {{ index == bottomIndex ? 'active' : '' }} tr5">
   <text wx:if="{{ !item.i }}" class="jwqfont jwqwu tac"></text>
   <image wx:else src="{{ item.i }}"></image>

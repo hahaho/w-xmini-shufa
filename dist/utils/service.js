@@ -10,6 +10,7 @@
 // let baseDomain = 'https://www.1688rm.com'
 // const lqsyBaseDomain = 'http://120.24.75.4/books/api/web/index.php'
 var lqsyBaseDomain = 'https://lq.yifengshuyuan.com/books/api/web/index.php';
+var lqsyTestDomain = 'https://c.jiangwenqiang.com';
 var serviceUrl = {
   // style: baseDomain + '/home/page', // 不填默认为1, 1表示中间菜单,2表示底部菜单,3表示广告图
   // enum: baseDomain + '/home/enum', // 获取标签
@@ -162,8 +163,10 @@ var serviceUrl = {
   payRank: lqsyBaseDomain + '/pay/rank', // 购买会员
   payShop: lqsyBaseDomain + '/pay/shop', // 商城购买产品
   shopCategory: lqsyBaseDomain + '/shop/category', // 获取商城菜单分类
+  shopTeamList: lqsyBaseDomain + '/shop/team-list', // 我的团队列表
   shopShow: lqsyBaseDomain + '/shop/show', // 获取热销and人气产品
   shopAd: lqsyBaseDomain + '/shop/ad', // 获取商城头部广告
+  shopDiscussSub: lqsyBaseDomain + '/shop/discuss-sub', // 用户提交商品评价
   shopScoreList: lqsyBaseDomain + '/shop/score-list', // 积分记录列表
   shopUser: lqsyBaseDomain + '/shop/user', // 商城用户中心获取用户信息
   shopUserRefund: lqsyBaseDomain + '/shop/user-refund', // 用户申请退款
@@ -174,6 +177,7 @@ var serviceUrl = {
   shopUserDiscuss: lqsyBaseDomain + '/shop/user-discuss', // 用户的评论
   shopCartDelete: lqsyBaseDomain + '/shop/cart-delete', // 购物车删除商品
   shopCartChange: lqsyBaseDomain + '/shop/cart-change', // 修改购物车的数量
+  json: lqsyTestDomain + '/lqsy/test.json', // 修改购物车的数量2
   shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车
   shopCartAdd: lqsyBaseDomain + '/shop/cart-add', // 产品添加到购物车
   shopDiscuss: lqsyBaseDomain + '/shop/discuss', // 分页获取评论
@@ -241,3 +245,14 @@ var serviceUrl = {
   wordsCategory: lqsyBaseDomain + '/words/category' // 碑帖分类
 };
 module.exports = serviceUrl;
+// 首页      /pages/index/index
+// 视屏      /teaching/index/index?form=main
+// 商城      /shop/index/index
+// 社区      /hundred/index/index?form=main
+// 个人中心  /user/index/index
+// 教学      /teaching/index/index
+// 一字      /dayword/index/index
+// 识字      /commonPage/literacy/index
+// 纠错      /camera/index/index
+// 百家      /hundred/index/index
+// 装裱      /commonPage/canvas2/step_one/index

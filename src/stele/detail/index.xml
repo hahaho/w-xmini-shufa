@@ -3,7 +3,7 @@
 </jwqcapsule>
 <!--碑帖切换 -s-->
 <view class="df topNav bd1 f24">
-  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="*61" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
+  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="index" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
 </view>
 <!--碑帖切换 -e-->
 <view wx:if="{{ leftChoose == 0 }}">
@@ -17,7 +17,7 @@
     <view class="commentTop left-pillar f24 c646464 p20">
       <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
     </view>
-    <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+    <view wx:for="{{comment}}" wx:key="index" class="commentItem bd1">
       <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{ item.uid_avatar_url }}"></image>
       <view class="ciRight flex1">
         <text class="f22 c787878">{{item.uid_username}}</text>
@@ -38,6 +38,7 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{!comment}}" class='tac f22 p20 c999'>暂无相关内容</view>
   </view>
   <!--评论列表 -e-->
   <view class="zw100"></view>
@@ -56,10 +57,10 @@
   <!--底部评论发表区域 -e-->
 </view>
 <view wx:if="{{ leftChoose == 1 }}" class="opus p20">
-  <image wx:for="{{ section }}" wx:key="*17" lazy-load="1" src="{{item.img_name}}"></image>
+  <image wx:for="{{ section }}" wx:key="index" lazy-load="1" src="{{item.img_name}}"></image>
 </view>
 <view wx:if="{{ leftChoose == 2 }}" class="opus p20">
-  <navigator url="/camera/detail/index?id=1" wx:for="{{ piece }}" wx:key="*19" class="tac">
+  <navigator url="/camera/detail/index?id=1" wx:for="{{ piece }}" wx:key="index" class="tac">
     <image mode="aspectFit" lazy-load="1" src="{{ item.img_name }}"></image>
     <text>{{item.word}}</text>
   </navigator>

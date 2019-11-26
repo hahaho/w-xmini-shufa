@@ -9,7 +9,7 @@
   <image class="userImg br" mode="aspectFill" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
   <view class="userInfoRight flex1">
     <view class="uirTop cfff f25">
-      <view class="uirtItem tac" wx:for="123" wx:key="*8">
+      <view class="uirtItem tac" wx:for="123" wx:key="index">
         <text>992131</text>
         <text>访问</text>
       </view>
@@ -24,7 +24,7 @@
 </view>
 <!--用户信息 -e-->
 <!--列表 -s-->
-<jwqnav url="../detail/index?id=1" wx:for="1234" wx:key="*9" >
+<jwqnav url="../detail/index?id=1" wx:for="1234" wx:key="index" >
   <view class="hundredListItem">
     <view class="hliTop mt20">
       <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
@@ -41,7 +41,7 @@
       一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···
     </view>
     <view class="hliImg">
-      <image class="hliiItem mt10" wx:for="123123" wx:key="*4" src="https://c.jiangwenqiang.com/api/logo.jpg" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
+      <image class="hliiItem mt10" wx:for="123123" wx:key="index" src="https://c.jiangwenqiang.com/api/logo.jpg" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
     </view>
     <view class="hliVideo pr mt20">
       <image class="videoImg" mode="widthFix" lazy-load="1" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>

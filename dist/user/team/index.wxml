@@ -4,11 +4,11 @@
 <!--等级 -s-->
 <view class="bd1 topNav bgfff lh60 f29 c646464">
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? '' : 'active' }}">
-    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="12345" wx:key="*23"></text>
+    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="12345" wx:key="index"></text>
     <view wx:if="{{ options.type == 'shop' }}">我的一级</view>
   </view>
   <view catchtap="_tnChoose" class="flex1 tac tnItem {{ right ? 'active' : '' }}">
-    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="123" wx:key="*24"></text>
+    <text wx:if="{{ options.type != 'shop' }}" class="jwqfont jwqxingxing" wx:for="123" wx:key="index"></text>
     <view wx:if="{{ options.type == 'shop' }}">我的二级</view>
   </view>
 </view>
@@ -18,20 +18,21 @@
 </view>
 <!--等级 -e-->
 <!--成员 -s-->
-<view wx:for="123" wx:key="*27" class="df dfb bgfff bd1 p30">
+<view wx:for="{{list}}" wx:key="index" class="df dfb bgfff bd1 p30">
   <view class="hliTop flex1">
-    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+    <image class="br hliTopImg" lazy-load="true" mode="aspectFill" src="{{item.avatar_url}}"></image>
     <view class="hliTopName f21 c323232">
-      <text>流谦书苑</text>
-      <text class="f18 c646464 mt10">2019-08-26  12:20</text>
+      <text>{{item.username || item.nickname}}</text>
+      <text class="f18 c646464 mt10">{{item.create_at}}</text>
     </view>
   </view>
-  <navigator hover-class="none" url="/user/tnext/index?id=123" wx:if="{{ !right }}" class="{{ options.type != 'shop' ? index > 0 ? 'arrow' : '' : '' }} tar c787878 nextTeam">
-    <view wx:if="{{ options.type != 'shop' }}"><text wx:for="123" wx:key="*26" class="jwqfont jwqxingxing "></text></view>
+  <view catchtap="goNext" data-index="{{ index }}" class="{{ options.type != 'shop' ? index > 0 ? 'arrow' : '' : '' }} tar c787878 nextTeam">
+    <view wx:if="{{ options.type != 'shop' }}"><text wx:for="123" wx:key="index" class="jwqfont jwqxingxing "></text></view>
     <view wx:if="{{ options.type == 'shop' }}">二级</view>
     <!-- <text wx:if="{{ options.type != 'shop' }}">{{ index }}</text> -->
-  </navigator>
+  </view>
 </view>
+<view class='tac p20 f30 c999' wx:if="{{ !list.length }}">暂无相关数据</view>
 <!--成员 -e-->
 
 <!--奖励 -s-->

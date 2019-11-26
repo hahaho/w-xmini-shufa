@@ -3,8 +3,8 @@
 </jwqcapsule>
 
 <view class="userInfo bgfff">
-  <image class="br" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  <view class="f28 tac c323232">cm厘米</view>
+  <image class="br" src="{{info.avatar_url}}"></image>
+  <view class="f28 tac c323232">{{info.username || info.nickname}}</view>
   <view class="bd1 df p20 c323232 f29 mt20">
     <text>提现金额</text>
     <input class="flex1" placeholder="请输入提现金额" />
@@ -12,7 +12,7 @@
   </view>
   <view class="bd1 df p20 c323232 f29">
     <text>可用余额</text>
-    <input disabled="1" class="flex1 cff3757" value="￥20.00" />
+    <input disabled="1" class="flex1 cff3757" value="￥{{info.appear_money}}" />
     <text class="c787878">余额≧10元才可提现</text>
   </view>
 </view>

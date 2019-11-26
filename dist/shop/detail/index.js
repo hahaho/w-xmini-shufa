@@ -163,6 +163,14 @@ Page({
   shopCartAdd: function shopCartAdd() {
     var _this3 = this;
 
+    if (!app.gs('userInfoAll').uid) {
+      app.toast({ content: '您尚未登陆,请登陆后再购买' });
+      return setTimeout(function () {
+        wx.navigateTo({
+          url: '/user/login/index'
+        });
+      }, 2000);
+    }
     app.wxrequest({
       url: app.getUrl().shopCartAdd,
       data: {
@@ -172,7 +180,7 @@ Page({
         count: this.data.num
       }
     }).then(function () {
-      app.toast({ content: '添加入购物车成功' });
+      app.toast({ content: '添加入购物车成功', image: '' });
       _this3._toggleSpec();
     });
   },

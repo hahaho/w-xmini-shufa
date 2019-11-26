@@ -11,7 +11,10 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    page: 0,
+    more: true,
+    list: []
   },
   _tnChoose: function _tnChoose() {
     this.setData({
@@ -24,11 +27,62 @@ Page({
       ruler: !this.data.ruler
     });
   },
+  shopTeamList: function shopTeamList() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.type === 'shop' ? 'shopTeamList' : ''],
+      data: {
+        uid: this.data.options.id,
+        rank: 1,
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm') : '时间不详';
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      _this.setData({
+        list: _this.data.list.concat(res.lists)
+      });
+      _this.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+  onReachBottom: function onReachBottom() {
+    if (!this.data.more) return;
+    this.shopTeamList();
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad() {},
+  onLoad: function onLoad(options) {
+    this.setData({
+      options: options,
+      info: app.gs('nextTeamInfo')
+    }, this.shopTeamList);
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

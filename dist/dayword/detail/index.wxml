@@ -21,7 +21,7 @@
   <view class="commentTop left-pillar f24 c646464 p20">
     <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
   </view>
-  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+  <view wx:for="{{comment}}" wx:key="index" class="commentItem bd1">
     <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{item.uid_avatar_url}}"></image>
     <view class="ciRight flex1">
       <text class="f22 c787878">{{item.uid_username}}</text>

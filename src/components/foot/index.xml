@@ -1,7 +1,7 @@
 <form>
   <view style="background: url(https://c.jiangwenqiang.com/lqsy/bottom_nav.png) center;" class="foot {{ fix ? 'fix' : '' }}">
     <button wx:for="{{ footArr }}"
-            wx:key
+            wx:key="index"
             catchtap="footOp"
             hover-class="none"
             data-index="{{ index }}"

@@ -254,6 +254,12 @@ Page({
       url: '/commonPage/back/back'
     })
   },
+  goPJ (e) {
+    app.su('pjInfo', this.data.list[e.currentTarget.dataset.index])
+    wx.navigateTo({
+      url: `/commonPage/talk/index?type=comment`
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

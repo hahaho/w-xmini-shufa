@@ -133,6 +133,14 @@ Page({
     })
   },
   shopCartAdd () {
+    if (!app.gs('userInfoAll').uid) {
+      app.toast({content: '您尚未登陆,请登陆后再购买'})
+      return setTimeout(() => {
+        wx.navigateTo({
+          url: '/user/login/index'
+        })
+      }, 2000)
+    }
     app.wxrequest({
       url: app.getUrl().shopCartAdd,
       data: {
@@ -142,7 +150,7 @@ Page({
         count: this.data.num
       }
     }).then(() => {
-      app.toast({content: '添加入购物车成功'})
+      app.toast({content: '添加入购物车成功', image: ''})
       this._toggleSpec()
     })
   },

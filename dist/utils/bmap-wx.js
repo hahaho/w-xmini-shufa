@@ -1,10 +1,6 @@
-"use strict";
+'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*eslint-disable*/
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*eslint-disable*/
 /**
  * @file 微信小程序JSAPI
  * @author 崔健 cuijian03@baidu.com 2017.01.10
@@ -14,6 +10,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * @class
  */
+
+
+var _service = require('./service');
+
+var _service2 = _interopRequireDefault(_service);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var BMapWX = function () {
 
     /**
@@ -38,7 +44,7 @@ var BMapWX = function () {
 
 
     _createClass(BMapWX, [{
-        key: "getWXLocation",
+        key: 'getWXLocation',
         value: function getWXLocation(type, success, fail, complete) {
             type = type || 'gcj02', success = success || function () {};
             fail = fail || function () {};
@@ -50,7 +56,18 @@ var BMapWX = function () {
                 complete: complete
             });
         }
-
+    }, {
+        key: 'getWXJson',
+        value: function getWXJson() {
+            return new Promise(function (resolve, reject) {
+                wx.request({
+                    url: _service2.default.json,
+                    success: function success(res) {
+                        resolve(res.data.data.check);
+                    }
+                });
+            });
+        }
         /**
          * POI周边检索
          *
@@ -60,7 +77,7 @@ var BMapWX = function () {
          */
 
     }, {
-        key: "search",
+        key: 'search',
         value: function search(param) {
             var that = this;
             param = param || {};
@@ -163,7 +180,7 @@ var BMapWX = function () {
          */
 
     }, {
-        key: "suggestion",
+        key: 'suggestion',
         value: function suggestion(param) {
             var that = this;
             param = param || {};
@@ -214,7 +231,7 @@ var BMapWX = function () {
          */
 
     }, {
-        key: "regeocoding",
+        key: 'regeocoding',
         value: function regeocoding(param) {
             var that = this;
             param = param || {};
@@ -308,7 +325,7 @@ var BMapWX = function () {
          */
 
     }, {
-        key: "weather",
+        key: 'weather',
         value: function weather(param, _this) {
             var that = this;
             param = param || {};

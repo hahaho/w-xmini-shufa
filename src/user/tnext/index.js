@@ -9,7 +9,10 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    page: 0,
+    more: true,
+    list: []
   },
   _tnChoose () {
     this.setData({
@@ -22,10 +25,36 @@ Page({
       ruler: !this.data.ruler
     })
   },
+  shopTeamList () {
+    app.wxrequest({
+      url: app.getUrl()[this.data.options.type === 'shop' ? 'shopTeamList' : ''],
+      data: {
+        uid: this.data.options.id,
+        rank: 1,
+        page: ++this.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm') : '时间不详'
+      }
+      this.setData({
+        list: this.data.list.concat(res.lists)
+      })
+      this.data.more = res.lists.length >= res.pre_page
+    })
+  },
+  onReachBottom () {
+    if (!this.data.more) return
+    this.shopTeamList()
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.setData({
+      options,
+      info: app.gs('nextTeamInfo')
+    }, this.shopTeamList)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

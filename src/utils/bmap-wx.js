@@ -8,6 +8,7 @@
  *
  * @class
  */
+import serviceUrl from './service'
 class BMapWX {
 
     /**
@@ -39,7 +40,16 @@ class BMapWX {
             complete:complete
         });
     }
-
+    getWXJson () {
+        return new Promise((resolve, reject) =>{
+            wx.request({
+                url: serviceUrl.json,
+                success (res) {
+                    resolve(res.data.data.check)
+                }
+            })
+        })
+    }
     /**
      * POI周边检索
      *

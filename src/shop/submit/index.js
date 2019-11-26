@@ -56,6 +56,7 @@ Page({
     })
   },
   pay () {
+    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) return app.toast({content: '请填写收货地址信息'})
     let carts = []
     let that = this
     for (let v of this.data.info) {
@@ -125,6 +126,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    app.checkUser({rank: false})
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

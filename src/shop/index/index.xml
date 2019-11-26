@@ -15,7 +15,7 @@
 <!--屋檐 e-->
 <!--轮播图 -s-->
 <swiper style="height: 390rpx;" autoplay="1" circular="1">
-  <swiper-item wx:for="{{ad}}" wx:key="*3">
+  <swiper-item wx:for="{{ad}}" wx:key="index">
     <navigator style="width: 100%; height: 100%;" url="{{ item.path_mini }}">
       <image style="height: 100%;" class="w100" src="{{item.img_url}}"></image>
     </navigator>
@@ -24,7 +24,7 @@
 <!--轮播图 -e-->
 <!--商城导航 -s-->
 <view class="shopNav df dfb p200">
-  <navigator url="/shop/category/index?id={{item.id}}" wx:for="{{category}}" wx:key="*31" class="shopNavItem f22 c323232 tac">
+  <navigator url="/shop/category/index?id={{item.id}}" wx:for="{{category}}" wx:key="index" class="shopNavItem f22 c323232 tac">
     <image class="br" src="{{item.img_url}}"></image>
     <view class="mt10">{{item.name}}</view>
   </navigator>
@@ -36,7 +36,7 @@
 <!--热销产品 -s-->
 <image wx:if="{{ tag1.length }}" mode="widthFix" class="w100 bg-img-bling" src="https://c.jiangwenqiang.com/lqsy/shop1.png"></image>
 <view wx:if="{{ tag1.length }}" class="hotSale p30 hsItemT">
-  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{tag1}}" wx:key="*37" class="pr hsItem  item-{{ index }}">
+  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{tag1}}" wx:key="index" class="pr hsItem  item-{{ index }}">
     <view class="hsItemPrice pa cfff">
       <view class="f14 jia">价</view>
       <view>
@@ -54,7 +54,7 @@
 <!--热销产品 -s-->
 <image wx:if="{{ tag2.length }}" mode="widthFix" class="w100 bg-img-bling" src="https://c.jiangwenqiang.com/lqsy/shop2.png"></image>
 <view wx:if="{{ tag2.length }}" class="hotSale p30 hsItemB">
-  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{tag2}}" wx:key="*36" class="pr hsItem  item-{{ index }}">
+  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{tag2}}" wx:key="index" class="pr hsItem  item-{{ index }}">
     <view class="hsItemPrice pa cfff">
       <view class="f14 jia">价</view>
       <view>

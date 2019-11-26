@@ -3,7 +3,7 @@
 </jwqcapsule>
 <!--轮播图 -s-->
 <swiper class="detailS" autoplay="1" circular="1">
-  <swiper-item class="detailSI" wx:for="{{ info.imgs_url.imgs }}" wx:key="*3">
+  <swiper-item class="detailSI" wx:for="{{ info.imgs_url.imgs }}" wx:key="index">
     <image mode="aspectFill" style="height: 560rpx" class="w100" src="{{item}}"></image>
   </swiper-item>
   <view class="pa detailInfo p2030 cfff">
@@ -48,7 +48,7 @@
 <!--评论 -e-->
 <!--商品详情 -s-->
 <view class="tac f30 p20">产品介绍</view>
-<image wx:for="{{info.detail_url}}" wx:key="*36" class="w100" mode="widthFix" lazy-load="1" src="{{item}}"></image>
+<image wx:for="{{info.detail_url}}" wx:key="index" class="w100" mode="widthFix" lazy-load="1" src="{{item}}"></image>
 <!--商品详情 -e-->
 
 <!--底部操作 -s-->
@@ -92,10 +92,10 @@
       <view catchtap="_toggleSpec" class="jwqfont jwqclose-b c646464 f40"></view>
     </view>
     <scroll-view class="specScroll" scroll-y="1">
-      <view wx:for="1" wx:key="*41" class="spec mt20 bd1 p20">
+      <view wx:for="1" wx:key="index" class="spec mt20 bd1 p20">
         <view class="specName f29 c323232">{{info.label}}分类</view>
         <view class="specChoose df f25 c323232">
-          <view wx:for="{{ info.sku }}" wx:for-item="iitem" wx:for-index="iindex" wx:key="*20" catchtap="chooseSku" data-index="{{ iindex }}" class="specItem {{ skuIndex == iindex ? 'cff362c' : '' }}">{{iitem.value}}</view>
+          <view wx:for="{{ info.sku }}" wx:for-item="iitem" wx:for-index="iindex" wx:key="index" catchtap="chooseSku" data-index="{{ iindex }}" class="specItem {{ skuIndex == iindex ? 'cff362c' : '' }}">{{iitem.value}}</view>
         </view>
       </view>
       <view class="specNum df dfb dfac f29 c323232 p20">
@@ -116,14 +116,14 @@
   <view class="commentScrollOut">
     <view catchtap="_showComment" class="tac f30 bgfff c323232 p20 closeComment">关闭</view>
     <scroll-view bindscrolltolower="moreComments" class="commentScroll" scroll-y="1">
-      <view wx:for="{{comment}}" wx:key="*78" class="commentItem mt20">
+      <view wx:for="{{comment}}" wx:key="index" class="commentItem mt20">
         <view class="f21 c787878 df dfac">
           <image class="br" src="{{item.avatar_url}}"></image>
           <text class="ml20">{{item.nickname}}</text>
         </view>
         <view class="f22 c323232 mt10 ell3">{{item.comment}}</view>
         <view class="commentImage df">
-          <image catchtap="showImg" data-index="{{index}}" data-url="{{ iitem }}" wx:for="{{ item.imgs_url.imgs }}" wx:for-item="iitem" wx:key="*77" mode="asppectFill" src="{{iitem}}"></image>
+          <image catchtap="showImg" data-index="{{index}}" data-url="{{ iitem }}" wx:for="{{ item.imgs_url.imgs }}" wx:for-item="iitem" wx:key="index" mode="asppectFill" src="{{iitem}}"></image>
         </view>
       </view>
     </scroll-view>

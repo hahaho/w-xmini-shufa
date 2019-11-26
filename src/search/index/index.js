@@ -51,6 +51,13 @@ Page({
           page: ++that.data.page
         }
         break
+      case 'cameraIndex':
+        url = app.getUrl().stackingSearch
+        data = {
+          word: e.detail.value.trim().slice(0, 1),
+          page: ++that.data.page
+        }
+        break
       default:
         return app.toast({content: '未知类型搜索，无法进行操作'})
     }
@@ -58,6 +65,9 @@ Page({
       url,
       data
     }).then(res => {
+      if (res.total <= 0) {
+        return app.toast({content: '没有搜索到相关内容~~'})
+      }
       if (this.data.options.type === 'shop') {
         for (let v of res.lists) {
           v.url = `/shop/detail/index?id=${v.id}`
@@ -71,6 +81,12 @@ Page({
     })
   },
   goCamera (e) {
+    if (this.data.options.type === 'cameraIndex') {
+      wx.redirectTo({
+        url: `/camera/detail/index?wid=${this.data.list[e.currentTarget.dataset.index].data[e.currentTarget.dataset.iindex].wid}&oid=${this.data.list[e.currentTarget.dataset.index].data[e.currentTarget.dataset.iindex].id}`
+      })
+      return
+    }
     let pages = getCurrentPages()
     let that = pages[pages.length - 2]
     let _this = this

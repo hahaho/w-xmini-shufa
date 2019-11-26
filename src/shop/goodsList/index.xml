@@ -6,7 +6,7 @@
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
+    <input bindconfirm="search" confirm-type="search" style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="搜索书法或商品" />
   </view>
 </view>
 <!--搜索 e-->
@@ -14,7 +14,7 @@
 <view class="eaves"></view>
 <!--屋檐 e-->
 <view class="p20 goods">
-  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{list}}" wx:key="*35" class="goodsItem bgfff">
+  <navigator url="/shop/detail/index?id={{item.id}}" wx:for="{{list}}" wx:key="index" class="goodsItem bgfff">
     <image lazy-load="1" class="w100" mode="aspectFill" src="{{item.img_url}}"></image>
     <view class="ell2 f22 mt10 c646464">{{ item.title }}</view>
     <view class="p10 mt10 df dfac">

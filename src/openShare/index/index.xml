@@ -1,0 +1,7 @@
+<jwqcapsule capsule="{{ capsule }}">
+  <text class="cfff fw7">分享进入</text>
+</jwqcapsule>
+
+
+<!--错误弹窗-->
+<toast toast="{{ toast }}"></toast>

@@ -22,11 +22,19 @@ Page({
         uid: app.gs('userInfoAll').uid
       }
     }).then(res => {
+      for (let v of res.lists) {
+        v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm:ss') : '时间不详'
+      }
       this.setData({
-        list: this.data.list.concat(res.lists)
+        list: this.data.list.concat(res.lists),
+        total_score: res.total_score
       })
-      that.data.more = res.lists.length >= res.pre_page
+      this.data.more = res.lists.length >= res.pre_page
     })
+  },
+  onReachBottom () {
+    if (!this.data.more) return app.toast({content: '没有更多内容了'})
+    this.shopScoreList()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -34,7 +42,7 @@ Page({
   onLoad (options) {
     this.setData({
       options
-    })
+    }, this.shopScoreList)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

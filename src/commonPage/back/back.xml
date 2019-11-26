@@ -18,7 +18,7 @@
     <view>申请说明</view>
     <textarea value="{{ content }}" placeholder="请填写你的申请说明" bindinput="inputValue" data-type="content" class="mt20"></textarea>
     <view class="up-img p20">
-      <view wx:for="{{ upImgArr }}" wx:key="*42" class="pr up-img-area">
+      <view wx:for="{{ upImgArr }}" wx:key="index" class="pr up-img-area">
         <image catchtap="imgOperation"
                mode="aspectFit"
                data-index="{{ index }}"

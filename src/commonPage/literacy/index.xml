@@ -4,7 +4,7 @@
 <!--选择图片 -s-->
 <view hidden="{{ literacy }}">
   <view class="bgfff p30 f28 c323232 tab df">
-    <view catchtap="_literacy" data-index="{{index}}" wx:for="{{ tab }}" wx:key class="df dfc dfac">
+    <view catchtap="_literacy" data-index="{{index}}" wx:for="{{ tab }}" wx:key="index" class="df dfc dfac">
       <image src="{{ item.i }}"></image>
       <view class="mt20">{{ item.t }}</view>
     </view>
@@ -19,7 +19,7 @@
     <view class="item0 item bgfff">
       <image mode="aspectFit" src="{{imgUrl}}"></image>
     </view>
-    <view catchtap="getShiYi" data-type="jiexi" data-index="{{ index }}" wx:for="{{list}}" wx:key class="tac {{ index < 1 ? 'item1' : 'item'+ index + 2 }} item p10  df dfc dfb bgfff">
+    <view catchtap="getShiYi" data-type="jiexi" data-index="{{ index }}" wx:for="{{list}}" wx:key="index" class="tac {{ index < 1 ? 'item1' : 'item'+ index + 2 }} item p10  df dfc dfb bgfff">
       <text class="c39adf8 {{ index < 1 ? 'f24' : 'f21' }}">未知读音</text>
       <text class="{{ index < 1 ? 'f50 cff3b5b' : 'f33 c323232' }}">{{ item.words }}</text>
       <text wx:if="{{ index < 1 }}" class="f28 c646464">{{ item.probability.average }}%</text>
@@ -34,10 +34,10 @@
     <text class="f33 c646464 p20">出处参考</text>
     <image style="transform: rotate(180deg);" src="https://c.jiangwenqiang.com/lqsy/literacy.png"></image>
   </view>
-  <view class="f33 c646464 bgfff p20 bd1" wx:for="{{outList}}" wx:key="*98">
+  <view class="f33 c646464 bgfff p20 bd1" wx:for="{{outList}}" wx:key="index">
     <view>{{item.path}}</view>
     <view class="iitemImg df f33 c323232">
-      <view wx:for="{{item.data}}" wx:for-item="iitem" wx:key="*99" class="df dfc">
+      <view wx:for="{{item.data}}" wx:for-item="iitem" wx:key="index" class="df dfc">
         <image src="{{iitem.img_name}}"></image>
         <text>{{iitem.word}}</text>
       </view>

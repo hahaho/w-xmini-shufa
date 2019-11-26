@@ -7,7 +7,7 @@
 
   <!--单张图片-->
   <view wx:for="{{ upImgArr }}"
-        wx:key="*111"
+        wx:key="index"
         catchtap="chooseImage"
         data-index="{{ index }}"
         class="backImage pa"
@@ -20,7 +20,7 @@
            src="{{ item.borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(45deg); top: {{ -item.borderImageInfo.width / 2 }}px; left: {{ (item.borderImageInfo.x - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
-           wx:key="*121"
+           wx:key="index"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--右边-->
@@ -29,7 +29,7 @@
            src="{{ item.borderImageInfo.path }}"
            class="pa"
            style="transform: rotateX(180deg) rotateZ(225deg); top: {{ (item.borderImageInfo.y - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; right: {{ -item.borderImageInfo.width / 2 }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
-           wx:key="*122"
+           wx:key="index"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--底边-->
@@ -38,7 +38,7 @@
            src="{{ item.borderImageInfo.path }}"
            class="pa"
            style="transform: rotate(225deg); bottom: {{ -item.borderImageInfo.width / 2 }}px; right: {{ (item.borderImageInfo.x - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
-           wx:key="*123"
+           wx:key="index"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--左边-->
@@ -47,7 +47,7 @@
            src="{{ item.borderImageInfo.path }}"
            class="pa"
            style="transform: rotateX(180deg) rotateZ(45deg); bottom: {{ (item.borderImageInfo.y - 1 - bIndex) * (item.borderImageInfo.width / 2) - (item.borderImageInfo.width / 2) }}px; left: {{ -item.borderImageInfo.width / 2 }}px; width: {{ item.borderImageInfo.width }}px; height: {{ item.borderImageInfo.width }}px;"
-           wx:key="*124"
+           wx:key="index"
            wx:for-item="bItem"
            wx:for-index="bIndex"></image>
     <!--卡纸-->
@@ -93,7 +93,7 @@
           data-type="type{{ operationArr.chooseIndex }}"
           data-index="{{ index }}"
           style="background: {{ operationArr.chooseIndex <= 0 ? '#ffffff' : item }};"
-          wx:key
+          wx:key="index"
           wx:for="{{ operationArr.chooseIndex <= 0 ? tabBorderArr.item : operationArr.chooseIndex <= 1 ? bgColorArr.item : borderColorArr.item }}">
         <image wx:if="{{ operationArr.chooseIndex <= 0 }}"
                class="borderImg"
@@ -104,7 +104,7 @@
   </scroll-view>
   <view wx:if="{{ single == 'single' }}" class="df tac p20 bgfff">
     <view wx:for="{{ operationArr.tab }}"
-          wx:key="*78"
+          wx:key="index"
           data-type="type"
           catchtap="chooseIndex"
           data-index="{{ index }}"
@@ -128,7 +128,7 @@
       </view>
     </view>
     <view style="padding: 50rpx;">
-      <view class="shareChoose df dfc dfac" wx:for="{{ shareArr }}" wx:key="*678">
+      <view class="shareChoose df dfc dfac" wx:for="{{ shareArr }}" wx:key="index">
         <image src="https://c.jiangwenqiang.com/lqsy/canvas_share_{{ index }}.png"></image>
         <view class="mt20 tac f28 c646464">{{ item }}</view>
       </view>

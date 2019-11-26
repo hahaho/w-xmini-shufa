@@ -22,10 +22,18 @@ Page({
       showColumn: !this.data.showColumn
     });
   },
-  getList: function getList() {
+  getList: function getList(e) {
+    var url = app.getUrl().dayList;
+    if (e && !e.detail.value.trim().length) {
+      return app.toast({ content: '请输入搜索内容' });
+    } else if (e && e.detail.value.trim().length) {
+      this.data.page = 0;
+      this.data.list = [];
+      url = app.getUrl().stackingSearch;
+    }
     var that = this;
     app.wxrequest({
-      url: app.getUrl().dayList,
+      url: url,
       data: {
         page: ++this.data.page
       }
@@ -87,27 +95,6 @@ Page({
   onLoad: function onLoad(options) {
     this.getList();
     this.getDesc();
-    // let that = this
-    // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
-    // this.getUser()
-    // app.getNavTab({
-    //   style: 3,
-    //   cb (res) {
-    //     that.setData({
-    //       swiperArr: res.data.data
-    //     })
-    //     app.getNavTab({
-    //       style: 2,
-    //       cb (res) {
-    //         that.setData({
-    //           tabNav: res.data.data
-    //         })
-    //         that.getCourse()
-    //       }
-    //     })
-    //   }
-    // })
-    // this.Bmap(this)
   },
 
   /**
@@ -121,6 +108,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
+    app.checkUser({ login: false });
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },
@@ -152,6 +140,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function onPullDownRefresh() {
+    this.data.page = 0;
+    this.data.list = 0;
+    this.getList();
     // this.getCourse()
   }
 });

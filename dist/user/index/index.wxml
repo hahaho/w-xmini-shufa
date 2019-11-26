@@ -13,7 +13,7 @@
   <view catchtap="_toggleSign" class="f21 cfff jwqfont jwqic_pen flex1 tar">个性签名</view>
 </view>
 <view class='uiOperation cfff tac'>
-  <navigator url="{{ item.url }}" wx:for="{{ uiOp }}" wx:key="*18">
+  <navigator url="{{ item.url }}" wx:for="{{ uiOp }}" wx:key="index">
     <view class="f28">{{ item.n }}</view>
     <view class="f22 mt10">{{ item.t }}</view>
   </navigator>
@@ -23,15 +23,15 @@
 <!--导航 -s-->
 <view class="pr" style="height: 190rpx">
   <view class="pa userTab tac f23 cfff br10">
-    <navigator url="{{ item.url }}" wx:for="{{ tabArr }}" wx:key="*19">
+    <navigator class="utitem" url="{{ item.url }}" wx:for="{{ tabArr }}" wx:key="index">
       <image mode="widthFix" src="{{ item.i || 'https://c.jiangwenqiang.com/api/logo.jpg' }}"></image>
-      <view>{{ item.t }}</view>
+      <view class="mt10">{{ item.t }}</view>
     </navigator>
   </view>
 </view>
 <!--导航 -e-->
 <!--操作 -s-->
-<navigator url="{{ item.url }}" wx:for="{{ op }}" wx:key="*21" class="arrow p2030 f25 bgfff df bd1 jwqfont {{ item.i }}" style="color: {{ item.c }};">　<text class="c323232　ml10">{{ item.t }}</text></navigator>
+<navigator url="{{ item.url }}" wx:for="{{ op }}" wx:key="index" class="arrow p2030 f25 bgfff df bd1 jwqfont {{ item.i }}" style="color: {{ item.c }};">　<text class="c323232　ml10">{{ item.t }}</text></navigator>
 <button open-type="contact">
   <view class="arrow p2030 f25 bgfff jwqfont df jwqqunfengkefujingli" style="color: #31cf2d;"><text class="c323232 ml10">　联系客服</text></view>
 </button>

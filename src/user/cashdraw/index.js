@@ -44,10 +44,30 @@ Page({
       !timer && this._getCode()
     })
   },
+  shopUser () {
+    app.wxrequest({
+      url: app.getUrl().shopUser,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        info: res
+      })
+    }, () => {
+      app.toast({content: '您尚未登陆，请先登陆系统', mask: true})
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/user/login/index'
+        })
+      }, 1000)
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.shopUser()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

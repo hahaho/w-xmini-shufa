@@ -53,22 +53,22 @@ Page({
     tabArr: [
       {
         t: '我的师友',
-        i: '',
+        i: 'https://c.jiangwenqiang.com/lqsy/user1.png',
         url: '/user/team/index'
       },
       {
         t: '邀约好友',
-        i: '',
+        i: 'https://c.jiangwenqiang.com/lqsy/user2.png',
         url: '/share/carShare/carShare?type=user'
       },
       {
         t: '关于刘谦',
-        i: '',
+        i: 'https://c.jiangwenqiang.com/lqsy/user3.png',
         url: ''
       },
       {
         t: '我的消息',
-        i: '',
+        i: 'https://c.jiangwenqiang.com/lqsy/user4.png',
         url: '/user/message/index?type=user'
       }
     ]

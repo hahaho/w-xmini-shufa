@@ -210,7 +210,7 @@ Page({
       url,
       data
     }).then(() => {
-      app.toast({content: '评论成功'})
+      app.toast({content: '评论成功', image: ''})
       that.setData({
         commentValue: ''
       })

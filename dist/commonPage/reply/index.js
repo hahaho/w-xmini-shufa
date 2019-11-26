@@ -236,7 +236,7 @@ Page({
       url: url,
       data: data
     }).then(function () {
-      app.toast({ content: '评论成功' });
+      app.toast({ content: '评论成功', image: '' });
       that.setData({
         commentValue: ''
       });

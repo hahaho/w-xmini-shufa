@@ -102,6 +102,13 @@
       ]
     },
     {
+      "root": "openShare", // 分享进入
+      "name": "openShare",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
       "root": "sell", // 个人售卖
       "name": "sell",
       "pages": [

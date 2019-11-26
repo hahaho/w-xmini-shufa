@@ -66,6 +66,50 @@ Page({
     }
     this.shopProducts();
   },
+  search: function search(e) {
+    var _this = this;
+
+    if (e.detail.value.trim().length < 1) return app.toast({ content: '请输入搜索内容' });
+    this.data.page = 0;
+    this.data.list = [];
+    app.wxrequest({
+      url: app.getUrl().shopSearch,
+      data: {
+        title: e.detail.value.trim(),
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = res.lists[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var v = _step2.value;
+
+          v.new_price = v.new_price.split('.');
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      _this.setData({
+        list: _this.data.list.concat(res.lists)
+      });
+      _this.data.more = res.lists.length >= res.pre_page;
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
