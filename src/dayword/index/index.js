@@ -23,7 +23,7 @@ Page({
   getList (e) {
     let url = app.getUrl().dayList
     if (e && !e.detail.value.trim().length) {
-       return app.toast({content: '请输入搜索内容'})
+      return app.toast({content: '请输入搜索内容'})
     } else if (e && e.detail.value.trim().length) {
       this.data.page = 0
       this.data.list = []
@@ -32,7 +32,10 @@ Page({
     let that = this
     app.wxrequest({
       url,
-      data: {
+      data: e ? {
+        word: e.detail.value.trim(),
+        page: ++this.data.page
+      } : {
         page: ++this.data.page
       }
     }).then(res => {
@@ -112,7 +115,7 @@ Page({
    */
   onPullDownRefresh () {
     this.data.page = 0
-    this.data.list = 0
+    this.data.list = []
     this.getList()
     // this.getCourse()
   }

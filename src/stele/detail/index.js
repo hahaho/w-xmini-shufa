@@ -33,8 +33,9 @@ Page({
   },
   _goPicShare () {
     this._shareType()
+    app.su('shareCardInfo', this.data.info)
     wx.navigateTo({
-      url: '/share/carShare/carShare?type=3'
+      url: '/share/carShare/carShare?type=stele'
     })
   },
   _collection () {

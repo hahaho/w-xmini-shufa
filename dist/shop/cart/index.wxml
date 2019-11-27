@@ -95,7 +95,7 @@
         catchtouchmove="touchMove"
         data-index="{{index}}"
   wx:for="{{list}}"
-  wx:key="*07">
+  wx:key="index">
     <view catchtap="choose"
     data-index="{{ index }}"
     class="jwqfont {{ item.choose ? 'jwqgouxuan' : 'jwqwxz' }}"></view>
@@ -127,7 +127,7 @@
   catchtap="delOne"
   data-index="{{ index }}"
   wx:for="{{ noMean }}"
-  wx:key="*07">
+  wx:key="index">
     <view class="jwqfont jwqcuowu"></view>
     <image src="{{ item.img }}"
      class="br8 mr20"

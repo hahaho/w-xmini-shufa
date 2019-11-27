@@ -36,7 +36,7 @@ Page({
       }
     })
   },
-  eventDraw (e) {
+  eventDraw () {
     wx.showLoading({
       title: '定制专属海报中',
       mask: true
@@ -45,30 +45,42 @@ Page({
     let views = [
       {
         type: 'image',
-        url: app.gs('userInfoAll').avatar_url,
-        top: 94,
-        left: 154,
-        width: 70,
-        height: 70
-      },
-      {
-        type: 'image',
-        url: `${that.data.qrCode}`,
-        top: 358,
-        left: 198,
-        width: 130,
-        height: 130
-      },
-      {
-        type: 'image',
-        url: that.data.options.style > 1 ? 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/mask/share_4.png' : that.data.options.type * 1 === 3 ? 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/mask/share_3.png' : that.data.options.type * 1 === 2 ? 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/mask/share_2.png' : 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/mask/share_1.png',
+        url: 'https://c.jiangwenqiang.com/lqsy/share/stele_share.png',
         top: 0,
         left: 0,
         width: 375,
         height: 603
-      }
+      },
+      {
+        type: 'image',
+        url: 'https://c.jiangwenqiang.com/lqsy/list1.png',
+        top: 150,
+        left: 375 / 2 - 110,
+        width: 220,
+        height: 220
+      },
+      {
+        type: 'image',
+        url: `${that.data.qrCode}`,
+        top: 385,
+        left: 250,
+        width: 80,
+        height: 80
+      },
+      {
+        type: 'text',
+        content: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦',
+        breakWord: true,
+        MaxLineNumber: 2,
+        fontSize: 20,
+        lineHeight: 20,
+        color: 'black',
+        textAlign: 'center',
+        top: 400,
+        left: 134,
+        width: 160
+      },
     ]
-
     this.setData({
       painting: {
         width: 375,
@@ -211,37 +223,47 @@ Page({
   },
   getQrCode () {
     let that = this
-    // that.eventDraw()
-    app.wxrequest({
-      url: app.getUrl().getCode,
+    wx.request({
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      url: 'https://teach.idwenshi.com/teach/teach/web/index.php/product/qrcode',
       data: {
-        id: app.gs('userInfoAll').id,
-        shop_id: that.data.options.type
+        uid: 10000,
+        pid: 472,
+        mid: 10000
       },
       success (res) {
-        wx.hideLoading()
-        if (res.data.status) {
-          that.setData({
-            qrCode: `https://mask.idwenshi.com/mask/public/qrcode/share/${res.data.data}`
-          }, that.data.options.style > 1 ? that.eventDraw2 : that.eventDraw)
-        } else {
-          app.setToast(that, {content: res.data.desc})
-        }
+        that.setData({
+          qrCode: res.data.data
+        }, that.eventDraw)
       }
     })
+    // app.wxrequest({
+    //   url: 'https://teach.idwenshi.com/teach/teach/web/index.php/product/qrcode',
+    //   data: {
+    //     uid: 10000,
+    //     pid: 1,
+    //     mid: 10000
+    //   }
+    // }).then(res => {
+    //   that.setData({
+    //     qrCode: res
+    //   }, that.eventDraw)
+    // })
   },
   savePhoto () {
     let that = this
     wx.saveImageToPhotosAlbum({
       filePath: this.data.shareImage,
       success () {
-        console.log(1)
         wx.showToast({
           title: '保存成功'
         })
       },
       fail () {
-        app.setToast(that, {content: '请授权相册保存'})
+        app.toast({content: '请授权相册保存'})
         that.setData({
           buttonShow: true
         })
@@ -272,14 +294,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
-    // this.setData({
-    //   shareImage: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom.jpg'
-    // })
-    // this.setData({
-    //   options,
-    //   color: options.type >= 3 ? '#7D5334' : options.type >= 2 ? '#34477D' : '#7E3535',
-    //   info: app.gs('userInfoAll')
-    // }, this.getBottomList)
+    this.data.options = options
+    this.data.info = app.gs('shareCardInfo')
+    this.getQrCode()
     // TODO: onLoad
   },
 

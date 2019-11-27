@@ -123,12 +123,12 @@
     <view class="">
       <view class="df dfac">
         <image style="transform: rotateZ(180deg) rotateX(180deg);" class="flex1" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/canvas_share_line.png"></image>
-        <view class="c646464 f38">分享作品到</view>
+        <view class="c646464 f38"> 分享作品到 </view>
         <image class="flex1" mode="widthFix" src="https://c.jiangwenqiang.com/lqsy/canvas_share_line.png"></image>
       </view>
     </view>
     <view style="padding: 50rpx;">
-      <view class="shareChoose df dfc dfac" wx:for="{{ shareArr }}" wx:key="index">
+      <view catchtap="shareType" data-index="{{index}}" class="shareChoose df dfc dfac" wx:for="{{ shareArr }}" wx:key="index">
         <image src="https://c.jiangwenqiang.com/lqsy/canvas_share_{{ index }}.png"></image>
         <view class="mt20 tac f28 c646464">{{ item }}</view>
       </view>

@@ -14,6 +14,9 @@ Page({
     page: 0,
     capsules: app.data.capsule
   },
+  preview (e) {
+    app.showImg(this.data.info.imgs_url.imgs[e.currentTarget.dataset.index], this.data.info.imgs_url.imgs)
+  },
   _follow () {
     let that = this
     app.wxrequest({
@@ -127,7 +130,7 @@ Page({
         state: 1
       }
     }).then(() => {
-      app.toast({content: '评论成功'})
+      app.toast({content: '评论成功', image: ''})
       that.setData({
         commentValue: ''
       })

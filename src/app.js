@@ -39,6 +39,7 @@ App({
     height: capsule.bottom + (capsule.top / 4),
     capsuleHeight: capsule.height,
     capsuleTop: capsule.top,
+    moveHeight: capsule.bottom - capsule.top / 2,
     capsuleCenter: system.windowWidth - (capsule.width + system.windowWidth - capsule.right) * 2 - 5,
     // ------------------------
     systemVersion: wx.getSystemInfoSync().system.split('.')[0].indexOf('9') >= 0 && wx.getSystemInfoSync().model.indexOf('iPhone') >= 0,
@@ -292,6 +293,19 @@ App({
       success () {
         wx.hideLoading()
       }
+    })
+  },
+  checkShare () {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: 'https://c.jiangwenqiang.com/lqsy/shareText.json',
+        success (res) {
+          resolve(res)
+        },
+        fail (err) {
+          reject(err)
+        }
+      })
     })
   },
   // 用户登陆
@@ -663,7 +677,9 @@ App({
           getCurrentPages()[getCurrentPages().length - 1].setData({
             userInfo: res
           })
-        } catch (e) {}
+        } catch (e) {
+          console.log(e)
+        }
       }
       if (res.rank < 0 && rank) {
         this.toast({content: '您还未成为会员,无法继续享受服务哦~~', mask: true})
@@ -698,11 +714,7 @@ App({
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
     this.mapInfo()
-    // this.getNavTab({})
-    // this.getEnum()
-    // setTimeout(() => {
-    //   this.getShareText()
-    // }, 500)
+    this.checkShare().then(res => this.su('ruler', res.data.data.ruler))
   },
   onShow () {},
   onPageNotFound () {

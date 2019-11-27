@@ -72,7 +72,7 @@ Page({
   _goPicShare: function _goPicShare() {
     this._shareType();
     wx.navigateTo({
-      url: '/share/carShare/carShare?type=2'
+      url: '/share/carShare/carShare?type=stele'
     });
   },
   setMainSection: function setMainSection(id) {
@@ -201,7 +201,7 @@ Page({
         state: 1
       }
     }).then(function () {
-      app.toast({ content: '评论成功' });
+      app.toast({ content: '评论成功', image: '' });
       that.setData({
         commentValue: ''
       }, function () {

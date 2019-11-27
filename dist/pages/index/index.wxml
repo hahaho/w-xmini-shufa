@@ -2,7 +2,10 @@
   <text class="cfff fw7">流谦书苑</text>
 </jwqcapsule>
 <!--搜索 s-->
-<navigator hover-class="none" url="/search/index/index?type=shop" class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
+<navigator hover-class="none"
+           url="/search/index/index?type=shop"
+           class="search"
+           style="background:url(https://c.jiangwenqiang.com/lqsy/3.png);transform: translateY({{ moveY || 0 }}px); {{ moveY > 0 ? 'position: relative; z-index: 800' : '' }}">
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
   <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>

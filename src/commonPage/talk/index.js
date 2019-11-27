@@ -70,7 +70,7 @@ Page({
             imgs_url: JSON.stringify({'imgs': that.getRealUrl()})
           }
         }).then(res => {
-          app.toast({content: '发布成功', mask: true})
+          app.toast({content: '发布成功', image: '', mask: true})
           setTimeout(() => {
             wx.navigateBack()
           }, 1000)
@@ -90,7 +90,7 @@ Page({
             imgs_url: JSON.stringify({'imgs': that.getRealUrl()})
           }
         }).then(res => {
-          app.toast({content: '发布成功', mask: true})
+          app.toast({content: '发布成功', image: '', mask: true})
           setTimeout(() => {
             wx.navigateBack()
           }, 1000)

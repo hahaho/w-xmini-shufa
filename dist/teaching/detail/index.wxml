@@ -31,7 +31,7 @@
             id="tab{{ index }}"
             catchtap="chooseIndex"
             data-index="{{ index }}"
-            wx:key
+            wx:key="index"
             wx:for="{{sectionList}}">
       <view>第{{ index + 1 }}集</view>
       <view>{{item.title}}</view>

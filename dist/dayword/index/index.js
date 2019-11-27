@@ -34,7 +34,10 @@ Page({
     var that = this;
     app.wxrequest({
       url: url,
-      data: {
+      data: e ? {
+        word: e.detail.value.trim(),
+        page: ++this.data.page
+      } : {
         page: ++this.data.page
       }
     }).then(function (res) {
@@ -141,7 +144,7 @@ Page({
    */
   onPullDownRefresh: function onPullDownRefresh() {
     this.data.page = 0;
-    this.data.list = 0;
+    this.data.list = [];
     this.getList();
     // this.getCourse()
   }

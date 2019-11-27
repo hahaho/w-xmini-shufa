@@ -18,6 +18,9 @@ Page({
     page: 0,
     capsules: app.data.capsule
   },
+  preview: function preview(e) {
+    app.showImg(this.data.info.imgs_url.imgs[e.currentTarget.dataset.index], this.data.info.imgs_url.imgs);
+  },
   _follow: function _follow() {
     var _this = this;
 
@@ -155,7 +158,7 @@ Page({
         state: 1
       }
     }).then(function () {
-      app.toast({ content: '评论成功' });
+      app.toast({ content: '评论成功', image: '' });
       that.setData({
         commentValue: ''
       });

@@ -4,10 +4,10 @@
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
-  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
-    <view class="jwqfont jwqsousuo1 f40"></view>
-    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入搜索视频名称" />
-  </view>
+<!--  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">-->
+<!--    <view class="jwqfont jwqsousuo1 f40"></view>-->
+<!--    <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入搜索视频名称" />-->
+<!--  </view>-->
 </view>
 <!--搜索 e-->
 <!--屋檐 s-->

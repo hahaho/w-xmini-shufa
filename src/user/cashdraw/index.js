@@ -18,24 +18,34 @@ Page({
   _getCode () {
     if (timer) { return app.toast({ content: `${second}秒后可再次获取验证码` }) }
     let that = this
-    that.setData({
-      codeText: `${second}秒`
-    })
-    timer = setInterval(() => {
-      second--
-      if (second <= 0) {
-        that.setData({
-          codeText: '获取验证码'
-        })
-        clearInterval(timer)
-        timer = null
-        second = 60
-      } else {
-        that.setData({
-          codeText: `${second}秒`
-        })
+    app.wxrequest({
+      url: app.getUrl().shopCode,
+      data: {
+        uid: app.gs('userInfoAll').uid
       }
-    }, 1000)
+    }).then(res => {
+      that.setData({
+        codeText: `${second}秒`
+      })
+      timer = setInterval(() => {
+        second--
+        if (second <= 0) {
+          that.setData({
+            codeText: '获取验证码'
+          })
+          clearInterval(timer)
+          timer = null
+          second = 60
+        } else {
+          that.setData({
+            codeText: `${second}秒`
+          })
+        }
+      }, 1000)
+    })
+  },
+  inputvlaue (e) {
+    this.data.money = e.detail.value
   },
   _phoneLogin () {
     this.setData({
@@ -44,6 +54,12 @@ Page({
       !timer && this._getCode()
     })
   },
+  close () {
+    this.setData({
+      phoneLogin: !this.data.phoneLogin
+    })
+    timer && clearInterval(timer)
+  },
   shopUser () {
     app.wxrequest({
       url: app.getUrl().shopUser,
@@ -51,6 +67,7 @@ Page({
         uid: app.gs('userInfoAll').uid
       }
     }).then(res => {
+      res.phones = res.phone.slice(0, 3) + '***' + res.phone.slice(7)
       this.setData({
         info: res
       })
@@ -63,11 +80,33 @@ Page({
       }, 1000)
     })
   },
+  getAll () {
+    this.setData({
+      money: this.data.info.appear_money
+    })
+  },
+  cash (e) {
+    if (!e.detail.value.code) return app.toast({content: '请输入验证码'})
+    else if (this.data.money < 10) return app.toast({content: '最小提现金额为10元'})
+    else if (this.data.money > this.data.info.appear_money) return app.toast({content: `您的余额不足, 请重新输入提现金额`})
+    app.wxrequest({
+      url: app.getUrl().shopAppear,
+      data: {
+        openid: app.gs('userInfoAll').openid,
+        uid: app.gs('userInfoAll').uid,
+        amount: this.data.money,
+        code: e.detail.value.code
+      }
+    }).then(res => {
+      app.toast({content: '提现成功', image: ''})
+      this.shopUser()
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-    this.shopUser()
+    // this.shopUser()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -79,7 +118,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    // this.setKill()
+    this.shopUser()
     // console.log(' ---------- onShow ----------')
   },
   /**

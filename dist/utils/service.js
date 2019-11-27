@@ -181,6 +181,8 @@ var serviceUrl = {
   shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车
   shopCartAdd: lqsyBaseDomain + '/shop/cart-add', // 产品添加到购物车
   shopDiscuss: lqsyBaseDomain + '/shop/discuss', // 分页获取评论
+  shopCode: lqsyBaseDomain + '/shop/code', // 用户申请提现获取验证码
+  shopAppear: lqsyBaseDomain + '/shop/appear', // 用户提现申请提交
   shopProductDetail: lqsyBaseDomain + '/shop/product-detail', // 产品详情
   shopSearch: lqsyBaseDomain + '/shop/search', // 搜索商品
   shopProducts: lqsyBaseDomain + '/shop/products', // 分页获取产品

@@ -17,7 +17,7 @@
   <view catchtap="chooseType"
         data-index="{{ index }}"
         wx:for="{{ bottomImg }}"
-        wx:key
+        wx:key="index"
         class="df dfc dfac p20 {{ index == bottomIndex ? 'active' : '' }} tr5">
     <text wx:if="{{ !item.i }}" class="jwqfont jwqwu tac"></text>
     <image wx:else src="{{ item.i }}"></image>
@@ -40,7 +40,7 @@
   <view class="commentTop left-pillar f24 c646464 p20">
     <text>评论 {{info.discuss}}　　　赞 {{info.star}}</text>
   </view>
-  <view wx:for="{{comment}}" wx:key="*7" class="commentItem bd1">
+  <view wx:for="{{comment}}" wx:key="index" class="commentItem bd1">
     <image class="br ciImg" mode="aspectFill" lazy-load="1" src="{{ item.uid_avatar_url }}"></image>
     <view class="ciRight flex1">
       <text class="f22 c787878">{{item.uid_username}}</text>
@@ -93,7 +93,7 @@
 <view class="mask cameraMask o0 {{ cameraMaskAnimate ? 'o1' : '' }} tr5">
   <view class="bgfff br10 mask-in ">
     <view class="df dfac dfb p30">
-      <navigator url="/commonPage/camera/index?type={{ index + 1 }}" class="df dfc dfac f25 c323232" wx:for="{{ cameraType }}" wx:key>
+      <navigator url="/commonPage/camera/index?type={{ index + 1 }}" class="df dfc dfac f25 c323232" wx:for="{{ cameraType }}" wx:key="index">
         <text style="background: {{ index <= 0 ? '#009944' : index == 1 ? '#ec6941' : '#00a0e9' }};" class="jwqfont {{ item.i }} cfff"></text>
         <text class="mt10">{{ item.t }}</text>
       </navigator>

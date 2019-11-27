@@ -385,6 +385,27 @@
 					"pathName": "commonPage/talk/index",
 					"query": "type=comment",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "share/carShare/carShare",
+					"pathName": "share/carShare/carShare",
+					"query": "type=stele",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "openShare/index/index",
+					"pathName": "openShare/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "user/cashdraw/index",
+					"pathName": "user/cashdraw/index",
+					"query": "type=shop",
+					"scene": null
 				}
 			]
 		}

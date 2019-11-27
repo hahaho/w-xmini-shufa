@@ -13,7 +13,7 @@ Component({
     // bgc: '#f00'
   },
   ready: function ready() {
-    if (new Date().getTime() - (app.gs('openTime') || 0) >= 86400000) {
+    if (new Date().getTime() - (app.gs('openTime') || 0) >= 300000) {
       this.getNav();
     } else {
       this.setFootArr();

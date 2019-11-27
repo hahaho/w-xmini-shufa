@@ -17,7 +17,7 @@ Page({
   data: {
     backImageInfo: {
       src: 'https://c.jiangwenqiang.com/lqsy/canvas_bottom_0.jpg',
-      zIndex: 10,
+      zIndex: 1,
       positionItem: [// 展示点位置坐标
       {
         x: 375, // 中心点x
@@ -69,6 +69,7 @@ Page({
       }]
     }
   },
+  shareType: function shareType() {},
   _toggleSpec: function _toggleSpec() {
     if (this.data.sell_release) {
       this.canvasDraw();

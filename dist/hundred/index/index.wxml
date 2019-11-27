@@ -23,20 +23,20 @@
           id="tab{{ index }}"
           catchtap="chooseIndex"
           data-index="{{ index }}"
-          wx:key
+          wx:key="index"
           wx:for="{{ tabArr }}">{{ item }}</button>
 </view>
 </scroll-view>
 <!--分类 -e-->
 <!--轮播图 -s-->
 <swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="*3">
+  <swiper-item wx:for="1234" wx:key="index">
     <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
   </swiper-item>
 </swiper>
 <!--轮播图 -e-->
 <!--列表 -s-->
-<view class="hundredListItem" wx:for="{{list}}" wx:key="*5">
+<view class="hundredListItem" wx:for="{{list}}" wx:key="index">
   <view class="df dfb">
     <jwqnav url="../userHomePage/index?id={{ item.uid }}{{ options.from === 'main' ? '&from=main' : '' }}">
       <view class="hliTop">
@@ -59,7 +59,7 @@
         {{item.comment}}
       </view>
       <view class="hliImg">
-        <image class="hliiItem mt10" wx:for="{{item.imgs_url.imgs}}" wx:for-item="iitem" wx:key="*4" src="{{iitem}}" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
+        <image class="hliiItem mt10" wx:for="{{item.imgs_url.imgs}}" wx:for-item="iitem" wx:key="index" src="{{iitem}}" mode="aspectFill" lazy-load="1"  show-menu-by-longpress="1"></image>
       </view>
     </view>
     <view class="mt20 pr" wx:else>
