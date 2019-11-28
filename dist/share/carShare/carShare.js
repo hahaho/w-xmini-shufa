@@ -78,6 +78,45 @@ Page({
       left: 134,
       width: 160
     }];
+    switch (this.data.options.type) {
+      case 'inviteFriend':
+        views = [{
+          type: 'image',
+          url: 'https://c.jiangwenqiang.com/lqsy/share/shopUserShare.png',
+          top: 0,
+          left: 0,
+          width: 375,
+          height: 603
+        }, {
+          type: 'image',
+          url: '' + that.data.qrCode,
+          top: 230,
+          left: 145,
+          width: 80,
+          height: 80
+        }];
+        break;
+      case 'user':
+        views = [{
+          type: 'image',
+          url: 'https://c.jiangwenqiang.com/lqsy/share/shopUserShare.png',
+          top: 0,
+          left: 0,
+          width: 375,
+          height: 603
+        }, {
+          type: 'image',
+          url: '' + that.data.qrCode,
+          top: 230,
+          left: 145,
+          width: 80,
+          height: 80
+        }];
+        break;
+      case 'stele':
+        break;
+    }
+
     this.setData({
       painting: {
         width: 375,

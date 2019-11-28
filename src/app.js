@@ -203,6 +203,7 @@ App({
   },
   // 请求数据
   wxrequest (obj) {
+    console.log('request', obj)
     let that = this
     // if (that.data.requireDisable < 10) {
     //   that.toast({
@@ -664,6 +665,13 @@ App({
         that.su('shareText', res.result)
       })
   },
+  // 获取分享路径判断
+  getShareUrl (cb) {
+    new bmap.BMapWX({ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'}).getUrlJson().then(res => {
+      this.su('shareUrl', res)
+      cb && cb()
+    })
+  },
   // 检查用户信息
   checkUser ({login = true, rank = true, user = true}) {
     this.wxrequest({
@@ -710,10 +718,16 @@ App({
   mapInfo () {
     new bmap.BMapWX({ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'}).getWXJson().then(res => !res && this.mapInfoCheck())
   },
+  currentUrl () {
+     return new Promise((resolve, reject) => {
+      this.toast({content: '当前页面不在分享规则内'})
+    })
+  },
   onLaunch () {
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
     this.mapInfo()
+    this.getShareUrl()
     this.checkShare().then(res => this.su('ruler', res.data.data.ruler))
   },
   onShow () {},

@@ -297,11 +297,17 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage: function onShareAppMessage() {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    var temps = app.gs('shareUrl');
+    var url = getCurrentPages()[getCurrentPages().length - 1].route;
+    for (var i in temps) {
+      if (temps[i].indexOf(url) >= 0) {
+        return {
+          title: '' + this.data.info.title,
+          path: '/openShare/index/index?url=' + i + '&q=' + this.data.info.id + ',' + this.data.options.from,
+          imageUrl: '' + this.data.info.cover_url
+        };
+      }
+    }
   },
 
   /**

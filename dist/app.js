@@ -260,6 +260,7 @@ App({
 
   // 请求数据
   wxrequest: function wxrequest(obj) {
+    console.log('request', obj);
     var that = this;
     // if (that.data.requireDisable < 10) {
     //   that.toast({
@@ -742,9 +743,19 @@ App({
     });
   },
 
+  // 获取分享路径判断
+  getShareUrl: function getShareUrl(cb) {
+    var _this = this;
+
+    new bmap.BMapWX({ ak: 'BMapskKIQPkniv93KKGI-238-93NCJB' }).getUrlJson().then(function (res) {
+      _this.su('shareUrl', res);
+      cb && cb();
+    });
+  },
+
   // 检查用户信息
   checkUser: function checkUser(_ref2) {
-    var _this = this;
+    var _this2 = this;
 
     var _ref2$login = _ref2.login,
         login = _ref2$login === undefined ? true : _ref2$login,
@@ -769,7 +780,7 @@ App({
         }
       }
       if (res.rank < 0 && rank) {
-        _this.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        _this2.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
         setTimeout(function () {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -778,14 +789,14 @@ App({
       }
     }, function () {
       if (login) {
-        _this.toast({ content: '您尚未登陆，请先登陆系统', mask: true });
+        _this2.toast({ content: '您尚未登陆，请先登陆系统', mask: true });
         setTimeout(function () {
           wx.navigateTo({
             url: '/user/login/index'
           });
         }, 2000);
       } else {
-        _this.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        _this2.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
         setTimeout(function () {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -795,20 +806,28 @@ App({
     });
   },
   mapInfo: function mapInfo() {
-    var _this2 = this;
+    var _this3 = this;
 
     new bmap.BMapWX({ ak: 'BMapskKIQPkniv93KKGI-238-93NCJB' }).getWXJson().then(function (res) {
-      return !res && _this2.mapInfoCheck();
+      return !res && _this3.mapInfoCheck();
+    });
+  },
+  currentUrl: function currentUrl() {
+    var _this4 = this;
+
+    return new Promise(function (resolve, reject) {
+      _this4.toast({ content: '当前页面不在分享规则内' });
     });
   },
   onLaunch: function onLaunch() {
-    var _this3 = this;
+    var _this5 = this;
 
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr');
     this.mapInfo();
+    this.getShareUrl();
     this.checkShare().then(function (res) {
-      return _this3.su('ruler', res.data.data.ruler);
+      return _this5.su('ruler', res.data.data.ruler);
     });
   },
   onShow: function onShow() {},

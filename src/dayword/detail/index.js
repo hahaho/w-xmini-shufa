@@ -104,6 +104,20 @@ Page({
       that.getHundredDiscuss()
     })
   },
+  getInfo () {
+    app.wxrequest({
+      url: app.getUrl().dayDetail,
+      data: {
+        wid: this.data.options.id,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm')
+      this.setData({
+        info: res
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -111,6 +125,7 @@ Page({
     this.setData({
       options
     }, () => {
+      this.getInfo()
       this.getHundredDiscuss()
     })
     // let that = this
@@ -163,11 +178,17 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    let temps = app.gs('shareUrl')
+    let url = getCurrentPages()[getCurrentPages().length - 1].route
+    for (let i in temps) {
+      if (temps[i].indexOf(url) >= 0) {
+        return {
+          title: `${this.data.info.title}`,
+          path: `/openShare/index/index?url=${i}&q=${this.data.options.id}`,
+          imageUrl: `${this.data.info.img_url}`
+        }
+      }
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

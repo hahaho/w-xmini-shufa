@@ -50,6 +50,16 @@ class BMapWX {
             })
         })
     }
+    getUrlJson () {
+        return new Promise((resolve, reject) =>{
+            wx.request({
+                url: serviceUrl.shareUrl,
+                success (res) {
+                    resolve(res.data.data.url)
+                }
+            })
+        })
+    }
     /**
      * POI周边检索
      *

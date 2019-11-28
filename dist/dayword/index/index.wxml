@@ -36,6 +36,7 @@
     <view class="tal w100">{{item.create_at}} {{item.hits}}次阅读</view>
   </navigator>
 </view>
+<view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--名师列表 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

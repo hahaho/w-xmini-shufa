@@ -39,6 +39,15 @@ Page({
         page: ++this.data.page
       }
     }).then(res => {
+      if (e && e.detail.value) {
+        let newArr = []
+        for (let v of res.lists) {
+          for (let s of v.data) {
+            newArr.push(s)
+          }
+        }
+        res.lists = newArr
+      }
       for (let v of res.lists) {
         v.hits = v.hits > 10000 ? Math.floor(v.hits / 10000) + '万' : v.hits
         v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD') : '时间不详'
@@ -104,11 +113,9 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    return {
+      path: `/dayword/index/index`
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

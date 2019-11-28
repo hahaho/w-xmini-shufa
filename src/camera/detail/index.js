@@ -260,11 +260,16 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    let temps = app.gs('shareUrl')
+    let url = getCurrentPages()[getCurrentPages().length - 1].route
+    for (let i in temps) {
+      if (temps[i].indexOf(url) >= 0) {
+        return {
+          title: `${this.data.info.word}`,
+          path: `/openShare/index/index?url=${i}&q=${this.data.options.wid},${this.data.options.oid}`
+        }
+      }
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

@@ -11,21 +11,21 @@
           id="tab{{ index }}"
           catchtap="chooseIndex"
           data-index="{{ index }}"
-          wx:key
+          wx:key="{{index}}"
           wx:for="{{ tabArr }}">{{ item.t }}</button>
 </view>
 </scroll-view>
 <!--分类 -e-->
 
 <!--订单 -s-->
-<block wx:for="{{list}}" wx:key="*61">
+<block wx:for="{{list}}" wx:key="{{index}}">
   <view class="tac lh60 f23 c787878">{{item.create_at}}</view>
   <view class="bgfff">
     <view class="f25 df dfb c787878 p020 lh60">
       <text>订单编号： {{item.out_trade_no}}</text>
       <text class="cff362c">{{item.status}}</text>
     </view>
-    <navigator url="/shop/detail/index?id={{iitem.id}}" wx:for-item="iitem" wx:for-index="iindex" wx:for="{{item.list}}" wx:key="*62" class="goodsItem df">
+    <navigator url="/shop/detail/index?id={{iitem.id}}" wx:for-item="iitem" wx:for-index="iindex" wx:for="{{item.list}}" wx:key="{{index}}" class="goodsItem df">
       <image mode="aspectFill" lazy-load="1" src='{{iitem.img_url}}'></image>
       <view class="ml20 flex1">
         <view class="ell2 f25 c323232">{{iitem.title}}</view>
@@ -58,7 +58,7 @@
     <view class="f40 c323232 tac fw7 mt20">请选择原因</view>
     <view class="f30 c323232 tac mt10">订单一旦取消。无法恢复，优惠券将原路返回</view>
     <view class="f30 c323232 tac mt10">收货地址填错了</view>
-    <view class="p2030 df dfb bt1 {{ index < 1 ? 'mt10' : '' }}" catchtap="_cancelChoose" data-index="{{ index }}" wx:for="{{ cancelArr }}" wx:key ><text>{{ item }}</text><text class="jwqfont cff362c {{ cancelIndex == index ? 'jwqgouxuan' : 'jwqwxz' }}"></text></view>
+    <view class="p2030 df dfb bt1 {{ index < 1 ? 'mt10' : '' }}" catchtap="_cancelChoose" data-index="{{ index }}" wx:for="{{ cancelArr }}" wx:key="{{index}}" ><text>{{ item }}</text><text class="jwqfont cff362c {{ cancelIndex == index ? 'jwqgouxuan' : 'jwqwxz' }}"></text></view>
     <view class="f33 cfff cancelBtn df dfac">
       <view catchtap="_toggleMask" data-type="cancelOrder" class="flex1 tac lh60 btnItem btnCancel">暂不取消</view>
       <view catchtap="orderOperate" data-op="cancel" data-type="cancelOrder" class="flex1 tac lh60 btnItem btnConfirm">确定取消</view>

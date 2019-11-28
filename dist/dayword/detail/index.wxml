@@ -1,18 +1,18 @@
 <jwqcapsule capsule="{{ capsule }}">
   <text class="cfff">每日一字</text>
 </jwqcapsule>
-<image mode="widthFix" class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
+<image mode="widthFix" class="w100" src="{{info.img_url}}"></image>
 <!--列表 -s-->
 <view class="hundredListItem">
   <view class="hliTopName c323232">
-    <text class="f38">流谦书苑</text>
+    <text class="f38">{{info.title}}</text>
     <view class="f21 c787878 mt10">
-      <text>2019-08-26  12:20</text>
-      <text>阅读10086</text>
+      <text>{{info.create_at}}</text>
+      <text>阅读{{info.hits}}</text>
     </view>
   </view>
   <view class="hliContent f28 c787878 mt20">
-    一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···一、特殊的角度以往我们也常经谈到过王锋，但是大多数着眼于他特殊的角度以往我们也常的书特殊的角度以往我们也常特殊往常法···
+    {{ info.des }}
   </view>
 </view>
 <!--列表 -e-->

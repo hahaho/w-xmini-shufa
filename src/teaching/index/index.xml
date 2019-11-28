@@ -29,11 +29,11 @@
 </scroll-view>
 <!--分类 -e-->
 <!--轮播图 -s-->
-<swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="index">
-    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  </swiper-item>
-</swiper>
+<!--<swiper autoplay="1" circular="1">-->
+<!--  <swiper-item wx:for="1234" wx:key="index">-->
+<!--    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>-->
+<!--  </swiper-item>-->
+<!--</swiper>-->
 <!--轮播图 -e-->
 <view wx:if="{{ !main }}" class="bd1 p20 f25 c323232">精品课程</view>
 

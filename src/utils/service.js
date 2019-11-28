@@ -166,6 +166,7 @@ const serviceUrl = {
   shopAd: lqsyBaseDomain + '/shop/ad', // 获取商城头部广告
   shopDiscussSub: lqsyBaseDomain + '/shop/discuss-sub', // 用户提交商品评价
   shopScoreList: lqsyBaseDomain + '/shop/score-list', // 积分记录列表
+  shareUrl: lqsyTestDomain + '/lqsy/shareUrl.json', // 修改购物车的数量2
   shopUser: lqsyBaseDomain + '/shop/user', // 商城用户中心获取用户信息
   shopUserRefund: lqsyBaseDomain + '/shop/user-refund', // 用户申请退款
   shopOrderOperate: lqsyBaseDomain + '/shop/order-operate', // 用户对订单收货|取消| 删除操作
@@ -195,6 +196,7 @@ const serviceUrl = {
   stackingImg: lqsyBaseDomain + '/stacking/img', // 上传图片返回透明处理后的图片
   dayList: lqsyBaseDomain + '/day/list', // 每日一字列表
   dayDesc: lqsyBaseDomain + '/day/desc', // 每日一字介绍
+  dayDetail: lqsyBaseDomain + '/day/detail', // 每日一字内容详情
   dayDiscuss: lqsyBaseDomain + '/day/discuss', // 获取评论列表
   dayDiscussStar: lqsyBaseDomain + '/day/discuss-star', // 对评论点赞
   dayDiscussSub: lqsyBaseDomain + '/day/discuss-sub', // 提交每日一字的字帖评论

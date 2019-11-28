@@ -124,11 +124,9 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage: function onShareAppMessage() {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    return {
+      path: '/teaching/index/index?from=' + (this.data.main ? 'main' : 'nav')
+    };
   },
 
   /**

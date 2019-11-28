@@ -129,17 +129,34 @@ Page({
       that.getHundredDiscuss();
     });
   },
+  getInfo: function getInfo() {
+    var _this = this;
+
+    app.wxrequest({
+      url: app.getUrl().dayDetail,
+      data: {
+        wid: this.data.options.id,
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm');
+      _this.setData({
+        info: res
+      });
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
-    var _this = this;
+    var _this2 = this;
 
     this.setData({
       options: options
     }, function () {
-      _this.getHundredDiscuss();
+      _this2.getInfo();
+      _this2.getHundredDiscuss();
     });
     // let that = this
     // if (!app.gs() || !app.gs('userInfoAll')) return app.wxlogin()
@@ -195,11 +212,17 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage: function onShareAppMessage() {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    var temps = app.gs('shareUrl');
+    var url = getCurrentPages()[getCurrentPages().length - 1].route;
+    for (var i in temps) {
+      if (temps[i].indexOf(url) >= 0) {
+        return {
+          title: '' + this.data.info.title,
+          path: '/openShare/index/index?url=' + i + '&q=' + this.data.options.id,
+          imageUrl: '' + this.data.info.img_url
+        };
+      }
+    }
   },
 
   /**

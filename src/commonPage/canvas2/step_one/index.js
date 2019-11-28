@@ -21,6 +21,11 @@ Page({
       }
     })
   },
+  onShareAppMessage () {
+    return {
+      path: 'commonPage/canvas2/step_one/index'
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */

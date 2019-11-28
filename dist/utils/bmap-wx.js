@@ -68,6 +68,18 @@ var BMapWX = function () {
                 });
             });
         }
+    }, {
+        key: 'getUrlJson',
+        value: function getUrlJson() {
+            return new Promise(function (resolve, reject) {
+                wx.request({
+                    url: _service2.default.shareUrl,
+                    success: function success(res) {
+                        resolve(res.data.data.url);
+                    }
+                });
+            });
+        }
         /**
          * POI周边检索
          *

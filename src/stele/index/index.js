@@ -87,11 +87,11 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    return {
+      title: `${this.data.options.name}`,
+      path: `/stele/index/index?id=${this.data.options.id}&name=${this.data.options.name}`,
+      imageUrl: app.gs('shareText').g
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

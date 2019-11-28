@@ -8,7 +8,7 @@
     <view class="f21 flex1">
       <view class="f25 c323232">{{info.title}}</view>
       <view class="c787878">
-        <text>{{ info.limited < 0 ? '终生有效' : info.limited + '天'}}</text>
+        <text>{{ info.sku[0].limited < 0 ? '终生有效' : info.sku[0].limited + '天'}}</text>
         <text>×1</text>
       </view>
       <view class="cff362c">¥{{info.sku[0].price}}</view>

@@ -394,11 +394,11 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 48,
 					"name": "openShare/index/index",
 					"pathName": "openShare/index/index",
-					"query": "",
-					"scene": null
+					"query": "url=1&q=1,2",
+					"scene": 1012
 				},
 				{
 					"id": -1,

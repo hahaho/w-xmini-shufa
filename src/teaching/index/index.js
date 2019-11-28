@@ -95,11 +95,9 @@ Page({
     // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
-    // return {
-    //   title: app.gs('shareText').t || '绣学问，真纹绣',
-    //   path: `/pages/index/index`,
-    //   imageUrl: app.gs('shareText').g
-    // }
+    return {
+      path: `/teaching/index/index?from=${this.data.main ? 'main' : 'nav'}`
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
