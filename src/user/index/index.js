@@ -36,17 +36,17 @@ Page({
     uiOp: [
       {
         t: '帖子',
-        n: 13,
+        n: 0,
         url: '/user/collect/index?type=send'
       },
       {
         t: '评论',
-        n: 13,
+        n: 0,
         url: '/user/comment/index?type=comment'
       },
       {
         t: '粉丝',
-        n: 13,
+        n: 0,
         url: '/user/comment/index?type=fans'
       }
     ],
@@ -91,11 +91,8 @@ Page({
         sign: e.detail.value.sign.trim()
       }
     }).then(() => {
-      app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, {'signature': e.detail.value.sign.trim()}))
-      this.setData({
-        userInfoAll: app.gs('userInfoAll')
-      })
       app.toast({content: '修改成功', image: ''})
+      that.userInfo()
       that._toggleSign()
     })
   },
@@ -136,6 +133,32 @@ Page({
       })
     }, 10)
   },
+  userInfo () {
+    if (!app.gs('userInfoAll').uid) return app.toast({content: '您尚未登录哦'})
+    app.wxrequest({
+      url: app.getUrl().userInfo,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        user: res,
+        'uiOp[0].n': res.posts_count,
+        'uiOp[1].n': res.posts_discuss_count,
+        'uiOp[2].n': res.fans
+      })
+    })
+    app.wxrequest({
+      url: app.getUrl().shopUser,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(res => {
+      this.setData({
+        rank: res.rank
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -152,6 +175,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.userInfo()
     this.setData({
       userInfoAll: app.gs('userInfoAll')
     })

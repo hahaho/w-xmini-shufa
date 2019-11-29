@@ -158,6 +158,7 @@ const serviceUrl = {
   homeConfig: lqsyBaseDomain + '/home/config', // 获取全局变量+首页广告
   wechatOpenid: lqsyBaseDomain + '/wechat/openid', // 小程序授权|获取用户小程序openid
   rankCard: lqsyBaseDomain + '/rank/card', // rank
+  userInfo: lqsyBaseDomain + '/user/info', // 获取用户基本信息
   payRank: lqsyBaseDomain + '/pay/rank', // 购买会员
   payShop: lqsyBaseDomain + '/pay/shop', // 商城购买产品
   shopCategory: lqsyBaseDomain + '/shop/category', // 获取商城菜单分类
