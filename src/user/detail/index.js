@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 // 创建页面实例对象
 Page({
   /**
@@ -18,7 +18,10 @@ Page({
     // tabIndex: 0,
     // capsules: app.data.capsule,
     tab: ['我的奖励', '我的提现'],
-    leftChoose: 0
+    leftChoose: 0,
+    page: 0,
+    more: true,
+    list: []
   },
   _tnBChoose (e) {
     this.setData({
@@ -39,7 +42,33 @@ Page({
   _leftChoose (e) {
     this.setData({
       leftChoose: e.currentTarget.dataset.index
+    }, () => {
+      this.data.page = 0
+      this.data.list = []
+      this.getList()
     })
+  },
+  getList () {
+    app.wxrequest({
+      url: app.getUrl()[this.data.leftChoose >= 1 ? 'shopAppearList' : 'shopRewardList'],
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++this.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm:ss')
+        v.finish_at = v.finish_at ? app.momentFormat(v.finish_at * 1000, 'YYYY-MM-DD HH:mm:ss') : null
+      }
+      this.setData({
+        list: this.data.list.concat(res.lists)
+      })
+      this.data.more = res.lists.length >= res.pre_page
+    })
+  },
+  onReachBottom () {
+    if (!this.data.more) return app.toast({content: '没有更多内容了'})
+    this.getList()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -47,7 +76,7 @@ Page({
   onLoad (options) {
     this.setData({
       options
-    })
+    }, this.getList)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

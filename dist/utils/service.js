@@ -182,6 +182,10 @@ var serviceUrl = {
   shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车
   shopCartAdd: lqsyBaseDomain + '/shop/cart-add', // 产品添加到购物车
   shopDiscuss: lqsyBaseDomain + '/shop/discuss', // 分页获取评论
+  shopNotice: lqsyBaseDomain + '/shop/notice', // 通知消息
+  shopAppearList: lqsyBaseDomain + '/shop/appear-list', // 获取用户提现记录
+  shopRewardList: lqsyBaseDomain + '/shop/reward-list', // 获取用户奖励记录
+  shopTeamOrders: lqsyBaseDomain + '/shop/team-orders', // 查看团队订单
   shopCode: lqsyBaseDomain + '/shop/code', // 用户申请提现获取验证码
   shopAppear: lqsyBaseDomain + '/shop/appear', // 用户提现申请提交
   shopProductDetail: lqsyBaseDomain + '/shop/product-detail', // 产品详情

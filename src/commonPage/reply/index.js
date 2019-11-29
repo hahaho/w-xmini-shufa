@@ -221,6 +221,7 @@ Page({
     })
   },
   changeStar (e) {
+    console.log(e)
     let that = this
     let url = ''
     let data = {}
@@ -228,29 +229,29 @@ Page({
       case 1:
         url = app.getUrl().wordsDiscussStar
         data = {
-          did: e.currentTarget.dataset.index > -1 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          did: e.currentTarget.dataset.index < 0 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
           uid: app.gs('userInfoAll').uid,
           wid: that.data.info.wid,
-          state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+          state: e.currentTarget.dataset.index < 0 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
         }
         break
       case 7:
         url = app.getUrl().stackingDiscussStar
         data = {
-          did: e.currentTarget.dataset.index > -1 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          did: e.currentTarget.dataset.index < 0 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
           uid: app.gs('userInfoAll').uid,
           wid: that.data.info.wid,
           oid: that.data.info.oid,
-          state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+          state: e.currentTarget.dataset.index < 0 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
         }
         break
       case 6:
         url = app.getUrl().dayDiscussStar
         data = {
-          did: e.currentTarget.dataset.index > -1 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
+          did: e.currentTarget.dataset.index < 0 ? that.data.info.id : that.data.comment[e.currentTarget.dataset.index].id,
           uid: app.gs('userInfoAll').uid,
           wid: that.data.info.wid,
-          state: e.currentTarget.dataset.index > -1 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
+          state: e.currentTarget.dataset.index < 0 ? that.data.info.is_star > 0 ? 2 : 1 : that.data.comment[e.currentTarget.dataset.index].is_star > 0 ? 2 : 1
         }
         break
       case 2:

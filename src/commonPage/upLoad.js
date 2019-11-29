@@ -113,7 +113,7 @@ class upLoad {
     })
   }
   upLoad (i = 0) {
-    if (!this.tempFilpaths[i]) return
+    if (!this.tempFilpaths[i]) return wx.hideLoading()
     let that = this
     let FilePath = this.tempFilpaths[i]
     let Key = `image/${app.gs('userInfoAll').id || 10000}/${FilePath.substr(FilePath.lastIndexOf('/') + 1)}`

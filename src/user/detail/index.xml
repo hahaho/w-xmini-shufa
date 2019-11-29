@@ -4,19 +4,21 @@
 
 <!--切换 -s-->
 <view wx:if="{{ options.type == 'shop' }}" class="df topNav bd1 f24 bgfff">
-  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="*61" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
+  <view catchtap="_leftChoose" data-index="{{ index }}" wx:for="{{ tab }}" wx:key="index" class="flex1 tac pr c323232 {{ leftChoose == index ? 'active' : '' }}">{{ item }}</view>
 </view>
 <!--切换 -e-->
 
-<view wx:for="123" wx:key="*31" class="bd1 p30 bgfff">
+<view wx:for="{{list}}" wx:key="index" class="bd1 p30 bgfff">
   <view class="df dfb">
-    <text class="f25 c323232">三星订单结算奖励 </text>
-    <text class="f28 cf73650">＋5.00元</text>
+    <text class="f25 c323232">{{ leftChoose > 0 ? '提现' : item.direct_text }}</text>
+    <text class="f28 cf73650">{{item.amount}}元</text>
   </view>
   <view class="f21 c646464 df dfb">
-    <text>到帐时间：2019-08-14-12:11:51</text>
-    <text>余额：8.32元</text>
+    <text wx:if="{{ leftChoose < 1 }}">{{item.status == 1 ? '到帐时间：' + item.finish_at : '系统结算中---' + item.create_at}}</text>
+    <text wx:if="{{ leftChoose >= 1 }}">{{item.status == 2 ? '到帐时间：'+item.finish_at : '提现审核中---'+item.create_at}}</text>
+    <text wx:if="{{ leftChoose < 1 }}">余额：{{item.total}}元</text>
   </view>
 </view>
+<view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

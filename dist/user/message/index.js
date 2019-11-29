@@ -62,6 +62,47 @@ Page({
       _this.data.more = res.lists.length >= res.pre_page;
     });
   },
+  shopNotice: function shopNotice() {
+    var _this2 = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopNotice,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = res.lists[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var v = _step2.value;
+
+          v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY年MM月DD日 HH:mm') : '时间不详';
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      _this2.setData({
+        list: _this2.data.list.concat(res.lists)
+      });
+      _this2.data.more = res.lists.length >= res.pre_page;
+    });
+  },
   getList: function getList() {
     switch (this.data.options.type) {
       case 'shopcomment':
@@ -70,6 +111,7 @@ Page({
       case 'user':
         break;
       case 'shop':
+        this.shopNotice();
         break;
     }
   },

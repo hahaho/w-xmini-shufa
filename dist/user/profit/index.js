@@ -11,19 +11,43 @@ Page({
     capsule: {
       bgc: 'url(https://c.jiangwenqiang.com/lqsy/2.png)'
     },
+    tabShop: [{
+      t: '未到账',
+      s: 1
+    }, {
+      t: '已到账',
+      s: 2
+    }, {
+      t: '退款订单',
+      s: -3
+    }],
     tab: ['全部收益', '今日收益', '已到帐', '待到账'],
-    tabShop: ['未到账', '已到账', '退款订单'],
     tabIndex: 0,
-    capsules: app.data.capsule
+    capsules: app.data.capsule,
+    page: 0,
+    more: true,
+    list: []
   },
   _tnBChoose: function _tnBChoose(e) {
+    var _this = this;
+
     this.setData({
       tabIndex: e.currentTarget.dataset.index
+    }, function () {
+      _this.data.page = 0;
+      _this.data.list = [];
+      _this.getData();
     });
   },
   _tnChoose: function _tnChoose() {
+    var _this2 = this;
+
     this.setData({
       right: !this.data.right
+    }, function () {
+      _this2.data.page = 0;
+      _this2.data.list = [];
+      _this2.getData();
     });
   },
   noUp: function noUp() {},
@@ -31,6 +55,53 @@ Page({
     this.setData({
       ruler: !this.data.ruler
     });
+  },
+  getList: function getList() {
+    var _this3 = this;
+
+    app.wxrequest({
+      url: app.getUrl().shopTeamOrders,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        status: this.data.tabShop[this.data.tabIndex].s,
+        direct: this.data.right ? 2 : 1,
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm:ss');
+          v.finish_at = v.finish_at ? app.momentFormat(v.finish_at * 1000, 'YYYY-MM-DD HH:mm:ss') : null;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      _this3.setData({
+        list: _this3.data.list.concat(res.lists)
+      });
+      _this3.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+  getData: function getData() {
+    if (this.data.options.from === 'shop') this.getList();
   },
 
   /**
@@ -40,7 +111,7 @@ Page({
     this.setData({
       options: options,
       tabIndex: options.type || 0
-    });
+    }, this.getData);
   },
 
   /**
@@ -85,6 +156,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function onPullDownRefresh() {
+    this.data.page = 0;
+    this.data.list = [];
+    this.getData();
     // this.getCourse()
   }
 });

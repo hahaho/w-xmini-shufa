@@ -133,6 +133,7 @@
       ]
     }
   ],
+  "preloadRule": {},
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
@@ -163,5 +164,5 @@
     "wx9f5e0a4d343331a4"
   ],
   "debug": false,
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap7.json"
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 // 获取全局应用程序实例对象
-// const app = getApp()
+var app = getApp();
 // 创建页面实例对象
 Page({
   /**
@@ -20,7 +20,10 @@ Page({
     // tabIndex: 0,
     // capsules: app.data.capsule,
     tab: ['我的奖励', '我的提现'],
-    leftChoose: 0
+    leftChoose: 0,
+    page: 0,
+    more: true,
+    list: []
   },
   _tnBChoose: function _tnBChoose(e) {
     this.setData({
@@ -39,9 +42,61 @@ Page({
     });
   },
   _leftChoose: function _leftChoose(e) {
+    var _this = this;
+
     this.setData({
       leftChoose: e.currentTarget.dataset.index
+    }, function () {
+      _this.data.page = 0;
+      _this.data.list = [];
+      _this.getList();
     });
+  },
+  getList: function getList() {
+    var _this2 = this;
+
+    app.wxrequest({
+      url: app.getUrl()[this.data.leftChoose >= 1 ? 'shopAppearList' : 'shopRewardList'],
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++this.data.page
+      }
+    }).then(function (res) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = res.lists[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var v = _step.value;
+
+          v.create_at = app.momentFormat(v.create_at * 1000, 'YYYY-MM-DD HH:mm:ss');
+          v.finish_at = v.finish_at ? app.momentFormat(v.finish_at * 1000, 'YYYY-MM-DD HH:mm:ss') : null;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      _this2.setData({
+        list: _this2.data.list.concat(res.lists)
+      });
+      _this2.data.more = res.lists.length >= res.pre_page;
+    });
+  },
+  onReachBottom: function onReachBottom() {
+    if (!this.data.more) return app.toast({ content: '没有更多内容了' });
+    this.getList();
   },
 
   /**
@@ -50,7 +105,7 @@ Page({
   onLoad: function onLoad(options) {
     this.setData({
       options: options
-    });
+    }, this.getList);
   },
 
   /**

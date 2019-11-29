@@ -91,7 +91,11 @@ Page({
         sign: e.detail.value.sign.trim()
       }
     }).then(() => {
-      app.toast({content: '修改成功'})
+      app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, {'signature': e.detail.value.sign.trim()}))
+      this.setData({
+        userInfoAll: app.gs('userInfoAll')
+      })
+      app.toast({content: '修改成功', image: ''})
       that._toggleSign()
     })
   },

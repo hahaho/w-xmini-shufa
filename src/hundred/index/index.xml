@@ -29,11 +29,11 @@
 </scroll-view>
 <!--分类 -e-->
 <!--轮播图 -s-->
-<swiper autoplay="1" circular="1">
-  <swiper-item wx:for="1234" wx:key="index">
-    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-  </swiper-item>
-</swiper>
+<!--<swiper autoplay="1" circular="1">-->
+<!--  <swiper-item wx:for="1234" wx:key="index">-->
+<!--    <image class="w100" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>-->
+<!--  </swiper-item>-->
+<!--</swiper>-->
 <!--轮播图 -e-->
 <!--列表 -s-->
 <view class="hundredListItem" wx:for="{{list}}" wx:key="index">
@@ -70,7 +70,7 @@
   <view wx:if="{{ options.from == 'main' }}" class="c323232 hliShare">
     <view class="jwqfont f16 jwqpinglun">{{item.discuss}}</view>
     <view catchtap="changePostsStar" data-index="{{index}}" class="jwqfont f16 jwqdianzan tr5 {{ item.is_star > 0 ? 'cff362c' : '' }}">{{item.star}}</view>
-    <view catchtap="_shareType" data-index="{{index}}" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>
+<!--    <view catchtap="_shareType" data-index="{{index}}" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>-->
   </view>
 </view>
 <view wx:if="{{!list}}" class='tac f22 p20 c999'>暂无相关内容</view>

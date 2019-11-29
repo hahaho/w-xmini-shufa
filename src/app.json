@@ -142,6 +142,9 @@
       ]
     }
   ],
+  "preloadRule": {
+
+  },
   // Window configuration
   "window": {
     // 顶部导航栏

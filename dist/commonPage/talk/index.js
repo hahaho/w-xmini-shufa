@@ -35,6 +35,9 @@ Page({
       commentLV: e.currentTarget.dataset.index
     });
   },
+  upImgSingle: function upImgSingle(src) {
+    new UpLoad({ imgArr: 'imgArr' }).upImgSingle(src);
+  },
   upload: function upload() {
     new UpLoad({ imgArr: 'imgArr' }).chooseImage();
   },
@@ -151,6 +154,9 @@ Page({
       this.setData({
         info: app.gs('pjInfo')
       });
+    }
+    if (options.url && options.url.length > 5) {
+      this.upImgSingle(options.url);
     }
   },
 

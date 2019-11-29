@@ -71,6 +71,8 @@ Page({
     });
   },
   _sign: function _sign(e) {
+    var _this = this;
+
     var that = this;
     if (!e.detail.value.sign.trim()) return app.toast({ content: '请输入内容' });
     app.wxrequest({
@@ -80,7 +82,11 @@ Page({
         sign: e.detail.value.sign.trim()
       }
     }).then(function () {
-      app.toast({ content: '修改成功' });
+      app.su('userInfoAll', Object.assign(app.gs('userInfoAll') || {}, { 'signature': e.detail.value.sign.trim() }));
+      _this.setData({
+        userInfoAll: app.gs('userInfoAll')
+      });
+      app.toast({ content: '修改成功', image: '' });
       that._toggleSign();
     });
   },
@@ -114,11 +120,11 @@ Page({
     });
   },
   clean: function clean() {
-    var _this = this;
+    var _this2 = this;
 
     wx.removeStorageSync('userInfoAll');
     setTimeout(function () {
-      _this.setData({
+      _this2.setData({
         userInfoAll: {}
       });
     }, 10);

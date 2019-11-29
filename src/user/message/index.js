@@ -36,6 +36,23 @@ Page({
       this.data.more = res.lists.length >= res.pre_page
     })
   },
+  shopNotice () {
+    app.wxrequest({
+      url: app.getUrl().shopNotice,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        page: ++this.data.page
+      }
+    }).then(res => {
+      for (let v of res.lists) {
+        v.create_at = v.create_at ? app.momentFormat(v.create_at * 1000, 'YYYY年MM月DD日 HH:mm') : '时间不详'
+      }
+      this.setData({
+        list: this.data.list.concat(res.lists)
+      })
+      this.data.more = res.lists.length >= res.pre_page
+    })
+  },
   getList () {
     switch (this.data.options.type) {
       case 'shopcomment':
@@ -44,6 +61,7 @@ Page({
       case 'user':
         break
       case 'shop':
+        this.shopNotice()
         break
     }
   },

@@ -173,7 +173,7 @@ var upLoad = function () {
     value: function upLoad() {
       var i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-      if (!this.tempFilpaths[i]) return;
+      if (!this.tempFilpaths[i]) return wx.hideLoading();
       var that = this;
       var FilePath = this.tempFilpaths[i];
       var Key = 'image/' + (app.gs('userInfoAll').id || 10000) + '/' + FilePath.substr(FilePath.lastIndexOf('/') + 1);

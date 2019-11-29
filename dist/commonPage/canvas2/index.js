@@ -69,10 +69,61 @@ Page({
       }]
     }
   },
-  shareType: function shareType() {},
+  shareType: function shareType(e) {
+    var that = this;
+    switch (this.data.shareArr[e.currentTarget.dataset.index]) {
+      case '社区':
+        wx.navigateTo({
+          url: '/commonPage/talk/index?type=community&url=' + that.data.shareImageSrc
+        });
+        that.setData({ showSpec: !that.data.showSpec });
+        break;
+      case '墨宝真迹':
+        break;
+      case '保存相册':
+        wx.saveImageToPhotosAlbum({
+          filePath: that.data.shareImageSrc,
+          success: function success() {
+            wx.showToast({
+              title: '图片已存入相册'
+            });
+            that.setData({ showSpec: !that.data.showSpec });
+          },
+          fail: function fail() {
+            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+          }
+        });
+        break;
+      case '微信好友':
+        wx.saveImageToPhotosAlbum({
+          filePath: that.data.shareImageSrc,
+          success: function success() {
+            app.toast({ content: '图片已存入相册,快去发送给你的好友吧', image: '' });
+            that.setData({ showSpec: !that.data.showSpec });
+          },
+          fail: function fail() {
+            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+          }
+        });
+        break;
+      case '朋友圈':
+        wx.saveImageToPhotosAlbum({
+          filePath: that.data.shareImageSrc,
+          success: function success() {
+            app.toast({ content: '图片已存入相册,快去发条朋友圈吧', image: '' });
+            that.setData({ showSpec: !that.data.showSpec });
+          },
+          fail: function fail() {
+            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+          }
+        });
+        break;
+    }
+  },
   _toggleSpec: function _toggleSpec() {
+    this.canvasDraw();
     if (this.data.sell_release) {
-      this.canvasDraw();
+      // this.canvasDraw()
     } else {
       this.setData({ showSpec: !this.data.showSpec });
     }
@@ -474,6 +525,8 @@ Page({
                 }
               }
             }
+          } else {
+            _this6.data.shareImageSrc = res.tempFilePath;
           }
           // wx.saveImageToPhotosAlbum({
           //   filePath: res.tempFilePath,

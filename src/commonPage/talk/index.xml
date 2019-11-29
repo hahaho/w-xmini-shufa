@@ -49,7 +49,7 @@
   </view>
   <view wx:if="{{ options.type == 'suggest' }}" class="mt10">
     <view class="p20 bgfff f22 c787878">输入有效的联系方式以便开发联系你</view>
-    <input class="bgfff p20 mt20" placeholder="输入您的联系方式"/>
+    <input class="bgfff p20 mt20 f28" placeholder="输入您的联系方式"/>
   </view>
   <view wx:if="{{ options.type == 'camera' }}" class="cameraInput mt10 bgfff">
     <view catchtap="chooseSoS" class="bd1 arrow p20 c323232 f28">

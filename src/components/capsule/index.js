@@ -21,7 +21,7 @@ Component({
     capsuleSet: {
       bgc: '#fff',
       backShow: false,
-      backImg: 'https://c.jiangwenqiang.com/lqsy/back.png',
+      backImg: 'https://c.jiangwenqiang.com/lqsy/back.png?123',
       op: false,
       opImg: 'https://c.jiangwenqiang.com/api/image/home.png',
       opType: 'reLaunch'

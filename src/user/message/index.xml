@@ -18,12 +18,12 @@
 <!--列表 -e-->
 
 <!--商城我的消息 -s-->
-<view wx:if="{{ options.type == 'shop' }}" wx:for="123" wx:key="index" class="mt10 p20">
-  <view class="f23 c646464 tac">10月20日 17:28</view>
+<view wx:if="{{ options.type == 'shop' }}" wx:for="{{list}}" wx:key="index" class="mt10 p20">
+  <view class="f23 c646464 tac">{{item.create_at}}</view>
   <view class="bgfff p20 br10 mt10">
-    <image class="w100 br10" lazy-load="1" mode="widthFix" src="https://c.jiangwenqiang.com/api/logo.jpg"></image>
-    <view class="f24 c323232 mt10">大标题大标题</view>
-    <view class="f21 c646464">小标题小标题小标题小标题小标题小标题小标题小标题小标题小 ></view>
+    <image wx:if="{{ item.img_name }}" class="w100 br10" lazy-load="1" mode="widthFix" src="{{item.img_name}}"></image>
+    <view class="f24 c323232 mt10">{{ item.title }}</view>
+    <view class="f21 c646464">{{item.content}} ></view>
   </view>
 </view>
 <!--商城我的消息 -e-->

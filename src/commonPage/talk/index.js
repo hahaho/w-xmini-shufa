@@ -38,6 +38,9 @@ Page({
       commentLV: e.currentTarget.dataset.index
     })
   },
+  upImgSingle (src) {
+    new UpLoad({imgArr: 'imgArr'}).upImgSingle(src)
+  },
   upload () {
     new UpLoad({imgArr: 'imgArr'}).chooseImage()
   },
@@ -133,6 +136,9 @@ Page({
       this.setData({
         info: app.gs('pjInfo')
       })
+    }
+    if (options.url && options.url.length > 5) {
+      this.upImgSingle(options.url)
     }
   },
   /**
