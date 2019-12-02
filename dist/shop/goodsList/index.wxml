@@ -26,6 +26,7 @@
       <text class="f19 c787878 ml20 ">已售{{item.sale_count}}件</text>
     </view>
   </navigator>
+  <view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 </view>
 
 <navigator class="goCart">

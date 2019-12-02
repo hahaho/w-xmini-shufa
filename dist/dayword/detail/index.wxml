@@ -11,9 +11,11 @@
       <text>阅读{{info.hits}}</text>
     </view>
   </view>
-  <view class="hliContent f28 c787878 mt20">
-    {{ info.des }}
-  </view>
+<!--  <view class="hliContent f28 c787878 mt20">-->
+<!--    {{ info.des }}-->
+<!--  </view>-->
+  <import src="../../wxParse/wxParse"></import>
+  <template is="wxParse" data="{{ wxParseData: desc.nodes }}"></template>
 </view>
 <!--列表 -e-->
 <!--评论列表 -s-->
@@ -69,9 +71,5 @@
 </view>
 </view>
 <!--分享方式选择 -e-->
-
-
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>
-<!--<import src="/template/template"></import>-->
-<!--<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>-->

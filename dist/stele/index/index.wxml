@@ -48,6 +48,7 @@
     <text class="mt10">{{ item.create_at }} {{ item.hits }}次阅读</text>
   </navigator>
 </view>
+<view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--全部课程 -e-->
 <!--错误弹窗-->
 <toast toast="{{ toast }}"></toast>

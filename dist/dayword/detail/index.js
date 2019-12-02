@@ -139,6 +139,7 @@ Page({
         uid: app.gs('userInfoAll').uid
       }
     }).then(function (res) {
+      app.WP('desc', 'html', res.des, _this, 0);
       res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm');
       _this.setData({
         info: res

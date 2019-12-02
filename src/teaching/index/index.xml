@@ -65,7 +65,7 @@
     </view>
   </view>
 </navigator>
-<view wx:if="{{!list}}" class='tac f22 p20 c999'>暂无相关内容</view>
+<view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--课程列表 -e-->
 <jwqfoot wx:if="{{ main }}"></jwqfoot>
 <!--错误弹窗-->

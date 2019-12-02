@@ -112,6 +112,7 @@ Page({
         uid: app.gs('userInfoAll').uid
       }
     }).then(res => {
+      app.WP('desc', 'html', res.des, this, 0)
       res.create_at = app.momentFormat(res.create_at * 1000, 'YYYY-MM-DD HH:mm')
       this.setData({
         info: res
