@@ -722,6 +722,17 @@ App({
         that.su('shareText', res.result)
       })
   },
+  getMaxFright(that) {
+    this.cloud().getFreight().then(res => {
+      if (res.freight < 50) {
+        for (let v of that.data.info) {
+          v.count = 10
+          v.product.value = 1
+        }
+        that.data.info = that.data.info
+      }
+    })
+  },
   // 获取分享路径判断
   getShareUrl(cb) {
     new bmap.BMapWX({
@@ -804,21 +815,7 @@ App({
       })
     })
   },
-  getMaxFright(that) {
-    this.cloud().getFreight().then(res => {
-      if (res.freight < 50) {
-        for (let v of that.data.info) {
-          v.count = 10
-          v.product.value = 1
-        }
-        that.data.info = that.data.info
-      }
-    })
-  },
   onLaunch() {
-    // 
-    // this.getExactlyUrl(this.getCodeUrl('https://c.jiangwenqiang.com/lqsy/test.json'))
-    // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
     this.mapInfo()
     this.getShareUrl()

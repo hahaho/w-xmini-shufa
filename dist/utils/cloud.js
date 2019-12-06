@@ -71,7 +71,7 @@ module.exports = {
         success: function success(res) {
           if (res.statusCode !== 200) {
             wx.cloud.callFunction({
-              name: 'shareUrl',
+              name: 'getFreight',
               data: {},
               success: function success(res) {
                 resolve(res.result);

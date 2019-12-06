@@ -842,6 +842,39 @@ App({
       that.su('shareText', res.result);
     });
   },
+  getMaxFright: function getMaxFright(that) {
+    this.cloud().getFreight().then(function (res) {
+      if (res.freight < 50) {
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
+
+        try {
+          for (var _iterator5 = that.data.info[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var v = _step5.value;
+
+            v.count = 10;
+            v.product.value = 1;
+          }
+        } catch (err) {
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+              _iterator5.return();
+            }
+          } finally {
+            if (_didIteratorError5) {
+              throw _iteratorError5;
+            }
+          }
+        }
+
+        that.data.info = that.data.info;
+      }
+    });
+  },
 
   // 获取分享路径判断
   getShareUrl: function getShareUrl(cb) {
@@ -943,45 +976,9 @@ App({
       });
     });
   },
-  getMaxFright: function getMaxFright(that) {
-    this.cloud().getFreight().then(function (res) {
-      if (res.freight < 50) {
-        var _iteratorNormalCompletion5 = true;
-        var _didIteratorError5 = false;
-        var _iteratorError5 = undefined;
-
-        try {
-          for (var _iterator5 = that.data.info[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var v = _step5.value;
-
-            v.count = 10;
-            v.product.value = 1;
-          }
-        } catch (err) {
-          _didIteratorError5 = true;
-          _iteratorError5 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion5 && _iterator5.return) {
-              _iterator5.return();
-            }
-          } finally {
-            if (_didIteratorError5) {
-              throw _iteratorError5;
-            }
-          }
-        }
-
-        that.data.info = that.data.info;
-      }
-    });
-  },
   onLaunch: function onLaunch() {
     var _this7 = this;
 
-    // 
-    // this.getExactlyUrl(this.getCodeUrl('https://c.jiangwenqiang.com/lqsy/test.json'))
-    // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr');
     this.mapInfo();
     this.getShareUrl();
