@@ -58,9 +58,7 @@ Page({
     })
   },
   pay () {
-    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) {return app.toast({
-      content: '请填写收货地址信息'
-    })}
+    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) return app.toast({content: '请填写收货地址信息'})
     let carts = []
     let that = this
     for (let v of this.data.info) {

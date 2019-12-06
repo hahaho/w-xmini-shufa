@@ -62,11 +62,7 @@ Page({
     });
   },
   pay: function pay() {
-    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) {
-      return app.toast({
-        content: '请填写收货地址信息'
-      });
-    }
+    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) return app.toast({ content: '请填写收货地址信息' });
     var carts = [];
     var that = this;
     var _iteratorNormalCompletion = true;

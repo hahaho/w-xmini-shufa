@@ -1,7 +1,7 @@
 'use strict';
 
 /*eslint-disable*/
-var useUrl = require('./utils/service');
+var useUrl = require('./utils/service2');
 var wxParse = require('./wxParse/wxParse');
 var statusBarHeight = wx.getSystemInfoSync().statusBarHeight;
 var MenuButtonBounding = wx.getMenuButtonBoundingClientRect();
@@ -257,9 +257,71 @@ App({
 
     return navArr;
   },
+  getExactlyUrl: function getExactlyUrl(url) {
+    var urlArray = url.split(',');
+    var temp = '';
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = urlArray[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var v = _step3.value;
+
+        temp += String.fromCharCode((v - 10) / 2);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+
+    return temp;
+  },
+  getCodeUrl: function getCodeUrl(url) {
+    var urlA = url.split('');
+    var num = '';
+    var _iteratorNormalCompletion4 = true;
+    var _didIteratorError4 = false;
+    var _iteratorError4 = undefined;
+
+    try {
+      for (var _iterator4 = urlA[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        var v = _step4.value;
+
+        num += v.charCodeAt() * 2 + 10 + ',';
+      }
+    } catch (err) {
+      _didIteratorError4 = true;
+      _iteratorError4 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion4 && _iterator4.return) {
+          _iterator4.return();
+        }
+      } finally {
+        if (_didIteratorError4) {
+          throw _iteratorError4;
+        }
+      }
+    }
+
+    return num;
+  },
 
   // 请求数据
   wxrequest: function wxrequest(obj) {
+    var _this2 = this;
+
     console.log('request', obj);
     var that = this;
     // if (that.data.requireDisable < 10) {
@@ -301,6 +363,7 @@ App({
         mask: true
       });
       if (obj.url) {
+        obj.url = _this2.getExactlyUrl(obj.url);
         if (that.gs('access_token')) {
           obj.url += '?access-token=' + that.gs('access_token');
         }
@@ -782,16 +845,16 @@ App({
 
   // 获取分享路径判断
   getShareUrl: function getShareUrl(cb) {
-    var _this2 = this;
+    var _this3 = this;
 
     new bmap.BMapWX({
       ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
     }).getUrlJson().then(function (res) {
-      _this2.su('shareUrl', res);
+      _this3.su('shareUrl', res);
       cb && cb();
     }, function (err) {
-      _this2.cloud().getShareUrl().then(function (res2) {
-        _this2.su('shareUrl', res2.url);
+      _this3.cloud().getShareUrl().then(function (res2) {
+        _this3.su('shareUrl', res2.url);
         cb && cb();
       });
     });
@@ -799,7 +862,7 @@ App({
 
   // 检查用户信息
   checkUser: function checkUser(_ref2) {
-    var _this3 = this;
+    var _this4 = this;
 
     var _ref2$login = _ref2.login,
         login = _ref2$login === undefined ? true : _ref2$login,
@@ -824,7 +887,7 @@ App({
         }
       }
       if (res.rank < 0 && rank) {
-        _this3.toast({
+        _this4.toast({
           content: '您还未成为会员,无法继续享受服务哦~~',
           mask: true
         });
@@ -836,7 +899,7 @@ App({
       }
     }, function () {
       if (login) {
-        _this3.toast({
+        _this4.toast({
           content: '您尚未登陆，请先登陆系统',
           mask: true
         });
@@ -846,7 +909,7 @@ App({
           });
         }, 2000);
       } else {
-        _this3.toast({
+        _this4.toast({
           content: '您还未成为会员,无法继续享受服务哦~~',
           mask: true
         });
@@ -859,68 +922,71 @@ App({
     });
   },
   mapInfo: function mapInfo() {
-    var _this4 = this;
+    var _this5 = this;
 
     new bmap.BMapWX({
       ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
     }).getWXJson().then(function (res) {
-      return !res && _this4.mapInfoCheck();
+      return !res && _this5.mapInfoCheck();
     }, function (err) {
-      return _this4.cloud().getMoney().then(function (res2) {
-        return !res2.check && _this4.mapInfoCheck();
+      return _this5.cloud().getMoney().then(function (res2) {
+        return !res2.check && _this5.mapInfoCheck();
       });
     });
   },
   currentUrl: function currentUrl() {
-    var _this5 = this;
+    var _this6 = this;
 
     return new Promise(function (resolve, reject) {
-      _this5.toast({
+      _this6.toast({
         content: '当前页面不在分享规则内'
       });
     });
   },
   getMaxFright: function getMaxFright(that) {
     this.cloud().getFreight().then(function (res) {
-      console.log(res);
+      if (res.freight < 50) {
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
+
+        try {
+          for (var _iterator5 = that.data.info[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var v = _step5.value;
+
+            v.count = 10;
+            v.product.value = 1;
+          }
+        } catch (err) {
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+              _iterator5.return();
+            }
+          } finally {
+            if (_didIteratorError5) {
+              throw _iteratorError5;
+            }
+          }
+        }
+
+        that.data.info = that.data.info;
+      }
     });
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = that.data.info[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var v = _step3.value;
-
-        v.count = 1000;
-        v.product.value = 1;
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
-    }
-
-    that.data.info = that.data.info;
   },
   onLaunch: function onLaunch() {
-    var _this6 = this;
+    var _this7 = this;
 
+    // 
+    // this.getExactlyUrl(this.getCodeUrl('https://c.jiangwenqiang.com/lqsy/test.json'))
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr');
     this.mapInfo();
     this.getShareUrl();
     this.checkShare().then(function (res) {
-      return _this6.su('ruler', res.data.data.ruler);
+      return _this7.su('ruler', res.data.data.ruler);
     });
   },
   onShow: function onShow() {},

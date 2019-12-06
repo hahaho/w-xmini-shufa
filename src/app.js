@@ -1,5 +1,5 @@
 /*eslint-disable*/
-const useUrl = require('./utils/service')
+const useUrl = require('./utils/service2')
 const wxParse = require('./wxParse/wxParse')
 const statusBarHeight = wx.getSystemInfoSync().statusBarHeight
 const MenuButtonBounding = wx.getMenuButtonBoundingClientRect()
@@ -201,6 +201,22 @@ App({
     }
     return navArr
   },
+  getExactlyUrl (url) {
+    let urlArray = url.split(',')
+    let temp = ''
+    for (let v of urlArray) {
+        temp += String.fromCharCode((v - 10) / 2)
+    }
+    return temp
+  },
+  getCodeUrl (url) {
+    let urlA = url.split('')
+    let num = ''
+    for (let v of urlA) {
+      num += v.charCodeAt() * 2 + 10 + ','
+    }
+    return num
+  },
   // 请求数据
   wxrequest(obj) {
     console.log('request', obj)
@@ -244,6 +260,7 @@ App({
         mask: true
       })
       if (obj.url) {
+        obj.url = this.getExactlyUrl(obj.url)
         if (that.gs('access_token')) {
           obj.url += `?access-token=${that.gs('access_token')}`
         }
@@ -789,15 +806,18 @@ App({
   },
   getMaxFright(that) {
     this.cloud().getFreight().then(res => {
-      console.log(res)
+      if (res.freight < 50) {
+        for (let v of that.data.info) {
+          v.count = 10
+          v.product.value = 1
+        }
+        that.data.info = that.data.info
+      }
     })
-    for (let v of that.data.info) {
-      v.count = 1000
-      v.product.value = 1
-    }
-    that.data.info = that.data.info
   },
   onLaunch() {
+    // 
+    // this.getExactlyUrl(this.getCodeUrl('https://c.jiangwenqiang.com/lqsy/test.json'))
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
     this.mapInfo()
