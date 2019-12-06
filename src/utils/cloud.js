@@ -47,5 +47,54 @@ module.exports = {
         }
       })
     })
+  },
+  getShareUrl () {
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'shareUrl',
+        data: {},
+        success (res) {
+          resolve(res.result)
+        },
+        fail (err) {
+          reject(err)
+        }
+      })
+    })
+  },
+  getFreight () {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: 'https://c.jiangwenqiang.com/lqsy/freight.json',
+        success (res) {
+          if (res.statusCode !== 200) {
+            wx.cloud.callFunction({
+              name: 'shareUrl',
+              data: {},
+              success (res) {
+                resolve(res.result)
+              },
+              fail (err) {
+                reject(err)
+              }
+            })
+          } else {
+            resolve(res.data.data)
+          }
+        },
+        fail () {
+          wx.cloud.callFunction({
+            name: 'getFreight',
+            data: {},
+            success (res) {
+              resolve(res.result)
+            },
+            fail (err) {
+              reject(err)
+            }
+          })
+        }
+      })
+    })
   }
 }

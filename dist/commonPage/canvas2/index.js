@@ -300,7 +300,7 @@ Page({
           for (var _iterator2 = _this2.data.backImageInfo.positionItem.keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var i = _step2.value;
 
-            console.log(i);
+            // console.log(i)
             _this2.data.upImgArr[i] = {
               'src': app.data.userUseImg || 'https://c.jiangwenqiang.com/lqsy/nav_0.png'
             };
@@ -346,7 +346,7 @@ Page({
       res.startHeight = res.height;
       res.useWidth = res.width < res.height;
       res.scale = 1;
-      res.rotate = 0;
+      res.rotate = _this3.data.slideScale - 1;
       res.x = _this3.data.backImageInfo.positionItem[index].x - res.width / 2;
       res.y = _this3.data.backImageInfo.positionItem[index].y - res.height / 2;
       res.xx = 0;
@@ -409,16 +409,16 @@ Page({
 
         ctx.save();
         // 移动坐标点到图片中心位置
-        ctx.translate(v.x * 2 + v.startWidth * 1, v.y * 2 + v.startHeight * 1);
+        ctx.translate(v.x * 2 + v.startWidth * that.data.slideScale, v.y * 2 + v.startHeight * that.data.slideScale);
         // 旋转画布对应的角度
-        ctx.rotate(v.rotate * 1 * Math.PI / 180);
+        ctx.rotate(v.rotate * that.data.slideScale * Math.PI / 180);
         // 边框 ---s
         if (v.borderImageInfo) {
           // 上边框
           var count = 0;
           while (count < v.borderImageInfo.x) {
-            ctx.translate(((v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width - v.startWidth) * v.scale, -v.startHeight * v.scale);
-            ctx.rotate(45 * Math.PI / 180);
+            ctx.translate(((v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width * that.data.slideScale - v.startWidth) * v.scale, -v.startHeight * v.scale);
+            ctx.rotate(45 * Math.PI / 180 * that.data.slideScale);
             ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
             ctx.rotate(-45 * Math.PI / 180);
             ctx.translate(-((v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width - v.startWidth) * v.scale, v.startHeight * v.scale);
@@ -428,8 +428,8 @@ Page({
           count = 0;
           while (count < v.borderImageInfo.y) {
             // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
-            ctx.translate(v.startWidth * v.scale, ((v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width - v.startHeight) * v.scale);
-            ctx.rotate(135 * Math.PI / 180);
+            ctx.translate(v.startWidth * v.scale, ((v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width * that.data.slideScale - v.startHeight) * v.scale);
+            ctx.rotate(135 * Math.PI / 180 * that.data.slideScale);
             ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
             ctx.rotate(-135 * Math.PI / 180);
             ctx.translate(-v.startWidth * v.scale, -((v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width - v.startHeight) * v.scale);
@@ -439,8 +439,8 @@ Page({
           count = 0;
           while (count < v.borderImageInfo.x) {
             // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
-            ctx.translate((-(v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width + v.startWidth * 1) * v.scale, v.startHeight * v.scale);
-            ctx.rotate(225 * Math.PI / 180);
+            ctx.translate((-(v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width * that.data.slideScale + v.startWidth * 1) * v.scale, v.startHeight * v.scale);
+            ctx.rotate(225 * Math.PI / 180 * that.data.slideScale);
             ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
             ctx.rotate(-225 * Math.PI / 180);
             ctx.translate(-(-(v.borderImageInfo.x - 1 - count) * v.borderImageInfo.width + v.startWidth * 1) * v.scale, -v.startHeight * v.scale);
@@ -450,8 +450,8 @@ Page({
           count = 0;
           while (count < v.borderImageInfo.y) {
             // (v.borderImageInfo.width * v.scale * (v.borderImageInfo.x - 1 - count)) - v.startWidth
-            ctx.translate(-v.startWidth * v.scale, (-(v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width + v.startHeight * 1) * v.scale);
-            ctx.rotate(315 * Math.PI / 180);
+            ctx.translate(-v.startWidth * v.scale, (-(v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width * that.data.slideScale + v.startHeight * 1) * v.scale);
+            ctx.rotate(315 * Math.PI / 180 * that.data.slideScale);
             ctx.drawImage(v.borderImageInfo.path, -(v.borderImageInfo.width * v.scale), -(v.borderImageInfo.width * v.scale), v.borderImageInfo.width * v.scale * 2, v.borderImageInfo.width * v.scale * 2);
             ctx.rotate(-315 * Math.PI / 180);
             ctx.translate(v.startWidth * v.scale, -(-(v.borderImageInfo.y - 1 - count) * v.borderImageInfo.width + v.startHeight * 1) * v.scale);
@@ -492,20 +492,15 @@ Page({
     }
 
     if (that.data.backImageInfo.zIndex >= 10) {
-      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2, that.data.backImageInfo.fixHeight * 2);
+      ctx.drawImage(that.data.backImageInfo.path, 0, 0, that.data.backImageInfo.fixWidth * 2 * that.data.slideScale, that.data.backImageInfo.fixHeight * 2 * that.data.slideScale);
     }
     ctx.draw();
     setTimeout(function () {
       _this5.outImageDouble();
     }, 300);
   },
-  getScale: function getScale() {
-    wx.request({
-      url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
-      success: function success(res) {
-        console.log;
-      }
-    });
+  getuser: function getuser() {
+    app.baseUserInfo(this);
   },
   outImageDouble: function outImageDouble() {
     var _this6 = this;
@@ -585,6 +580,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad(options) {
+    this.getuser();
     this.setData({
       single: options.single,
       sell_release: app.data.sell_release

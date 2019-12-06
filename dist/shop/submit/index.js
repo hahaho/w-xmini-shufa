@@ -36,7 +36,9 @@ Page({
               that.setData({
                 needSetting: true
               });
-              app.toast({ content: '需授权获取地址信息' });
+              app.toast({
+                content: '需授权获取地址信息'
+              });
             }
           }
         });
@@ -60,7 +62,11 @@ Page({
     });
   },
   pay: function pay() {
-    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) return app.toast({ content: '请填写收货地址信息' });
+    if (!this.data.addressInfo || !this.data.addressInfo.telNumber) {
+      return app.toast({
+        content: '请填写收货地址信息'
+      });
+    }
     var carts = [];
     var that = this;
     var _iteratorNormalCompletion = true;
@@ -109,7 +115,9 @@ Page({
           paySuccess: true
         });
       }, function () {
-        app.toast({ content: '未完成支付,如有支付遇到问题,请联系客服处理' });
+        app.toast({
+          content: '未完成支付,如有支付遇到问题,请联系客服处理'
+        });
       });
     });
   },
@@ -140,6 +148,7 @@ Page({
       }
     }
 
+    app.getMaxFright(this);
     this.setData({
       maxFreight: maxFreight * 1
     }, this.getGoodsMoney);
@@ -199,7 +208,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
-    app.checkUser({ rank: false });
+    app.checkUser({
+      rank: false
+    });
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },

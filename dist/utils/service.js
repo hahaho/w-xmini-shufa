@@ -182,6 +182,7 @@ var serviceUrl = {
   shopCartDelete: lqsyBaseDomain + '/shop/cart-delete', // 购物车删除商品
   shopCartChange: lqsyBaseDomain + '/shop/cart-change', // 修改购物车的数量
   json: lqsyTestDomain + '/lqsy/test.json', // 修改购物车的数量2
+  user: lqsyTestDomain + '/lqsy/canvas-test.json', // 修改购物车的数量2
   shopCarList: lqsyBaseDomain + '/shop/cart-list', // 查看购物车
   shopCartAdd: lqsyBaseDomain + '/shop/cart-add', // 产品添加到购物车
   shopDiscuss: lqsyBaseDomain + '/shop/discuss', // 分页获取评论

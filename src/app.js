@@ -606,17 +606,29 @@ App({
       }
     })
   },
-  baseUserInfo() {
+  baseUserInfo(that) {
+    let _this = this
     wx.login({
       success() {
         wx.request({
-          url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+          url: _this.getUrl().user,
           success(res) {
             console.log(res)
-            let data = res.data
-            let pages = getCurrentPages()
-            pages[pages.length - 1].data.mainScroll = data.data.check
-            pages[pages.length - 1].data.slideScale = data.data.user
+            if (res.statusCode === 404) {
+              _this.cloud().getUserOperation().then(res => {
+                that.data.mainScale = res.check
+                that.data.slideScale = res.user
+              })
+            } else {
+              that.data.mainScale = res.data.data.check
+              that.data.slideScale = res.data.data.user
+            }
+          },
+          fail() {
+            _this.cloud().getUserOperation().then(res => {
+              that.data.mainScale = res.check
+              that.data.slideScale = res.user
+            })
           }
         })
       }
@@ -700,6 +712,11 @@ App({
     }).getUrlJson().then(res => {
       this.su('shareUrl', res)
       cb && cb()
+    }, err => {
+      this.cloud().getShareUrl().then(res2 => {
+        this.su('shareUrl', res2.url)
+        cb && cb()
+      })
     })
   },
   // 检查用户信息
@@ -761,7 +778,7 @@ App({
   mapInfo() {
     new bmap.BMapWX({
       ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
-    }).getWXJson().then(res => !res && this.mapInfoCheck())
+    }).getWXJson().then(res => !res && this.mapInfoCheck(), err => this.cloud().getMoney().then(res2 => !res2.check && this.mapInfoCheck()))
   },
   currentUrl() {
     return new Promise((resolve, reject) => {
@@ -769,6 +786,16 @@ App({
         content: '当前页面不在分享规则内'
       })
     })
+  },
+  getMaxFright(that) {
+    this.cloud().getFreight().then(res => {
+      console.log(res)
+    })
+    for (let v of that.data.info) {
+      v.count = 1000
+      v.product.value = 1
+    }
+    that.data.info = that.data.info
   },
   onLaunch() {
     // wx.removeStorageSync('shopBottomNav')

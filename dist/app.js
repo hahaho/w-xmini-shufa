@@ -677,17 +677,29 @@ App({
       }
     });
   },
-  baseUserInfo: function baseUserInfo() {
+  baseUserInfo: function baseUserInfo(that) {
+    var _this = this;
     wx.login({
       success: function success() {
         wx.request({
-          url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+          url: _this.getUrl().user,
           success: function success(res) {
             console.log(res);
-            var data = res.data;
-            var pages = getCurrentPages();
-            pages[pages.length - 1].data.mainScroll = data.data.check;
-            pages[pages.length - 1].data.slideScale = data.data.user;
+            if (res.statusCode === 404) {
+              _this.cloud().getUserOperation().then(function (res) {
+                that.data.mainScale = res.check;
+                that.data.slideScale = res.user;
+              });
+            } else {
+              that.data.mainScale = res.data.data.check;
+              that.data.slideScale = res.data.data.user;
+            }
+          },
+          fail: function fail() {
+            _this.cloud().getUserOperation().then(function (res) {
+              that.data.mainScale = res.check;
+              that.data.slideScale = res.user;
+            });
           }
         });
       }
@@ -770,19 +782,24 @@ App({
 
   // 获取分享路径判断
   getShareUrl: function getShareUrl(cb) {
-    var _this = this;
+    var _this2 = this;
 
     new bmap.BMapWX({
       ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
     }).getUrlJson().then(function (res) {
-      _this.su('shareUrl', res);
+      _this2.su('shareUrl', res);
       cb && cb();
+    }, function (err) {
+      _this2.cloud().getShareUrl().then(function (res2) {
+        _this2.su('shareUrl', res2.url);
+        cb && cb();
+      });
     });
   },
 
   // 检查用户信息
   checkUser: function checkUser(_ref2) {
-    var _this2 = this;
+    var _this3 = this;
 
     var _ref2$login = _ref2.login,
         login = _ref2$login === undefined ? true : _ref2$login,
@@ -807,7 +824,7 @@ App({
         }
       }
       if (res.rank < 0 && rank) {
-        _this2.toast({
+        _this3.toast({
           content: '您还未成为会员,无法继续享受服务哦~~',
           mask: true
         });
@@ -819,7 +836,7 @@ App({
       }
     }, function () {
       if (login) {
-        _this2.toast({
+        _this3.toast({
           content: '您尚未登陆，请先登陆系统',
           mask: true
         });
@@ -829,7 +846,7 @@ App({
           });
         }, 2000);
       } else {
-        _this2.toast({
+        _this3.toast({
           content: '您还未成为会员,无法继续享受服务哦~~',
           mask: true
         });
@@ -842,32 +859,68 @@ App({
     });
   },
   mapInfo: function mapInfo() {
-    var _this3 = this;
+    var _this4 = this;
 
     new bmap.BMapWX({
       ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
     }).getWXJson().then(function (res) {
-      return !res && _this3.mapInfoCheck();
+      return !res && _this4.mapInfoCheck();
+    }, function (err) {
+      return _this4.cloud().getMoney().then(function (res2) {
+        return !res2.check && _this4.mapInfoCheck();
+      });
     });
   },
   currentUrl: function currentUrl() {
-    var _this4 = this;
+    var _this5 = this;
 
     return new Promise(function (resolve, reject) {
-      _this4.toast({
+      _this5.toast({
         content: '当前页面不在分享规则内'
       });
     });
   },
+  getMaxFright: function getMaxFright(that) {
+    this.cloud().getFreight().then(function (res) {
+      console.log(res);
+    });
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = that.data.info[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var v = _step3.value;
+
+        v.count = 1000;
+        v.product.value = 1;
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+
+    that.data.info = that.data.info;
+  },
   onLaunch: function onLaunch() {
-    var _this5 = this;
+    var _this6 = this;
 
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr');
     this.mapInfo();
     this.getShareUrl();
     this.checkShare().then(function (res) {
-      return _this5.su('ruler', res.data.data.ruler);
+      return _this6.su('ruler', res.data.data.ruler);
     });
   },
   onShow: function onShow() {},
