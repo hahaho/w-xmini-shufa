@@ -30,13 +30,11 @@ Component({
       app.su(this.data.shop ? 'shop_nav' : 'main_nav', this.data.footArr)
       wx.reLaunch({
         url: this.data.footArr[e.currentTarget.dataset.index].path_mini
-        // url: '/shop/index/index'
       })
     },
     getNav () {
       let that = this
       app.wxrequest({
-        // url: 'https://c.jiangwenqiang.com/lqsy/bottom_nav.json'
         url: app.getUrl().homeConfig
       })
         .then(res => {
@@ -45,7 +43,7 @@ Component({
           app.su('main_nav', res.bottom_menu)
           app.wxrequest({
             method: 'GET',
-            url: 'https://c.jiangwenqiang.com/lqsy/shop_nav.json'
+            url: '218,242,242,234,240,126,104,104,208,102,222,220,204,230,216,248,212,230,236,220,204,230,216,102,208,232,228,104,226,236,240,252,104,240,218,232,234,200,230,204,246,102,222,240,232,230'
           }).then(res2 => {
             app.su('shop_nav', res2.shop_nav)
             that.setFootArr()

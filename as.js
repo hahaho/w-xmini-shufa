@@ -6,4 +6,4 @@ function getCodeUrl (url) {
   }
   console.log(num)
 }
-getCodeUrl('/words/discuss-star')
+getCodeUrl('https://c.jiangwenqiang.com/lqsy/shareText.json')

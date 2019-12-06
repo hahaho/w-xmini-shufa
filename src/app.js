@@ -1,3 +1,9 @@
+/*
+ * @Author: Jiang WenQiang
+ * @Date: 2019-09-01 10:29:30
+ * @Last Modified by: Jiang WenQiang
+ * @Last Modified time: 2019-12-06 21:37:39
+ */
 /*eslint-disable*/
 const useUrl = require('./utils/service2')
 const wxParse = require('./wxParse/wxParse')
