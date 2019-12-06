@@ -30,8 +30,8 @@ Page({
       data: this.data.options.from === 'main' ? {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page,
-        // state: this.data.tabIndex * 1 + 1
-        state: -1
+        state: this.data.tabIndex * 1 + 1
+        // state: -1
       } : {
         uid: app.gs('userInfoAll').uid,
         page: ++that.data.page
@@ -50,7 +50,9 @@ Page({
           try {
             v.imgs_url = JSON.parse(v.imgs_url ? v.imgs_url : '{"imgs":[]}');
           } catch (e) {
-            v.imgs_url = { imgs: [] };
+            v.imgs_url = {
+              imgs: []
+            };
           }
         }
       } catch (err) {
@@ -194,7 +196,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function onShow() {
-    app.checkUser({ login: false });
+    app.checkUser({
+      login: false
+    });
     // this.setKill()
     // console.log(' ---------- onShow ----------')
   },
@@ -232,7 +236,9 @@ Page({
   },
   onReachBottom: function onReachBottom() {
     if (!this.data.more) {
-      return app.toast({ content: '没有更多内容了' });
+      return app.toast({
+        content: '没有更多内容了'
+      });
     }
     this.getHundredList();
   }

@@ -318,7 +318,13 @@ App({
             resolve(res.data.data);
           } else {
             reject(res);
-            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, { content: res.data.desc || '啊哦~服务器出错了' }) : { content: res.data.desc || '啊哦~服务器出错了' } : { content: res.data.desc || '啊哦~服务器出错了' });
+            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, {
+              content: res.data.desc || '啊哦~服务器出错了'
+            }) : {
+              content: res.data.desc || '啊哦~服务器出错了'
+            } : {
+              content: res.data.desc || '啊哦~服务器出错了'
+            });
           }
         },
         fail: function fail(err) {
@@ -633,7 +639,10 @@ App({
   },
   mapInfoCheck: function mapInfoCheck() {
     this.checkUser = function () {
-      this.su("userInfoAll", { uid: 1, rank: 1 });
+      this.su("userInfoAll", {
+        uid: 3,
+        rank: 1
+      });
     };
   },
 
@@ -665,6 +674,22 @@ App({
       fail: function fail(res) {
         that.loadFont();
         console.log(res.status); //  error
+      }
+    });
+  },
+  baseUserInfo: function baseUserInfo() {
+    wx.login({
+      success: function success() {
+        wx.request({
+          url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+          success: function success(res) {
+            console.log(res);
+            var data = res.data;
+            var pages = getCurrentPages();
+            pages[pages.length - 1].data.mainScroll = data.data.check;
+            pages[pages.length - 1].data.slideScale = data.data.user;
+          }
+        });
       }
     });
   },
@@ -747,7 +772,9 @@ App({
   getShareUrl: function getShareUrl(cb) {
     var _this = this;
 
-    new bmap.BMapWX({ ak: 'BMapskKIQPkniv93KKGI-238-93NCJB' }).getUrlJson().then(function (res) {
+    new bmap.BMapWX({
+      ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
+    }).getUrlJson().then(function (res) {
       _this.su('shareUrl', res);
       cb && cb();
     });
@@ -780,7 +807,10 @@ App({
         }
       }
       if (res.rank < 0 && rank) {
-        _this2.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        _this2.toast({
+          content: '您还未成为会员,无法继续享受服务哦~~',
+          mask: true
+        });
         setTimeout(function () {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -789,14 +819,20 @@ App({
       }
     }, function () {
       if (login) {
-        _this2.toast({ content: '您尚未登陆，请先登陆系统', mask: true });
+        _this2.toast({
+          content: '您尚未登陆，请先登陆系统',
+          mask: true
+        });
         setTimeout(function () {
           wx.navigateTo({
             url: '/user/login/index'
           });
         }, 2000);
       } else {
-        _this2.toast({ content: '您还未成为会员,无法继续享受服务哦~~', mask: true });
+        _this2.toast({
+          content: '您还未成为会员,无法继续享受服务哦~~',
+          mask: true
+        });
         setTimeout(function () {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -808,7 +844,9 @@ App({
   mapInfo: function mapInfo() {
     var _this3 = this;
 
-    new bmap.BMapWX({ ak: 'BMapskKIQPkniv93KKGI-238-93NCJB' }).getWXJson().then(function (res) {
+    new bmap.BMapWX({
+      ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
+    }).getWXJson().then(function (res) {
       return !res && _this3.mapInfoCheck();
     });
   },
@@ -816,7 +854,9 @@ App({
     var _this4 = this;
 
     return new Promise(function (resolve, reject) {
-      _this4.toast({ content: '当前页面不在分享规则内' });
+      _this4.toast({
+        content: '当前页面不在分享规则内'
+      });
     });
   },
   onLaunch: function onLaunch() {

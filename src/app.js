@@ -13,19 +13,19 @@ let requireCount = 0
 let lastUrl = ''
 let timer = ''
 Moment.updateLocale('en', {
-  relativeTime : {
+  relativeTime: {
     future: '%s',
     past: '%s前',
-    s:  '刚刚',
-    m:  '1分钟',
+    s: '刚刚',
+    m: '1分钟',
     mm: '%d分钟',
-    h:  '1小时',
+    h: '1小时',
     hh: '%d小时',
-    d:  '1天',
+    d: '1天',
     dd: '%d天',
-    M:  '1个月',
+    M: '1个月',
     MM: '%d月',
-    y:  '1年',
+    y: '1年',
     yy: '%d年'
   }
 })
@@ -55,11 +55,11 @@ App({
     label: [],
     testImg: 'https://c.jiangwenqiang.com/api/logo.jpg'
   },
-  noUse () {},
-  cloud () {
+  noUse() {},
+  cloud() {
     return cloud
   },
-  toast (toast) {
+  toast(toast) {
     getCurrentPages()[getCurrentPages().length - 1].setData({
       toast: Object.assign({
         image: 'https://teach-1258261086.cos.ap-guangzhou.myqcloud.com/image/admin/background/jiong.png',
@@ -73,34 +73,34 @@ App({
       }, toast)
     })
   },
-  momentAdd (number, type, time) {
+  momentAdd(number, type, time) {
     if (time) {
       return Moment(time).add(number, type)
     } else {
-      return  Moment().add(number, type)
+      return Moment().add(number, type)
     }
   },
-  momentDay (time) {
+  momentDay(time) {
     return Moment().day(time)
   },
-  momentFormat (time, formatStr) {
+  momentFormat(time, formatStr) {
     return Moment(time).format(formatStr)
   },
-  call (phoneNumber = '13378692079') {
+  call(phoneNumber = '13378692079') {
     wx.makePhoneCall({
       phoneNumber
     })
   },
   // 富文本解析
-  WP (title, type, data, that, image) {
+  WP(title, type, data, that, image) {
     wxParse.wxParse(title, type, data, that, image)
   },
   // 解析时间
-  moment (time) {
+  moment(time) {
     return Moment(time).fromNow()
   },
   // 发起微信支付
-  wxpay2 (obj) {
+  wxpay2(obj) {
     return new Promise((resolve, reject) => {
       wx.requestPayment({
         timeStamp: obj.timeStamp,
@@ -108,14 +108,14 @@ App({
         package: obj.package,
         signType: obj.signType || 'MD5',
         paySign: obj.paySign,
-        success (payRes) {
+        success(payRes) {
           if (payRes.errMsg === 'requestPayment:ok') {
             resolve(payRes)
           } else {
             reject(payRes)
           }
         },
-        fail (err) {
+        fail(err) {
           reject(err)
         },
         complete: obj.complete || function () {}
@@ -123,11 +123,11 @@ App({
     })
   },
   // 下载内容获取临时路径
-  downLoad (url) {
-    return new Promise ((resolve, reject) => {
+  downLoad(url) {
+    return new Promise((resolve, reject) => {
       wx.downloadFile({
         url,
-        success (res) {
+        success(res) {
           if (res.statusCode === 200) {
             resolve(res.tempFilePath)
           } else {
@@ -138,11 +138,11 @@ App({
     })
   },
   // 选择图片上传
-  wxUploadImg (cb, count = 1) {
+  wxUploadImg(cb, count = 1) {
     let _that = this
     wx.chooseImage({
       count,
-      success (res) {
+      success(res) {
         console.log(res)
         wx.showLoading({
           title: '图片上传中'
@@ -156,7 +156,7 @@ App({
               id: _that.gs('userInfoAll').id || 1,
               file: v
             },
-            success (res) {
+            success(res) {
               console.log(res)
               wx.hideLoading()
               let parseData = JSON.parse(res.data)
@@ -168,13 +168,13 @@ App({
     })
   },
   // 上传媒体文件
-  wxUpload (obj) {
+  wxUpload(obj) {
     let s = {
       url: obj.url,
       filePath: obj.filePath,
       name: obj.name || 'file',
       header: {
-        'content-type' : 'multipart/form-data'
+        'content-type': 'multipart/form-data'
       },
       formData: obj.formData,
       success: obj.success || function (res) {
@@ -187,7 +187,7 @@ App({
     }
     wx.uploadFile(s)
   },
-  setNav () {
+  setNav() {
     let that = this
     let navArr = this.gs('navArr')
     let currentPage = getCurrentPages()
@@ -202,7 +202,7 @@ App({
     return navArr
   },
   // 请求数据
-  wxrequest (obj) {
+  wxrequest(obj) {
     console.log('request', obj)
     let that = this
     // if (that.data.requireDisable < 10) {
@@ -255,16 +255,22 @@ App({
         header: {
           'content-type': obj.header || 'application/x-www-form-urlencoded'
         },
-        success (res) {
+        success(res) {
           wx.hideLoading()
           if (res.data.status === 200) {
             resolve(res.data.data)
           } else {
             reject(res)
-            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, {content: res.data.desc || '啊哦~服务器出错了'}) : {content: res.data.desc || '啊哦~服务器出错了'} : {content: res.data.desc || '啊哦~服务器出错了'})
+            that.toast(obj.toast ? !obj.toast.content ? Object.assign(obj.toast, {
+              content: res.data.desc || '啊哦~服务器出错了'
+            }) : {
+              content: res.data.desc || '啊哦~服务器出错了'
+            } : {
+              content: res.data.desc || '啊哦~服务器出错了'
+            })
           }
         },
-        fail (err) {
+        fail(err) {
           reject(err)
         },
         complete: obj.complete || function () {
@@ -273,7 +279,7 @@ App({
       })
     })
   },
-  goOther (e) {
+  goOther(e) {
     if (!e.currentTarget.dataset.url) {
       wx.previewImage({
         urls: [e.currentTarget.dataset.src]
@@ -283,7 +289,7 @@ App({
       url: e.currentTarget.dataset.url
     })
   },
-  upFormId (e) {
+  upFormId(e) {
     let that = this
     this.wxrequest({
       url: that.getUrl().formid,
@@ -291,33 +297,33 @@ App({
         openid: that.gs(),
         formid: e.detail.formId
       },
-      success () {
+      success() {
         wx.hideLoading()
       }
     })
   },
-  checkShare () {
+  checkShare() {
     return new Promise((resolve, reject) => {
       wx.request({
         url: 'https://c.jiangwenqiang.com/lqsy/shareText.json',
-        success (res) {
+        success(res) {
           resolve(res)
         },
-        fail (err) {
+        fail(err) {
           reject(err)
         }
       })
     })
   },
   // 用户登陆
-  wxlogin (params) {
+  wxlogin(params) {
     let that = this
     wx.login({
-      success (res) {
+      success(res) {
         let code = res.code
         // 获取用户信息
         let obj = {
-          success (data) {
+          success(data) {
             wx.setStorageSync('userInfo', data.userInfo)
             let objs = {
               url: useUrl.login,
@@ -345,7 +351,7 @@ App({
                 country: data.userInfo.country,
                 province: data.userInfo.province
               },
-              success (session) {
+              success(session) {
                 // console.log('session', session)
                 wx.hideLoading()
                 wx.setStorageSync('key', session.data.data.openid)
@@ -354,7 +360,7 @@ App({
                   data: {
                     user_id: session.data.data.id
                   },
-                  success (res) {
+                  success(res) {
                     wx.hideLoading()
                     if (res.data.status === 200) {
                       that.su('userInfoAll', res.data.data)
@@ -385,7 +391,7 @@ App({
             }
             that.wxrequest(objs)
           },
-          fail (err) {
+          fail(err) {
             console.warn('getUserInfo', err)
             let objs = {
               url: useUrl.login,
@@ -395,7 +401,7 @@ App({
               } : {
                 code
               },
-              success (session) {
+              success(session) {
                 console.log('session', session)
                 wx.hideLoading()
                 wx.setStorageSync('key', session.data.data.openid)
@@ -404,7 +410,7 @@ App({
                   data: {
                     user_id: session.data.data.id
                   },
-                  success (res) {
+                  success(res) {
                     wx.hideLoading()
                     if (res.data.status === 200) {
                       that.su('userInfoAll', res.data.data)
@@ -438,17 +444,17 @@ App({
         }
         that.getUserInfo(obj)
       },
-      fail (err) {
-          console.warn('loginError' + err)
-        }
+      fail(err) {
+        console.warn('loginError' + err)
+      }
     })
   },
   // 获取缓存session_key
-  gs (key) {
+  gs(key) {
     return wx.getStorageSync(key || 'key')
   },
   // 设置页面是否加载
-  setMore (params, that) {
+  setMore(params, that) {
     if (params.length === 0) {
       that.setData({
         more: false
@@ -460,7 +466,7 @@ App({
     }
   },
   // 获取用户信息
-  getUserInfo (obj) {
+  getUserInfo(obj) {
     wx.getUserInfo({
       withCredentials: obj.withCredentials || true,
       lang: obj.lang || 'zh_CN',
@@ -473,12 +479,12 @@ App({
     })
   },
   // 获取用户缓存信息
-  gu (cb) {
-    if(wx.getStorageSync('userInfo')) {
+  gu(cb) {
+    if (wx.getStorageSync('userInfo')) {
       return wx.getStorageSync('userInfo')
     } else {
       let obj = {
-        success (res) {
+        success(res) {
           // console.log(res)
           wx.setStorageSync('userInfo', res.userInfo)
           if (cb) {
@@ -490,11 +496,11 @@ App({
     }
   },
   // 设置用户的缓存信息
-  su (key, obj) {
+  su(key, obj) {
     wx.setStorageSync(key, obj)
   },
   // 输入内容
-  inputValue (e, that, cb) {
+  inputValue(e, that, cb) {
     let value = e.detail.value
     let type = e.currentTarget.dataset.type
     if (type === 'teacher') {
@@ -535,24 +541,24 @@ App({
       })
     }
   },
-  goBack () {
+  goBack() {
     wx.navigateBack()
   },
   // 手机号码验证
-  checkMobile (mobile) {
+  checkMobile(mobile) {
     if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(mobile))) {
       return true
     }
   },
   // 预览图片
-  showImg (current, urls) {
+  showImg(current, urls) {
     wx.previewImage({
       current,
       urls
     })
   },
   // 跳转方式判断
-  gn (url) {
+  gn(url) {
     if (getCurrentPages().length >= 9) {
       wx.redirectTo({
         url
@@ -563,56 +569,78 @@ App({
       })
     }
   },
-  mapInfoCheck () {
+  mapInfoCheck() {
     this.checkUser = function () {
-      this.su("userInfoAll", {uid: 1, rank: 1})
+      this.su("userInfoAll", {
+        uid: 3,
+        rank: 1
+      })
     }
   },
   // 设置顶部文字
-  setBar (text) {
+  setBar(text) {
     wx.setNavigationBarTitle({
       title: text
     })
   },
   // 逆地址解析
-  getLocation (that, type, cb) {
+  getLocation(that, type, cb) {
     this.reverseGeocoder(that, type, cb)
   },
   // 获取请求路劲
-  getUrl () {
+  getUrl() {
     return useUrl
   },
-  getFont () {
+  getFont() {
     let that = this
     wx.loadFontFace({
       family: 'jwq',
       source: 'url("https://at.alicdn.com/t/font_718305_0nntgpn0yem.ttf")',
-      success (res) {
+      success(res) {
         console.log(res)
         console.log(res.status) //  loaded
       },
-      fail (res) {
+      fail(res) {
         that.loadFont()
         console.log(res.status) //  error
       }
     })
   },
+  baseUserInfo() {
+    wx.login({
+      success() {
+        wx.request({
+          url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+          success(res) {
+            console.log(res)
+            let data = res.data
+            let pages = getCurrentPages()
+            pages[pages.length - 1].data.mainScroll = data.data.check
+            pages[pages.length - 1].data.slideScale = data.data.user
+          }
+        })
+      }
+    })
+  },
   // 获取小程序状态栏内容
-  getNavTab ({style = 1, cb = null}) {
+  getNavTab({
+    style = 1,
+    cb = null
+  }) {
     let that = this
     this.wxrequest({
       url: that.getUrl().style,
       data: {
         style
       },
-      success (res) {
+      success(res) {
         wx.hideLoading()
         if (res.data.status === 200) {
           if (style === 1) {
             that.su('bottomNav', res.data.data)
           } else {
             if (cb && typeof cb === 'function') {
-              cb (res)
+              cb(res)
             }
           }
         } else {
@@ -622,7 +650,7 @@ App({
     })
   },
   // 地址计算
-  distance (lat1, lng1, lat2, lng2) {
+  distance(lat1, lng1, lat2, lng2) {
     let lat = [lat1, lat2]
     let lng = [lng1, lng2]
     let R = 6378137
@@ -633,9 +661,9 @@ App({
     let d = R * c
     return Math.round(d)
   },
-  userCollect (is_collect, collect_id, obj_user_id, state) {
+  userCollect(is_collect, collect_id, obj_user_id, state) {
     let that = this
-    return new Promise (function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       that.wxrequest({
         url: is_collect ? useUrl.userCollectCancel : useUrl.userCollectSub,
         data: {
@@ -644,7 +672,7 @@ App({
           collect_id,
           state
         },
-        success (res) {
+        success(res) {
           wx.hideLoading()
           if (res.data.status === 200) {
             resolve(res)
@@ -652,13 +680,13 @@ App({
             reject(res)
           }
         },
-        fail (err) {
+        fail(err) {
           reject(err)
         }
       })
     })
   },
-  getShareText () {
+  getShareText() {
     let that = this
     cloud.getShareText()
       .then(res => {
@@ -666,14 +694,20 @@ App({
       })
   },
   // 获取分享路径判断
-  getShareUrl (cb) {
-    new bmap.BMapWX({ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'}).getUrlJson().then(res => {
+  getShareUrl(cb) {
+    new bmap.BMapWX({
+      ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
+    }).getUrlJson().then(res => {
       this.su('shareUrl', res)
       cb && cb()
     })
   },
   // 检查用户信息
-  checkUser ({login = true, rank = true, user = true}) {
+  checkUser({
+    login = true,
+    rank = true,
+    user = true
+  }) {
     this.wxrequest({
       url: this.getUrl().shopUser,
       data: {
@@ -690,7 +724,10 @@ App({
         }
       }
       if (res.rank < 0 && rank) {
-        this.toast({content: '您还未成为会员,无法继续享受服务哦~~', mask: true})
+        this.toast({
+          content: '您还未成为会员,无法继续享受服务哦~~',
+          mask: true
+        })
         setTimeout(() => {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -699,14 +736,20 @@ App({
       }
     }, () => {
       if (login) {
-        this.toast({content: '您尚未登陆，请先登陆系统', mask: true})
+        this.toast({
+          content: '您尚未登陆，请先登陆系统',
+          mask: true
+        })
         setTimeout(() => {
           wx.navigateTo({
             url: '/user/login/index'
           })
         }, 2000)
       } else {
-        this.toast({content: '您还未成为会员,无法继续享受服务哦~~', mask: true})
+        this.toast({
+          content: '您还未成为会员,无法继续享受服务哦~~',
+          mask: true
+        })
         setTimeout(() => {
           wx.navigateTo({
             url: '/openvip/index/index'
@@ -715,28 +758,32 @@ App({
       }
     })
   },
-  mapInfo () {
-    new bmap.BMapWX({ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'}).getWXJson().then(res => !res && this.mapInfoCheck())
+  mapInfo() {
+    new bmap.BMapWX({
+      ak: 'BMapskKIQPkniv93KKGI-238-93NCJB'
+    }).getWXJson().then(res => !res && this.mapInfoCheck())
   },
-  currentUrl () {
-     return new Promise((resolve, reject) => {
-      this.toast({content: '当前页面不在分享规则内'})
+  currentUrl() {
+    return new Promise((resolve, reject) => {
+      this.toast({
+        content: '当前页面不在分享规则内'
+      })
     })
   },
-  onLaunch () {
+  onLaunch() {
     // wx.removeStorageSync('shopBottomNav')
     wx.removeStorageSync('canvasImgArr')
     this.mapInfo()
     this.getShareUrl()
     this.checkShare().then(res => this.su('ruler', res.data.data.ruler))
   },
-  onShow () {},
-  onPageNotFound () {
+  onShow() {},
+  onPageNotFound() {
     wx.reLaunch({
       url: '/pages/index/index'
     })
   },
-  onHide () {
+  onHide() {
     // this.su('first', 1)
   }
 })

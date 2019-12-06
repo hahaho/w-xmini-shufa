@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 const UpLoad = require('../upLoad')
 // const bmap = require('../../utils/bmap-wx')
 // 创建页面实例对象
@@ -13,6 +13,7 @@ Page({
     },
     now: true,
     swiperImg: [],
+    desImg: [],
     derationImg: [
       'https://c.jiangwenqiang.com/lqsy/2.png',
       'https://c.jiangwenqiang.com/lqsy/2.png',
@@ -36,9 +37,20 @@ Page({
   },
   _toggleSpec (e) {
     if (e.currentTarget.dataset.type === 'showSpec2') {
-      this.setData({showSpec2: !this.data.showSpec2})
+      if (e.currentTarget.dataset.confirm === 'confirm') {
+        this.setData({
+          showSpec2: !this.data.showSpec2
+        }, this.subGoods)
+      } else {
+        this.setData({
+          showSpec2: !this.data.showSpec2
+        })
+        this.data.up = e.currentTarget.dataset.up || 1
+      }
     } else {
-      this.setData({showSpec: !this.data.showSpec})
+      this.setData({
+        showSpec: !this.data.showSpec
+      })
     }
   },
   pickerChoose (e) {
@@ -52,15 +64,25 @@ Page({
     })
   },
   uploadSingleImg (url) {
-    new UpLoad({imgArr: 'swiperImg', this: this}).upImgSingle(url)
+    new UpLoad({
+      imgArr: this.data.upImgType === 'img' ? 'swiperImg' : 'desImg',
+      this: this
+    }).upImgSingle(url)
   },
-  chooseType () {
+  inputValue (e) {
+    this.data[`${e.currentTarget.dataset.type}`] = e.detail.value
+  },
+  chooseType (e) {
+    this.data.upImgType = e.currentTarget.dataset.type
     wx.showActionSheet({
       itemList: ['拍照', '作品装裱', '从手机相册选择'],
       success (e) {
         switch (e.tapIndex) {
           case 0:
-            new UpLoad({imgArr: 'swiperImg', sourceType: ['camera']}).chooseImage()
+            new UpLoad({
+              imgArr: 'swiperImg',
+              sourceType: ['camera']
+            }).chooseImage()
             break
           case 1:
             wx.navigateTo({
@@ -68,7 +90,10 @@ Page({
             })
             break
           case 2:
-            new UpLoad({imgArr: 'swiperImg', sourceType: ['album']}).chooseImage()
+            new UpLoad({
+              imgArr: 'swiperImg',
+              sourceType: ['album']
+            }).chooseImage()
             break
           default:
             break
@@ -76,11 +101,54 @@ Page({
       }
     })
   },
+  subGoods () {
+    if (!this.data.title) {
+      return app.toast({
+        content: '请输入商品标题'
+      })
+    } else if (!this.data.price) {
+      return app.toast({
+        content: '请输入商品售价'
+      })
+    } else if (!this.data.freight) {
+      return app.toast({
+        content: '请输入商品运费，如不需要运费输入0'
+      })
+    } else if (!this.data.phone || this.data.phone.length <= 10) {
+      return app.toast({
+        content: '请输入正确的手机号码'
+      })
+    }
+    let imgsUrl = []
+    for (let v of this.data.swiperImg) {
+      if (!v.real) {
+        return app.toast({
+          content: '图片上传中，请稍后尝试'
+        })
+      }
+      imgsUrl.push({
+        img_url: v.real
+      })
+    }
+    app.wxrequest({
+      url: app.getUrl().sellProductSub,
+      data: {
+        uid: app.gs('userInfoAll').uid,
+        title: this.data.title,
+        price: this.data.price,
+        freight: this.data.freight,
+        des: this.data.des || '',
+        phone: this.data.phone,
+        is_up: this.data.up,
+        delivery: this.data.wareHouse || '广东省 广州市 海珠区',
+        imgs_url: JSON.stringify(imgsUrl)
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad (options) {
-  },
+  onLoad (options) {},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -90,8 +158,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow () {
-  },
+  onShow () {},
   /**
    * 生命周期函数--监听页面隐藏
    */

@@ -37,13 +37,14 @@
     <text>宝贝评价({{commentTotal}})</text>
     <text class="arrow">查看全部</text>
   </view>
-  <view class="commentItem mt20">
+  <view wx:if='{{ comment.length }}' class="commentItem mt20">
     <view class="f21 c787878 df dfac">
       <image class="br" src="{{comment[0].avatar_url}}"></image>
       <text class="ml20">{{comment[0].nickname}}</text>
     </view>
     <view class="f22 c323232 mt10 ell3">{{comment[0].comment}}</view>
   </view>
+  <view wx:else class='tac f22 p20 c999'>暂无相关内容</view>
 </view>
 <!--评论 -e-->
 <!--商品详情 -s-->

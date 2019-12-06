@@ -72,11 +72,23 @@ Page({
       sign: !this.data.sign
     });
   },
+  sellInfo: function sellInfo() {
+    app.wxrequest({
+      url: app.getUrl().sellInfo,
+      data: {
+        uid: app.gs('userInfoAll').uid
+      }
+    }).then(function (res) {
+      console.log(res);
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function onLoad(options) {},
+  onLoad: function onLoad(options) {
+    this.sellInfo();
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

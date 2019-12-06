@@ -76,7 +76,9 @@ Page({
         wx.navigateTo({
           url: '/commonPage/talk/index?type=community&url=' + that.data.shareImageSrc
         });
-        that.setData({ showSpec: !that.data.showSpec });
+        that.setData({
+          showSpec: !that.data.showSpec
+        });
         break;
       case '墨宝真迹':
         break;
@@ -87,10 +89,15 @@ Page({
             wx.showToast({
               title: '图片已存入相册'
             });
-            that.setData({ showSpec: !that.data.showSpec });
+            that.setData({
+              showSpec: !that.data.showSpec
+            });
           },
           fail: function fail() {
-            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            });
           }
         });
         break;
@@ -98,11 +105,19 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: that.data.shareImageSrc,
           success: function success() {
-            app.toast({ content: '图片已存入相册,快去发送给你的好友吧', image: '' });
-            that.setData({ showSpec: !that.data.showSpec });
+            app.toast({
+              content: '图片已存入相册,快去发送给你的好友吧',
+              image: ''
+            });
+            that.setData({
+              showSpec: !that.data.showSpec
+            });
           },
           fail: function fail() {
-            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            });
           }
         });
         break;
@@ -110,11 +125,19 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: that.data.shareImageSrc,
           success: function success() {
-            app.toast({ content: '图片已存入相册,快去发条朋友圈吧', image: '' });
-            that.setData({ showSpec: !that.data.showSpec });
+            app.toast({
+              content: '图片已存入相册,快去发条朋友圈吧',
+              image: ''
+            });
+            that.setData({
+              showSpec: !that.data.showSpec
+            });
           },
           fail: function fail() {
-            app.toast({ content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000 });
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            });
           }
         });
         break;
@@ -125,7 +148,9 @@ Page({
     if (this.data.sell_release) {
       // this.canvasDraw()
     } else {
-      this.setData({ showSpec: !this.data.showSpec });
+      this.setData({
+        showSpec: !this.data.showSpec
+      });
     }
   },
   chooseImage: function chooseImage(e) {
@@ -364,7 +389,7 @@ Page({
     var _this5 = this;
 
     wx.showLoading({
-      title: '疯狂生成中',
+      title: '图片生成中',
       mask: true
     });
     var ctx = wx.createCanvasContext('outPic', this);
@@ -474,6 +499,14 @@ Page({
       _this5.outImageDouble();
     }, 300);
   },
+  getScale: function getScale() {
+    wx.request({
+      url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+      success: function success(res) {
+        console.log;
+      }
+    });
+  },
   outImageDouble: function outImageDouble() {
     var _this6 = this;
 
@@ -495,7 +528,6 @@ Page({
           // 发布拍品
           if (_this6.data.sell_release) {
             var pages = getCurrentPages();
-            // console.log(pages)
             var _iteratorNormalCompletion4 = true;
             var _didIteratorError4 = false;
             var _iteratorError4 = undefined;
@@ -508,7 +540,9 @@ Page({
 
                 if (v.route === 'commonPage/release/index') {
                   v.uploadSingleImg(res.tempFilePath);
-                  wx.navigateBack({ delta: pages.length - 1 - i });
+                  wx.navigateBack({
+                    delta: pages.length - 1 - i
+                  });
                 }
               }
             } catch (err) {

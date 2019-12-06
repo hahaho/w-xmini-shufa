@@ -1,6 +1,5 @@
 // 获取全局应用程序实例对象
 const app = getApp()
-let timer = null
 let second = 60
 // 创建页面实例对象
 Page({
@@ -16,7 +15,11 @@ Page({
     codeText: '获取验证码'
   },
   _getCode () {
-    if (timer) { return app.toast({ content: `${second}秒后可再次获取验证码` }) }
+    if (this.timer) {
+      return app.toast({
+        content: `${second}秒后可再次获取验证码`
+      })
+    }
     let that = this
     app.wxrequest({
       url: app.getUrl().shopCode,
@@ -27,14 +30,14 @@ Page({
       that.setData({
         codeText: `${second}秒`
       })
-      timer = setInterval(() => {
+      that.timer = setInterval(() => {
         second--
         if (second <= 0) {
           that.setData({
             codeText: '获取验证码'
           })
-          clearInterval(timer)
-          timer = null
+          clearInterval(that.timer)
+          that.timer = null
           second = 60
         } else {
           that.setData({
@@ -48,17 +51,32 @@ Page({
     this.data.money = e.detail.value
   },
   _phoneLogin () {
+    if (!this.data.money || this.data.money > this.data.info.appear_money) {
+      return app.toast({
+        content: '请输入合理的金额'
+      })
+    } else if (this.data.money < 10) {
+      return app.toast({
+        content: '最小提现金额为10元'
+      })
+    }
     this.setData({
       phoneLogin: !this.data.phoneLogin
     }, () => {
-      !timer && this._getCode()
+      !this.timer && this._getCode()
     })
   },
   close () {
     this.setData({
       phoneLogin: !this.data.phoneLogin
     })
-    timer && clearInterval(timer)
+    if (this.timer) {
+      clearInterval(this.timer)
+      this.timer = null
+      this.setData({
+        codeText: '获取验证码'
+      })
+    }
   },
   shopUser () {
     app.wxrequest({
@@ -72,7 +90,10 @@ Page({
         info: res
       })
     }, () => {
-      app.toast({content: '您尚未登陆，请先登陆系统', mask: true})
+      app.toast({
+        content: '您尚未登陆，请先登陆系统',
+        mask: true
+      })
       setTimeout(() => {
         wx.navigateTo({
           url: '/user/login/index'
@@ -86,9 +107,19 @@ Page({
     })
   },
   cash (e) {
-    if (!e.detail.value.code) return app.toast({content: '请输入验证码'})
-    else if (this.data.money < 10) return app.toast({content: '最小提现金额为10元'})
-    else if (this.data.money > this.data.info.appear_money) return app.toast({content: `您的余额不足, 请重新输入提现金额`})
+    if (!e.detail.value.code) {
+      return app.toast({
+        content: '请输入验证码'
+      })
+    } else if (this.data.money < 10) {
+      return app.toast({
+        content: '最小提现金额为10元'
+      })
+    } else if (this.data.money > this.data.info.appear_money) {
+      return app.toast({
+        content: `您的余额不足, 请重新输入提现金额`
+      })
+    }
     app.wxrequest({
       url: app.getUrl().shopAppear,
       data: {
@@ -98,7 +129,10 @@ Page({
         code: e.detail.value.code
       }
     }).then(res => {
-      app.toast({content: '提现成功', image: ''})
+      app.toast({
+        content: '提现成功',
+        image: ''
+      })
       this.shopUser()
     })
   },
@@ -106,6 +140,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.timer && clearInterval(this.timer)
     // this.shopUser()
   },
   /**

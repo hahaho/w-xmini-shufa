@@ -2,7 +2,6 @@
 
 // 获取全局应用程序实例对象
 var app = getApp();
-var timer = null;
 var second = 60;
 // 创建页面实例对象
 Page({
@@ -18,8 +17,10 @@ Page({
     codeText: '获取验证码'
   },
   _getCode: function _getCode() {
-    if (timer) {
-      return app.toast({ content: second + '\u79D2\u540E\u53EF\u518D\u6B21\u83B7\u53D6\u9A8C\u8BC1\u7801' });
+    if (this.timer) {
+      return app.toast({
+        content: second + '\u79D2\u540E\u53EF\u518D\u6B21\u83B7\u53D6\u9A8C\u8BC1\u7801'
+      });
     }
     var that = this;
     app.wxrequest({
@@ -31,14 +32,14 @@ Page({
       that.setData({
         codeText: second + '\u79D2'
       });
-      timer = setInterval(function () {
+      that.timer = setInterval(function () {
         second--;
         if (second <= 0) {
           that.setData({
             codeText: '获取验证码'
           });
-          clearInterval(timer);
-          timer = null;
+          clearInterval(that.timer);
+          that.timer = null;
           second = 60;
         } else {
           that.setData({
@@ -54,17 +55,32 @@ Page({
   _phoneLogin: function _phoneLogin() {
     var _this = this;
 
+    if (!this.data.money || this.data.money > this.data.info.appear_money) {
+      return app.toast({
+        content: '请输入合理的金额'
+      });
+    } else if (this.data.money < 10) {
+      return app.toast({
+        content: '最小提现金额为10元'
+      });
+    }
     this.setData({
       phoneLogin: !this.data.phoneLogin
     }, function () {
-      !timer && _this._getCode();
+      !_this.timer && _this._getCode();
     });
   },
   close: function close() {
     this.setData({
       phoneLogin: !this.data.phoneLogin
     });
-    timer && clearInterval(timer);
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.setData({
+        codeText: '获取验证码'
+      });
+    }
   },
   shopUser: function shopUser() {
     var _this2 = this;
@@ -80,7 +96,10 @@ Page({
         info: res
       });
     }, function () {
-      app.toast({ content: '您尚未登陆，请先登陆系统', mask: true });
+      app.toast({
+        content: '您尚未登陆，请先登陆系统',
+        mask: true
+      });
       setTimeout(function () {
         wx.navigateTo({
           url: '/user/login/index'
@@ -96,7 +115,19 @@ Page({
   cash: function cash(e) {
     var _this3 = this;
 
-    if (!e.detail.value.code) return app.toast({ content: '请输入验证码' });else if (this.data.money < 10) return app.toast({ content: '最小提现金额为10元' });else if (this.data.money > this.data.info.appear_money) return app.toast({ content: '\u60A8\u7684\u4F59\u989D\u4E0D\u8DB3, \u8BF7\u91CD\u65B0\u8F93\u5165\u63D0\u73B0\u91D1\u989D' });
+    if (!e.detail.value.code) {
+      return app.toast({
+        content: '请输入验证码'
+      });
+    } else if (this.data.money < 10) {
+      return app.toast({
+        content: '最小提现金额为10元'
+      });
+    } else if (this.data.money > this.data.info.appear_money) {
+      return app.toast({
+        content: '\u60A8\u7684\u4F59\u989D\u4E0D\u8DB3, \u8BF7\u91CD\u65B0\u8F93\u5165\u63D0\u73B0\u91D1\u989D'
+      });
+    }
     app.wxrequest({
       url: app.getUrl().shopAppear,
       data: {
@@ -106,7 +137,10 @@ Page({
         code: e.detail.value.code
       }
     }).then(function (res) {
-      app.toast({ content: '提现成功', image: '' });
+      app.toast({
+        content: '提现成功',
+        image: ''
+      });
       _this3.shopUser();
     });
   },
@@ -115,6 +149,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function onLoad() {
+    this.timer && clearInterval(this.timer);
     // this.shopUser()
   },
 

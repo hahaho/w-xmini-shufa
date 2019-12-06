@@ -64,34 +64,34 @@ Page({
     },
     operationArr: {
       chooseIndex: 0,
-      tab: [
-        {
-          t: '画框',
-          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
-          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
-          sliderText: '缩放',
-          currentSlider: 0,
-          minSlider: 0,
-          maxSlider: 80
-        },
-        {
-          t: '卡纸',
-          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
-          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
-          sliderText: '宽度',
-          currentSlider: 0,
-          minSlider: 0,
-          maxSlider: 20
-        },
-        {
-          t: '局条',
-          img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
-          imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
-          sliderText: '宽度',
-          currentSlider: 0,
-          minSlider: 0,
-          maxSlider: 3
-        }]
+      tab: [{
+        t: '画框',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '缩放',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 80
+      },
+      {
+        t: '卡纸',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 20
+      },
+      {
+        t: '局条',
+        img: 'https://c.jiangwenqiang.com/lqsy/canvasType_2.png',
+        imgChoose: 'https://c.jiangwenqiang.com/lqsy/canvasType_1_choose.png',
+        sliderText: '宽度',
+        currentSlider: 0,
+        minSlider: 0,
+        maxSlider: 3
+      }
+      ]
     }
   },
   shareType (e) {
@@ -101,7 +101,9 @@ Page({
         wx.navigateTo({
           url: `/commonPage/talk/index?type=community&url=${that.data.shareImageSrc}`
         })
-        that.setData({showSpec: !that.data.showSpec})
+        that.setData({
+          showSpec: !that.data.showSpec
+        })
         break
       case '墨宝真迹':
         break
@@ -112,10 +114,15 @@ Page({
             wx.showToast({
               title: '图片已存入相册'
             })
-            that.setData({showSpec: !that.data.showSpec})
+            that.setData({
+              showSpec: !that.data.showSpec
+            })
           },
           fail () {
-            app.toast({content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000})
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            })
           }
         })
         break
@@ -123,11 +130,19 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: that.data.shareImageSrc,
           success () {
-            app.toast({content: '图片已存入相册,快去发送给你的好友吧', image: ''})
-            that.setData({showSpec: !that.data.showSpec})
+            app.toast({
+              content: '图片已存入相册,快去发送给你的好友吧',
+              image: ''
+            })
+            that.setData({
+              showSpec: !that.data.showSpec
+            })
           },
           fail () {
-            app.toast({content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000})
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            })
           }
         })
         break
@@ -135,11 +150,19 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: that.data.shareImageSrc,
           success () {
-            app.toast({content: '图片已存入相册,快去发条朋友圈吧', image: ''})
-            that.setData({showSpec: !that.data.showSpec})
+            app.toast({
+              content: '图片已存入相册,快去发条朋友圈吧',
+              image: ''
+            })
+            that.setData({
+              showSpec: !that.data.showSpec
+            })
           },
           fail () {
-            app.toast({content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存', time: 10000})
+            app.toast({
+              content: '请授权相册保存--点击右上角是三个小点--选择设置--允许使用相册--返回重新保存',
+              time: 10000
+            })
           }
         })
         break
@@ -150,7 +173,9 @@ Page({
     if (this.data.sell_release) {
       // this.canvasDraw()
     } else {
-      this.setData({showSpec: !this.data.showSpec})
+      this.setData({
+        showSpec: !this.data.showSpec
+      })
     }
   },
   chooseImage (e) {
@@ -346,7 +371,7 @@ Page({
 
   canvasDraw () {
     wx.showLoading({
-      title: '疯狂生成中',
+      title: '图片生成中',
       mask: true
     })
     let ctx = wx.createCanvasContext('outPic', this)
@@ -434,7 +459,14 @@ Page({
       this.outImageDouble()
     }, 300)
   },
-
+  getScale () {
+    wx.request({
+      url: 'https://c.jiangwenqiang.com/lqsy/canvas-test.json',
+      success (res) {
+        console.log
+      }
+    })
+  },
   outImageDouble () {
     let that = this
     wx.canvasToTempFilePath({
@@ -454,11 +486,12 @@ Page({
           // 发布拍品
           if (this.data.sell_release) {
             let pages = getCurrentPages()
-            // console.log(pages)
             for (let [i, v] of pages.entries()) {
               if (v.route === 'commonPage/release/index') {
                 v.uploadSingleImg(res.tempFilePath)
-                wx.navigateBack({ delta: pages.length - 1 - i })
+                wx.navigateBack({
+                  delta: pages.length - 1 - i
+                })
               }
             }
           } else {

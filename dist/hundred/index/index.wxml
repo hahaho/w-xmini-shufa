@@ -4,10 +4,10 @@
 <!--搜索 s-->
 <view class="search" style="background:url(https://c.jiangwenqiang.com/lqsy/3.png) ;">
   <view style="height: {{ capsules.bottom + capsules.top / 2 }}px;"></view>
-  <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
+  <!-- <view style="height: 80rpx; padding:0 30rpx;" class="pr f24">
     <view class="jwqfont jwqsousuo1 f40"></view>
     <input style="background: #fff;border-radius: 20rpx; padding: 10rpx 10rpx 10rpx 60rpx;" placeholder="请输入作品名称" />
-  </view>
+  </view> -->
 </view>
 <!--搜索 e-->
 <!--屋檐 s-->
@@ -63,7 +63,7 @@
       </view>
     </view>
     <view class="mt20 pr" wx:else>
-      <image class="videoImg" mode="widthFix" lazy-load="1" src="{{item.cover_url}}"></image>
+      <image class="videoImg" mode="widthFix" lazy-load="1" src="{{item.cover_url || item.imgs_url.imgs[0] || 'https://c.jiangwenqiang.com/lqsy/3.png'}}"></image>
       <view class="playIcon pa cfff"></view>
     </view>
   </jwqnav>
@@ -73,7 +73,7 @@
 <!--    <view catchtap="_shareType" data-index="{{index}}" class="jwqfont f16 flex1 jwqfenxiang">分享赚</view>-->
   </view>
 </view>
-<view wx:if="{{!list}}" class='tac f22 p20 c999'>暂无相关内容</view>
+<view wx:if="{{!list.length}}" class='tac f22 p20 c999'>暂无相关内容</view>
 <!--列表 -e-->
 <jwqnav url="/commonPage/talk/index?type={{ options.from == 'main' ? 'community' : 'hundred' }}">
   <image class="talk" mode="widthFix"  src="https://c.jiangwenqiang.com/lqsy/talk{{ options.from == 'main' ? 2 : '' }}.png"></image>
